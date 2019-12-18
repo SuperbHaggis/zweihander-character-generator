@@ -1,25 +1,52 @@
+//Global Variables
 let d100;
 let d10;
 let sum = 0;
-let nonHuman;
-nonHuman == false;
-let freeAlignment;
-freeAlignment == false;
-const trappings = [
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-]
+let dooming;
+let complexion;
+let build;
+let birthSeason;
+let trappings;
+let drawback;
+let marks = {};
 
+//DOM Elements
+let nonhumanCheck = document.getElementById('nonhuman-check');
+let freeAlignmentCheck = document.getElementById('free-alignment-check');
+let drawbackCheck = document.getElementById('drawback-check');
+let generateButton = document.getElementById('generate');
+let mark1 = document.querySelector('#mark1');
+let mark2 = document.querySelector('#mark2');
+let mark3 = document.querySelector('#mark3');
+let ancestryP = document.querySelector('#ancestry-p');
+let seasonP = document.querySelector('#season-p');
+let doomingP = document.querySelector('#dooming-p');
+let complexionP = document.querySelector('#complexion-p');
+let ageP = document.querySelector('#age-p');
+let classP = document.querySelector('#class-p');
+let upbringingP = document.querySelector('#upbringing-p');
+let professionP = document.querySelector('#profession-p');
+let trappingsP = document.querySelector('#trappings-p');
+let buildP = document.querySelector("#build-p");
+let alignmentP = document.querySelector('#alignment-p');
+let drawbackP = document.querySelector('#drawback-p');
+
+//Rollers
 rollD100 = () => {
   d100 =  Math.floor(Math.random() * 100) + 1;
 };
 rolld10 = () => {
   d10 = Math.floor(Math.random() * 10) + 1;
 }
+roll3d10 = () => {
+  sum = 0;
+  for (i = 0; i < 3; i++) {
+    rolld10();
+    //console.log(d10);
+    sum += d10;
+  }
+  return sum;
+};
 
 //Randomize All
 randomizeAll = () => {
@@ -33,40 +60,22 @@ randomizeAll = () => {
   setSocialClass();
   setUpbringing();
   setProfession();
+  setTrappings();
   setAge();
+  setMarks();
   setBuild();
   //setHeightWeight();
   setAlignment();
+  setDrawback();
 };
+
+generate.addEventListener('click', e => {
+  randomizeAll();
+});
 
 //Set Attributes
-roll3d10 = () => {
-  sum = 0;
-  for (i = 0; i < 3; i++) {
-    rolld10();
-    //console.log(d10);
-    sum += d10;
-  }
-  return sum;
-};
-
 let primaryAttributes = [];
 let primaryBonuses = [];
-//let combat;
-//let cb;
-//let brawn;
-//let bb;
-//let agility;
-//let ab;
-//let perception;
-//let pb;
-//let intelligence;
-//let ib;
-//let willpower;
-//let wb;
-//let fellowship;
-//let fb;
-
 setAttributes = () => {
   for (j = 0; j < 7; j++) {
     primaryAttributes[j] = (roll3d10() + 25 + '%');
@@ -75,7 +84,7 @@ setAttributes = () => {
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
   console.log(primaryAttributes);
   console.log(primaryBonuses);
-}
+};
 
 //Set Ancestry
 let ancestryArr = ['Dwarf', 'Elf', 'Gnome', 'Halfling', 'Ogre',];
@@ -93,7 +102,8 @@ let traitWeights = [8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7, 6,];
 let ancestry = 'Human';
 let ancestralTrait;
 setAncestry = () => {
-  if (nonHuman == true) {
+  ancestryP.textContent = 'Ancestry: ';
+  if (nonhumanCheck.checked == true) {
     ancestry = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
   }
   switch (ancestry) {
@@ -145,18 +155,21 @@ setAncestry = () => {
     break;
   }
   console.log(ancestry);
+  ancestryP.textContent = 'Ancestry: ' + ancestry;
   console.log(ancestralTrait);
 };
 setAncestryTrait = () => {
   //select appropriate traits based on weights (5 at 8%, 6 at 7%, 1 at 6%)
-}
+};
 
 
 //Set Birth Season & Dooming
 let seasonArr = ['Spring', 'Summer', 'Autumn', 'Winter',];
 setSeason = () => {
-  let birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
+  seasonP.textContent = 'Season of Birth: ';
+  birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
   console.log(birthSeason);
+  seasonP.textContent = 'Season of Birth: ' + birthSeason;
   return birthSeason;
 };
 
@@ -215,24 +228,28 @@ let doomingArr = [
     'You, too can be touched by the unknown', 'Do not fly too close to the stars',],
 ];
 setDooming = (birthSeason) => {
-  let dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
+  doomingP.textContent = 'Dooming: ';
+  dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
   console.log(dooming);
+  doomingP.textContent = 'Dooming: ' + dooming;
   return dooming;
-}
+};
 
 //Set Complexion
 let complexionArr = ['Pale', 'Fair', 'Light', 'Light tan', 'Tan', 'Dark tan',
   'Light brown', 'Brown', 'Dark brown', 'Ebony',];
 setComplexion = () => {
-  let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
+  complexionP.textContent = 'Complexion: ';
+  complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
   console.log(complexion);
+  complexionP.textContent = 'Complexion: ' + complexion;
   return complexion;
-}
+};
 
 //Set hair color
 let hairArr = ['']
 
-//Set Age
+//Set Age & Distinguishing Marks
 setAge = () => {
   rollD100();
   switch (true) {
@@ -249,8 +266,76 @@ setAge = () => {
       age = 'Elderly';
       break;
   };
+  ageP.textContent = 'Age Group: ';
   console.log(age);
+  ageP.textContent = 'Age Group: ' + age;
   return age;
+};
+
+markArr = ['Abnormally white teeth', 'Abundance of freckles on face',
+            'Acne-scarred face', 'Additional toes or fingers', 'Almond-shaped eyes',
+            'Asexual appearance', 'Ashy elbows', 'Balding pate', 'Beaded mustachio',
+            'Beady eyes', 'Beauty mark on face', 'Big ears', 'Blood-shot eyes',
+            'Bow-legged walk', 'Branded with cattle iron', 'Broken nose',
+            'Buck-toothed or snaggle-toothed', 'Bulging eyes', 'Burn scars on face and arms',
+            'Bushy eyebrows', 'Carefully-groomed beard', 'Cherubic face', 'Clammy hands',
+            'Claw marks over face', 'Covered in black moles', 'Curly locks of hair',
+            'Devilish goatee', 'Different colored eyes', 'Dimpled cheeks', 'Doll-like face',
+            'Drooping eye', 'Dry, flaking skin', 'Ear half-missing', 'Embarrassing acne scars',
+            'Embarrassing tattoo on face', 'Excessive body hair', 'Eyes too far apart',
+            'False finger', 'Farmer\'s tan', 'Glasgow grin', 'Golden lock of hair',
+            'Hare lip', 'Hooked nose', 'Horse-faced', 'Humpbacked', 'Incredibly beautiful',
+            'Itchy scabies bites', 'Jaundiced complexion', 'Lanky hair', 'Large and hairy mole',
+            'Large nose', 'Large red birthmark on arms', 'Lazy eye', 'Leathery countenance',
+            'Lichtenberg scar', 'Long eyelashes', 'Long mustachio', 'Long sideburns',
+            'Milky eye', 'Mismatched eye color', 'Missing an eyebrow', 'Missing fingers',
+            'Nervous tic', 'Older-looking face', 'Painted beard', 'Pallid countenance',
+            'Patch of white hair', 'Perfect posture', 'Perpetual sneer',
+            'Perpetually deep frown', 'Piercing eyes', 'Pigeon-toed stance', 'Pot belly',
+            'Pox scars all over body', 'Pronounced brow', 'Purple bags beneath eyes',
+            'Rancid breath', 'Rash of pimples', 'Rheumy eyes', 'Six-fingered hand',
+            'Slouchy posture', 'Spiked mohawk', 'Squinting eyes or false eye patch',
+            'Steely gaze', 'Strong jaw', 'Sunburn scars', 'Sunken eyes', 'Tanned, leathery skin',
+            'Tarred and feathered', 'Terribly crooked teeth', 'Vacant expression',
+            'Veteran\'s nose', 'Vulgar tattoo', 'Weak chin', 'Wears spectacles',
+            'Webbed hands and feet', 'Widow\'s peak', 'Wind-chapped lips',
+            'Yellow scum on teeth', 'Yellowed fingernails and toenails'];
+setMarks = () => {
+  marks[1] = null;
+  marks[2] = null;
+  marks[3] = null;
+  mark1.textContent = 'Distinguishing Mark: ';
+  mark2.textContent = 'Distinguishing Mark: ';
+  mark3.textContent = 'Distinguishing Mark: ';
+  switch (age) {
+    case ('Adult'):
+      rollD100();
+      marks[1] = markArr[d100];
+      updateMarks();
+    break;
+    case ('Middle Aged'):
+      for (i = 1; i < 3; i++) {
+        rollD100();
+        marks[i] = markArr[d100];
+      };
+      updateMarks();
+    break;
+    case ('Elderly'):
+      for (i = 1; i < 4; i++) {
+        rollD100();
+        marks[i] = markArr[d100];
+      };
+      updateMarks();
+    break;
+    default:
+      console.log(age + ' characters receive no marks');
+  };
+  console.log(marks);
+};
+updateMarks = () => {
+  mark1.textContent = 'Distinguishing Mark: ' + marks[1];
+  marks[2] != null ? mark2.textContent = 'Distinguishing Mark: ' + marks[2] : null;
+  marks[3] != null ? mark3.textContent = 'Distinguishing Mark: ' + marks[3] : null;
 };
 
 //Set Social Class
@@ -267,7 +352,9 @@ setSocialClass = () => {
       socialClass = 'Aristocrat';
       break;
   };
+  classP.textContent = 'Social Class: ';
   console.log(socialClass);
+  classP.textContent = 'Social Class: ' + socialClass;
   return socialClass;
 };
 
@@ -304,11 +391,13 @@ setUpbringing = () => {
       favoredPrimary = 'Intelligence'
       break;
   };
-  console.log(upbringing, favoredPrimary);
+  upbringingP.textContent = 'Upbringing: ';
+  console.log(upbringing + ', ' + favoredPrimary);
+  upbringingP.textContent = 'Upbringing: ' + upbringing;
   return (upbringing, favoredPrimary);
 };
 
-//Set Archetype & Profession
+//Set Archetype, Profession, Trappings
 setArchetype = () => {
   rollD100();
   switch (true) {
@@ -331,7 +420,6 @@ setArchetype = () => {
       archetype = 5;
       break;
   };
-  console.log(archetype);
   return archetype;
 };
 const profArr = [
@@ -395,17 +483,54 @@ setProfession = () => {
       profession = 11;
       break;
   };
-  console.log(archetype, profession, profArr[archetype][profession]);
+  professionP.textContent = 'Basic Profession: ';
   profession = profArr[archetype][profession];
+  console.log(profession);
+  professionP.textContent = 'Basic Profession: ' + profession;
   return profession;
 };
+const trappingsArr = [
+  ['Black lotus', 'Bottle of leeches', 'Coin purse', 'Dirk',
+    'Fine clothing', 'Holy symbol', 'Loose robes', 'Quicksilver',
+    'Royal water', 'Shoulder bag', 'Smelling salts (3)',
+    ['soft shoes', 'leather sandals'], 'Writing kit',
+    ['Cudgel', 'Staff', 'Throwing knives (3) with Bandolier',],],
+  ['Bandages (3)', 'Bottle bomb', 'Grave root', 'Holy symbol',
+    ['Leather sandals', 'Heavy boots'], 'Ruck sack', 'Shiv',
+    'Simple attire', 'Warm vest',
+    ['Shepherd\'s sling with sling stones (9)', 'Splitting maul', 'Threshing flail',],],
+  ['Antivenom', ['Dark clothes', 'Tattered rags',], 'Folkbane (3)',
+    'Gaff bag', ['Garish attire', 'Secondhand attire'], 'Holy symbol',
+    'Lock picks', 'Mantle', 'Soft shoes', 'Stiletto',
+    ['Blackjack', 'Garrote', 'Flintlock pistol with gunpowder & shot (6)'],],
+  ['Animalbane (3)', 'Antivenom', 'Backpack', 'Bullwhip',
+    'Heavy boots', 'Holy symbol', 'Suit of fur/hide armor', 'Survival kit',
+    'Torches (3)', 'Traveling clothes', 'Waterskin', 'Wilderness cloak',
+    'Wolfsbane', ['Fire-hardened spear', 'Hunting bow with arrows (9) & quiver',
+      'Woodsman\'s axe'],],
+  ['Coin purse', 'Fancy shoes', 'Fashionable clothing', 'Foppish hat',
+    'Holy symbol', 'Knuckleduster', 'Mandrake root (3)', 'Mantle',
+    'Neck ruff', 'Shoulder bag', 'Writing kit', ['Throwing knives (3) with bandolier',
+      'Rapier', 'Walking cane (improvised hand weapon'],],
+  ['Fire-hardened spear', 'Heavy boots', 'Lantern', 'Laudanum (3)',
+    'Military attire', 'Oil pot', 'Red cap mushrooms', 'Rucksack',
+    'Suit of leather armor', 'Tincture (3)', 'Wooden shield',
+    ['Arbalest crossbow with bolts (9) & quiver', 'Mortuary Sword', 'Pike'],],
+];
+setTrappings = () => {
+  trappingsP.textContent = 'Trappings: ';
+  trappings = trappingsArr[archetype].join(', ');
+  //need to randomize or select from nested arrays
+  trappingsP.textContent = 'Trappings: ' + trappings;
+}
 
 //Set Build, Height & Weight
 buildArr = ['Frail', 'Slender', 'Normal', 'Husky', 'Corpulent',];
-
 setBuild = () => {
-  let build = buildArr[Math.floor(Math.random() * buildArr.length)];
+  buildP.textContent = 'Build: ';
+  build = buildArr[Math.floor(Math.random() * buildArr.length)];
   console.log(build);
+  buildP.textContent = 'Build: ' + build;
   return build;
 };
 
@@ -425,7 +550,7 @@ chaosArr = ['Mayhem', 'Tyranny', 'Cruelty', 'Pity', 'Melancholy',
             'Incompetence', 'Heresy', 'Rebellion', 'Exclusion', 'Arrogance', 
             'Lechery', 'Cynicism', 'Indulgence', 'Rancor', 'Scorn', 'Fanaticism'];
 setAlignment = () => {
-  if (freeAlignment == true) {
+  if (freeAlignmentCheck.checked == true) {
     alignment = { 
       order: orderArr[Math.floor(Math.random() * 24)], 
       chaos: chaosArr[Math.floor(Math.random() * 24)],
@@ -437,5 +562,100 @@ setAlignment = () => {
       chaos: chaosArr[pair],
     };
   }
-  console.log(alignment);
+  alignmentP.textContent = 'Alignment: ';
+  console.log(alignment.order + ', ' + alignment.chaos);
+  alignmentP.textContent = 'Alignment: ' + alignment.order + ', ' + alignment.chaos;
+};
+
+//Set Drawback
+setDrawback = () => {
+  if (drawbackCheck.checked == true) {
+    rollD100();
+    switch (true) {
+      case (d100 <= 4):
+        drawback = 'Bad Ticker';
+      break;
+      case (d100 <= 7):
+        drawback = 'Black Cataract';
+      break;
+      case (d100 <= 11):
+        drawback = 'Bleeder';
+        break;
+      case (d100 <= 15):
+        drawback = 'Branded';
+        break;
+      case (d100 <= 19):
+        drawback = 'Choleric Temperament';
+        break;
+      case (d100 <= 23):
+        drawback = 'Crop Ear';
+        break;
+      case (d100 <= 27):
+        drawback = 'Cursed';
+        break;
+      case (d100 <= 31):
+        drawback = 'Deal with the Devil';
+        break;
+      case (d100 <= 35):
+        drawback = 'Debt-Ridden';
+        break;
+      case (d100 <= 39):
+        drawback = 'Dunderhead';
+        break;
+      case (d100 <= 43):
+        drawback = 'Eunuch';
+        break;
+      case (d100 <= 47):
+        drawback = 'Lily-Livered';
+        break;
+      case (d100 <= 51):
+        drawback = 'Melancholic Temperament';
+        break;
+      case (d100 <= 55):
+        drawback = 'Ne\'er Do Well';
+        break;
+      case (d100 <= 59):
+        drawback = 'Nemesis';
+        break;
+      case (d100 <= 63):
+        drawback = 'Painkiller';
+        break;
+      case (d100 <= 67):
+        drawback = 'Persecution Complex';
+        break;
+      case (d100 <= 71):
+        drawback = 'Phlegmatic Temperament';
+        break;
+      case (d100 <= 75):
+        drawback = 'Sanguine Temperament';
+        break;
+      case (d100 <= 79):
+        drawback = 'Sour Stomach';
+        break;
+      case (d100 <= 83):
+        drawback = 'Split Face';
+        break;
+      case (d100 <= 87):
+        drawback = 'Veteran\'s Boot';
+        break;
+      case (d100 <= 91):
+        drawback = 'Veteran\'s Eye';
+        break;
+      case (d100 <= 94):
+        drawback = 'Veteran\'s Hand';
+        break;
+      case (d100 <= 97):
+        drawback = 'Veteran\'s Leg';
+        break;
+      case (d100 <= 100):
+        drawback = 'Weak Lungs';
+        break;
+    };
+  } else {
+    drawback = 'None';
+  };
+  drawbackP.textContent = 'Drawback: ';
+  console.log(drawback);
+  drawbackP.textContent = 'Drawback: ' + drawback;
+  return drawback;
 };
