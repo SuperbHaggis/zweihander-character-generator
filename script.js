@@ -11,7 +11,7 @@ let firstMark, secondMark, thirdMark;
 let attSwapped = false;
 let attReplaced = false;
 
-let dooming, age, profession, upbringing, socialClass,
+let dooming, age, profession, upbringing, favoredPrimary, socialClass,
     complexion, hairColor, eyeColor, build, birthSeason,
     trappings, drawback, ancestry, ancestralTrait;
 
@@ -56,15 +56,15 @@ let alignmentP = document.querySelector('#alignment-p');
 let drawbackP = document.querySelector('#drawback-p');
 
 //Rollers
-rolld100 = () => {
+let rolld100 = () => {
   d100 =  Math.floor(Math.random() * 100) + 1;
 };
-rolld10 = () => {
+let rolld10 = () => {
   d10 = Math.floor(Math.random() * 10) + 1;
 }
-roll3d10 = () => {
+let roll3d10 = () => {
   sum = 0;
-  for (i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {
     rolld10();
     sum += d10;
   }
@@ -72,7 +72,7 @@ roll3d10 = () => {
 };
 
 //Randomize All
-randomizeAll = () => {
+let randomizeAll = () => {
   setAttributes();
   setAncestry();
   setSeason();
@@ -97,24 +97,24 @@ generateButton.addEventListener('click', e => {
 });
 
 //Set Attributes
-setAttributes = () => {
-  for (j = 0; j < 7; j++) {
+let setAttributes = () => {
+  for (let j = 0; j < 7; j++) {
     primaryAttributes[j] = (roll3d10() + 25 + '%');
     primaryBonuses[j] = primaryAttributes[j].charAt(0);
   }
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
   console.log(primaryAttributes);
   console.log(primaryBonuses);
-  for (i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += primaryAttributes[i];
   }
 };
 
-swapAttributes = () => {
+let swapAttributes = () => {
   attSwapped = true;
 };
 
-replaceAttributes = () => {
+let replaceAttributes = () => {
   attReplaced = true;
 };
 
@@ -137,7 +137,7 @@ attributeSwap.addEventListener('click', e => {
 });
 
 //Set Ancestry
-setAncestry = () => {
+let setAncestry = () => {
   ancestryP.textContent = 'Ancestry: ';
   if (nonhumanCheck.checked == true) {
     ancestry = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
@@ -190,26 +190,29 @@ setAncestry = () => {
       primaryBonuses[6] -= 1;
     break;
   }
+  ancestryP.textContent = 'Ancestry: ';
   console.log(ancestry);
   ancestryP.textContent = 'Ancestry: ' + ancestry;
-  for (i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
   //console.log(ancestralTrait);
 };
-setAncestryTrait = () => {
+let setAncestryTrait = () => {
   //select appropriate traits based on weights (5 at 8%, 6 at 7%, 1 at 6%)
 };
 
 //Set Birth Season & Dooming
-setSeason = () => {
+let setSeason = () => {
+  seasonP.textContent = 'Birth Season: ';
   birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
   console.log(birthSeason);
   seasonP.textContent += birthSeason;
   return birthSeason;
 };
 
-setDooming = (birthSeason) => {
+let setDooming = (birthSeason) => {
+  doomingP.textContent = 'Dooming: ';
   dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
   console.log(dooming);
   doomingP.textContent += dooming;
@@ -217,7 +220,8 @@ setDooming = (birthSeason) => {
 };
 
 //Set Complexion
-setComplexion = () => {
+let setComplexion = () => {
+  complexionP.textContent = 'Complexion: ';
   complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
   console.log(complexion);
   complexionP.textContent += complexion;
@@ -225,7 +229,7 @@ setComplexion = () => {
 };
 
 //Set hair color
-setHairColor = () => {
+let setHairColor = () => {
   rolld100();
   switch (true) {
     case (d100 <= 18):
@@ -297,7 +301,7 @@ setHairColor = () => {
   return hairColor;
 }
 
-setHairByIndex = (hairIndex) => {
+let setHairByIndex = (hairIndex) => {
   if (ancestry == 'Elf') {
     hairColor = hairColors.elf[hairIndex];
   } else if (ancestry == 'Halfling') {
@@ -310,7 +314,7 @@ setHairByIndex = (hairIndex) => {
 };
 
 //Set eye color
-setEyeColor = () => {
+let setEyeColor = () => {
   rolld100();
   switch (true) {
     case (d100 <= 16):
@@ -374,7 +378,7 @@ setEyeColor = () => {
   return eyeColor;
 };
 
-setEyesByIndex = (eyeIndex) => {
+let setEyesByIndex = (eyeIndex) => {
   if (ancestry == 'Dwarf') {
     eyeColor = eyeColors.dwarf[eyeIndex];
   } else if (ancestry == 'Elf') {
@@ -391,7 +395,7 @@ setEyesByIndex = (eyeIndex) => {
 };
 
 //Set Age & Distinguishing Marks
-setAge = () => {
+let setAge = () => {
   rolld100();
   switch (true) {
     case (d100 <= 25):
@@ -407,12 +411,13 @@ setAge = () => {
       age = 'Elderly';
       break;
   };
+  ageP.textContent = 'Age Group: ';
   console.log(age);
   ageP.textContent += age;
   return age;
 };
 
-setMarks = () => {
+let setMarks = () => {
   marks[1] = '';
   marks[2] = '';
   marks[3] = '';
@@ -466,14 +471,14 @@ setMarks = () => {
   updateMarks();
 };
 
-updateMarks = () => {
+let updateMarks = () => {
   mark1.textContent += marks[1];
   marks[2] != null ? mark2.textContent += marks[2] : null;
   marks[3] != null ? mark3.textContent += marks[3] : null;
 };
 
 //Set Social Class
-setSocialClass = () => {
+let setSocialClass = () => {
   if (profession = 'Peasant') {
     socialClass = 'Lowborn';
   } else {
@@ -490,13 +495,14 @@ setSocialClass = () => {
       break;
     };
   };
+  classP.textContent = 'Social Class: '
   console.log(socialClass);
   classP.textContent += socialClass;
   return socialClass;
 };
 
 //Set Upbringing
-setUpbringing = () => {
+let setUpbringing = () => {
   rolld100();
   switch (true) {
     case (d100 <= 14):
@@ -528,13 +534,14 @@ setUpbringing = () => {
       favoredPrimary = 'Intelligence'
       break;
   };
+  upbringingP.textContent = 'Upbringing: ';
   console.log(upbringing + ', ' + 'Favoried Primary: ' + favoredPrimary);
   upbringingP.textContent += upbringing;
   return (upbringing, favoredPrimary);
 };
 
 //Set Archetype, Profession, Trappings
-setArchetype = () => {
+let setArchetype = () => {
   rolld100();
   switch (true) {
     case (d100 <= 15):
@@ -559,7 +566,7 @@ setArchetype = () => {
   return archetype;
 };
 
-setProfession = () => {
+let setProfession = () => {
   setArchetype();
   rolld100();
   switch (true) {
@@ -607,7 +614,7 @@ setProfession = () => {
   return profession;
 };
 
-setTrappings = () => {
+let setTrappings = () => {
   trappingsP.textContent = 'Trappings: ';
   trappings = trappingsArr[archetype].join(', ');
   //need to randomize or select from nested arrays
@@ -615,37 +622,39 @@ setTrappings = () => {
 }
 
 //Set Build, Height & Weight
-setBuild = () => {
+let setBuild = () => {
+  buildP.textContent = 'Build: ';
   build = buildArr[Math.floor(Math.random() * buildArr.length)];
   console.log(build);
   buildP.textContent += build;
   return build;
 };
 
-setHeightWeight = () => {
+let setHeightWeight = () => {
 
 };
 
 //Set Alignment
-setAlignment = () => {
+let setAlignment = () => {
   if (separateAlignmentCheck.checked == true) {
     alignment = { 
       order: alignments.order[Math.floor(Math.random() * 24)], 
       chaos: alignments.chaos[Math.floor(Math.random() * 24)],
     };
   } else { 
-      pair = Math.floor(Math.random() * 24);
+      let pair = Math.floor(Math.random() * 24);
       alignment = {
       order: alignments.order[pair],
       chaos: alignments.chaos[pair],
     };
   }
+  alignmentP.textContent = 'Alignment: ';
   console.log(alignment.order + ', ' + alignment.chaos);
   alignmentP.textContent += alignment.order + ', ' + alignment.chaos;
 };
 
 //Set Drawback
-setDrawback = () => {
+let setDrawback = () => {
   if (drawbackCheck.checked == true) {
     rolld100();
     switch (true) {
