@@ -1,4 +1,3 @@
-//Import
 import {profArr, trappingsArr, buildArr, alignments, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
   hairColors, eyeColors} from "./lists.js";
@@ -617,10 +616,9 @@ setTrappings = () => {
 
 //Set Build, Height & Weight
 setBuild = () => {
-  buildP.textContent = 'Build: ';
   build = buildArr[Math.floor(Math.random() * buildArr.length)];
   console.log(build);
-  buildP.textContent = 'Build: ' + build;
+  buildP.textContent += build;
   return build;
 };
 
@@ -642,9 +640,8 @@ setAlignment = () => {
       chaos: alignments.chaos[pair],
     };
   }
-  alignmentP.textContent = 'Alignment: ';
   console.log(alignment.order + ', ' + alignment.chaos);
-  alignmentP.textContent = 'Alignment: ' + alignment.order + ', ' + alignment.chaos;
+  alignmentP.textContent += alignment.order + ', ' + alignment.chaos;
 };
 
 //Set Drawback
@@ -736,7 +733,7 @@ setDrawback = () => {
   };
   drawbackP.textContent = 'Drawback: ';
   console.log(drawback);
-  drawbackP.textContent = 'Drawback: ' + drawback;
+  drawbackP.textContent += drawback;
   return drawback;
 };
 
