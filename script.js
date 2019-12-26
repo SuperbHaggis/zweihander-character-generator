@@ -1,15 +1,17 @@
 import {profArr, trappingsArr, buildArr, alignments, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
-  hairColors, eyeColors} from "./lists.js";
+  hairColors, eyeColors, ancestralTraits} from "./lists.js";
 
 //Global Variables
 let d100, d10;
-let sum;
+let i, j;
 let hairIndex, eyeIndex;
+let sum;
 let archetype;
 let firstMark, secondMark, thirdMark;
 let attSwapped = false;
 let attReplaced = false;
+let ancestryNum, ancestryIndex;
 
 let dooming, age, profession, upbringing, favoredPrimary, socialClass,
     complexion, hairColor, eyeColor, build, birthSeason,
@@ -39,21 +41,11 @@ let attributeCheck = document.getElementsByTagName("label");
 let attributeSwap = document.getElementById('attribute-swap');
 let attributeReplace = document.getElementById('attribute-replace');
 
-let mark1 = document.querySelector('#mark1');
-let mark2 = document.querySelector('#mark2');
-let mark3 = document.querySelector('#mark3');
-let ancestryP = document.querySelector('#ancestry-p');
-let seasonP = document.querySelector('#season-p');
-let doomingP = document.querySelector('#dooming-p');
-let complexionP = document.querySelector('#complexion-p');
-let ageP = document.querySelector('#age-p');
-let classP = document.querySelector('#class-p');
-let upbringingP = document.querySelector('#upbringing-p');
-let professionP = document.querySelector('#profession-p');
+let characterHistoryP = document.querySelector('#character-history');
 let trappingsP = document.querySelector('#trappings-p');
-let buildP = document.querySelector("#build-p");
-let alignmentP = document.querySelector('#alignment-p');
-let drawbackP = document.querySelector('#drawback-p');
+
+let nameValue = document.getElementById("name-input").value;
+let sexValue = document.getElementById("sex-input").value;
 
 //Rollers
 let rolld100 = () => {
@@ -64,7 +56,7 @@ let rolld10 = () => {
 }
 let roll3d10 = () => {
   sum = 0;
-  for (let i = 0; i < 3; i++) {
+  for (i = 0; i < 3; i++) {
     rolld10();
     sum += d10;
   }
@@ -75,39 +67,54 @@ let roll3d10 = () => {
 let randomizeAll = () => {
   setAttributes();
   setAncestry();
-  setSeason();
-  setDooming(birthSeason);
-  setComplexion();
-  setHairColor();
-  setEyeColor();
-  setSocialClass();
-  setUpbringing();
   setProfession();
   setTrappings();
+  setSeason();
+  setDooming(birthSeason);
   setAge();
   setMarks();
+  setComplexion();
   setBuild();
-  //setHeightWeight();
-  setAlignment();
+//setHeightWeight();
+  setHairColor();
+  setEyeColor();
+  setUpbringing();
+  setSocialClass();
   setDrawback();
+  setAlignment();
+  characterHistoryP.textContent = `${nameValue} is ${age.charAt(0).toLowerCase == 'e' ? 'an' : 'a'} ${age} ${ancestry} ${sexValue} ${profession}. ` +
+    `${sexValue.toLowerCase == 'male' ? 'he is' : 'she is'} of a ${build} build type. ` +
+    `They have ${complexion} skin, with ${hairColor} hair and ${eyeColor} eyes. ` +
+    `Their marks are: ${marks[1]}, ${marks[2]}, and ${marks[3]}. ` +
+    `They were born in ${birthSeason}, are of the ${socialClass} social class and of a(n) ${upbringing} upbringing. ` +
+    `Their dooming is "${dooming}" and their drawback is ${drawback}. ` +
+    `Their order alignment is ${alignment.order} and their chaos alignment is ${alignment.chaos}.`;
 };
 
 generateButton.addEventListener('click', e => {
-  randomizeAll();
+  nameValue = document.getElementById("name-input").value;
+  sexValue = document.getElementById("sex-input").value;
+  if (nameValue == "" || sexValue == "") {
+    window.alert("Please enter a Name and Sex");
+  } else {
+    randomizeAll();
+  };
+  return nameValue, sexValue;
 });
 
 //Set Attributes
 let setAttributes = () => {
-  for (let j = 0; j < 7; j++) {
+  for (j = 0; j < 7; j++) {
+    attributeCheck[j].innerHTML = attributeCheck[j].innerHTML.slice(0, (attributeCheck[j].innerHTML - 8));
     primaryAttributes[j] = (roll3d10() + 25 + '%');
     primaryBonuses[j] = primaryAttributes[j].charAt(0);
-  }
+  };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  console.log(primaryAttributes);
-  console.log(primaryBonuses);
-  for (let i = 0; i < 7; i++) {
+  console.table(primaryAttributes);
+  console.table(primaryBonuses);
+  for (i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += primaryAttributes[i];
-  }
+  };
 };
 
 let swapAttributes = () => {
@@ -138,7 +145,6 @@ attributeSwap.addEventListener('click', e => {
 
 //Set Ancestry
 let setAncestry = () => {
-  ancestryP.textContent = 'Ancestry: ';
   if (nonhumanCheck.checked == true) {
     ancestry = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
   };
@@ -150,6 +156,7 @@ let setAncestry = () => {
       primaryBonuses[2] -= 1;
       primaryBonuses[3] -= 1;
       primaryBonuses[6] -= 1;
+      ancestryNum = 1;
     break;
     case ('Elf'):
       primaryBonuses[2] += 1;
@@ -158,6 +165,7 @@ let setAncestry = () => {
       primaryBonuses[1] -= 1;
       primaryBonuses[5] -= 1;
       primaryBonuses[6] -= 1;
+      ancestryNum = 2;
     break;
     case ('Gnome'):
       primaryBonuses[2] += 1;
@@ -166,6 +174,7 @@ let setAncestry = () => {
       primaryBonuses[0] -= 1;
       primaryBonuses[1] -= 1;
       primaryBonuses[6] -= 1;
+      ancestryNum = 3;
     break;
     case ('Halfling'):
       primaryBonuses[2] += 1;
@@ -174,12 +183,14 @@ let setAncestry = () => {
       primaryBonuses[0] -= 1;
       primaryBonuses[1] -= 1;
       primaryBonuses[4] -= 1;
+      ancestryNum = 4;
     break;
     case ('Ogre'):
       primaryBonuses[1] += 2;
       primaryBonuses[0] += 1;
       primaryBonuses[2] -= 2;
       primaryBonuses[3] -= 1;
+      ancestryNum = 6;
     break;
     default:
       primaryBonuses[0] += 1;
@@ -188,43 +199,79 @@ let setAncestry = () => {
       primaryBonuses[2] -= 1;
       primaryBonuses[5] -= 1;
       primaryBonuses[6] -= 1;
+      ancestryNum = 0;
     break;
-  }
-  ancestryP.textContent = 'Ancestry: ';
-  console.log(ancestry);
-  ancestryP.textContent = 'Ancestry: ' + ancestry;
+  };
+  console.log('Ancestry: ' + ancestry);
   for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
-  //console.log(ancestralTrait);
+  setAncestryTrait();
+  return ancestry;
 };
+
 let setAncestryTrait = () => {
-  //select appropriate traits based on weights (5 at 8%, 6 at 7%, 1 at 6%)
+  rolld100();
+  switch (true) {
+    case (d100 <= 8):
+      ancestryIndex = 0;
+    break;
+    case (d100 <= 16):
+      ancestryIndex = 1;
+    break;
+    case (d100 <= 25):
+      ancestryIndex = 2;
+    break;
+    case (d100 <= 33):
+      ancestryIndex = 3;
+    break;
+    case (d100 <= 41):
+      ancestryIndex = 4;
+    break;
+    case (d100 <= 49):
+      ancestryIndex = 5;
+    break;
+    case (d100 <= 58):
+      ancestryIndex = 6;
+    break;
+    case (d100 <= 67):
+      ancestryIndex = 7;
+    break;
+    case (d100 <= 76):
+      ancestryIndex = 8
+    break;
+    case (d100 <= 85):
+      ancestryIndex = 9
+    break;
+    case (d100 <= 92):
+      ancestryIndex = 10
+    break;
+    case (d100 <= 100):
+      ancestryIndex = 11
+    break;
+  };
+  ancestralTrait = ancestralTraits[ancestryNum][ancestryIndex];
+  console.log('Ancestral Trait: ' + ancestralTrait);
+  return ancestralTrait;
 };
 
 //Set Birth Season & Dooming
 let setSeason = () => {
-  seasonP.textContent = 'Birth Season: ';
   birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
-  console.log(birthSeason);
-  seasonP.textContent += birthSeason;
+  console.log(`Birth Season: ${birthSeason}`);
   return birthSeason;
 };
 
 let setDooming = (birthSeason) => {
-  doomingP.textContent = 'Dooming: ';
   dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
-  console.log(dooming);
-  doomingP.textContent += dooming;
+  console.log(`Dooming: "${dooming}"`);
   return dooming;
 };
 
 //Set Complexion
 let setComplexion = () => {
-  complexionP.textContent = 'Complexion: ';
   complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
-  console.log(complexion);
-  complexionP.textContent += complexion;
+  console.log(`Complexion: ${complexion}`);
   return complexion;
 };
 
@@ -296,10 +343,10 @@ let setHairColor = () => {
       hairIndex = 15;
       setHairByIndex(hairIndex);
       break;
-  }
-  console.log(hairColor);
+  };
+  console.log(`Hair color: ${hairColor}`);
   return hairColor;
-}
+};
 
 let setHairByIndex = (hairIndex) => {
   if (ancestry == 'Elf') {
@@ -373,8 +420,8 @@ let setEyeColor = () => {
       eyeIndex = 13;
       setEyesByIndex(eyeIndex);
       break;
-  }
-  console.log(eyeColor);
+  };
+  console.log(`Eye Color: ${eyeColor}`);
   return eyeColor;
 };
 
@@ -411,9 +458,7 @@ let setAge = () => {
       age = 'Elderly';
       break;
   };
-  ageP.textContent = 'Age Group: ';
-  console.log(age);
-  ageP.textContent += age;
+  console.log(`Age: ${age}`);
   return age;
 };
 
@@ -421,9 +466,6 @@ let setMarks = () => {
   marks[1] = '';
   marks[2] = '';
   marks[3] = '';
-  mark1.textContent = 'Distinguishing Mark: ';
-  mark2.textContent = 'Distinguishing Mark: ';
-  mark3.textContent = 'Distinguishing Mark: ';
   switch (age) {
     case ('Adult'):
       rolld100();
@@ -467,19 +509,16 @@ let setMarks = () => {
     default:
       console.log(age + ' characters receive no marks');
   };
-  console.log(marks);
-  updateMarks();
+  console.table(marks);
 };
 
 let updateMarks = () => {
-  mark1.textContent += marks[1];
-  marks[2] != null ? mark2.textContent += marks[2] : null;
-  marks[3] != null ? mark3.textContent += marks[3] : null;
+  
 };
 
 //Set Social Class
 let setSocialClass = () => {
-  if (profession = 'Peasant') {
+  if (profession == 'Peasant') {
     socialClass = 'Lowborn';
   } else {
     rolld100();
@@ -495,9 +534,7 @@ let setSocialClass = () => {
       break;
     };
   };
-  classP.textContent = 'Social Class: '
-  console.log(socialClass);
-  classP.textContent += socialClass;
+  console.log(`Social Class: ${socialClass}`);
   return socialClass;
 };
 
@@ -534,9 +571,7 @@ let setUpbringing = () => {
       favoredPrimary = 'Intelligence'
       break;
   };
-  upbringingP.textContent = 'Upbringing: ';
-  console.log(upbringing + ', ' + 'Favoried Primary: ' + favoredPrimary);
-  upbringingP.textContent += upbringing;
+  console.log(`Upbringing: ${upbringing}; Favored Primary: ${favoredPrimary}`);
   return (upbringing, favoredPrimary);
 };
 
@@ -607,26 +642,21 @@ let setProfession = () => {
       profession = 11;
       break;
   };
-  professionP.textContent = 'Basic Profession: ';
   profession = profArr[archetype][profession];
-  console.log(profession);
-  professionP.textContent = 'Basic Profession: ' + profession;
+  console.log(`Profession: ${profession}`);
   return profession;
 };
 
 let setTrappings = () => {
   trappingsP.textContent = 'Trappings: ';
   trappings = trappingsArr[archetype].join(', ');
-  //need to randomize or select from nested arrays
-  trappingsP.textContent = 'Trappings: ' + trappings;
+  trappingsP.textContent += trappings;
 }
 
 //Set Build, Height & Weight
 let setBuild = () => {
-  buildP.textContent = 'Build: ';
   build = buildArr[Math.floor(Math.random() * buildArr.length)];
-  console.log(build);
-  buildP.textContent += build;
+  console.log(`Build: ${build}`);
   return build;
 };
 
@@ -647,10 +677,8 @@ let setAlignment = () => {
       order: alignments.order[pair],
       chaos: alignments.chaos[pair],
     };
-  }
-  alignmentP.textContent = 'Alignment: ';
-  console.log(alignment.order + ', ' + alignment.chaos);
-  alignmentP.textContent += alignment.order + ', ' + alignment.chaos;
+  };
+  console.log(`Alignment: ${alignment.order}, ${alignment.chaos}`);
 };
 
 //Set Drawback
@@ -740,9 +768,7 @@ let setDrawback = () => {
   } else {
     drawback = 'None';
   };
-  drawbackP.textContent = 'Drawback: ';
-  console.log(drawback);
-  drawbackP.textContent += drawback;
+  console.log(`Drawback: ${drawback}`);
   return drawback;
 };
 
@@ -766,4 +792,6 @@ const character = {
   profession: profession,
   socialClass: socialClass,
   drawback: drawback,
+  attributes: primaryAttributes,
+  bonuses: primaryBonuses,
 };
