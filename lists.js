@@ -2,11 +2,21 @@ export const ancestralTraits = [
   ['Dauntless', 'Manifest Destiny', 'Mixed Heritage', 'Mountain Amongst Men',
     'Natural Selection', 'Blessing in Disguise', 'Danger Sense', 'Esoteric Memory',
     'Grim Resolve', 'Seventh Sense', 'Fortune\'s wheel', 'Noble Savage',],
-  [],
-  [],
-  [],
-  [],
-  [],
+  ['Cavesight', 'Children of the Earth', 'Consume Alcohol', 'Dwarven Warfare',
+    'Grudgebearer', 'Ironclad', 'Oathkeeper', 'Physical Prowess', 'Rune-marked Glory',
+    'Stentorian Voice', 'Stoneheaded', 'Strength of the Mountain',],
+  ['Bewitching', 'Beyond the Veil', 'Deadly Aim', 'Enduring Mortality', 
+    'Fey Treachery', 'Firstborn', 'Kindred Warband', 'Lament of the Ages',
+    'Meditative Healing', 'Nature\'s own', 'Nighteyes', 'Warrior\'s Tattoo',],
+  ['Clockworks of War', 'Crag Fighting', 'Denizen of Stone', 'Dungeons Deep',
+    'Escape Artist', 'Goldbergian', 'Hocus Pocus', 'Metrognome', 'Thieving Stunties',
+    'Tunnel Vision', 'Underfoot', 'Wretched Prankster',],
+  ['Beguiler', 'Cat-like Reflexes', 'Craven', 'Farsight', 'Fettered Chaos',
+    'Fieldwarden', 'Fleet-footed', 'Hijinks', 'Kleptomania', 'Low Blow',
+    'Memento', 'Pintsized'],
+  ['Broad Bellied', 'Cast-Iron Stomach', 'Cruisi\'n for a Bruisin\'', 
+    'Frightening Bellow', 'Gut-Plate', 'Hunger Pangs', 'Mighty Thews',
+    'Odd Couple', 'Rotgut Spray', 'Slamdance', 'Thick Lining', 'Wendigo',],
 ];
 
 export const profArr = [
@@ -58,7 +68,7 @@ export const trappingsArr = [
     'Arbalest crossbow with bolts (9) & quiver or Mortuary Sword or Pike',],
 ];
 
-export const buildArr = ['Frail', 'Slender', 'Normal', 'Husky', 'Corpulent',];
+export const buildArr = ['frail', 'slender', 'normal', 'husky', 'corpulent',];
 
 export const alignments = {
   order: ['Adaptation', 'Ambition', 'Candor', 'Charity', 'Compassion',

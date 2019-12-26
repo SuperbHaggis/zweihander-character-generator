@@ -5,13 +5,13 @@ import {profArr, trappingsArr, buildArr, alignments, markArr,
 //Global Variables
 let d100, d10;
 let i, j;
-let hairIndex, eyeIndex;
+let hairIndex, eyeIndex, ancestryNum, ancestryIndex;
 let sum;
 let archetype;
 let firstMark, secondMark, thirdMark;
 let attSwapped = false;
 let attReplaced = false;
-let ancestryNum, ancestryIndex;
+let pronoun, pronounPossessive, verbPossessive, verbState, verbPast;
 
 let dooming, age, profession, upbringing, favoredPrimary, socialClass,
     complexion, hairColor, eyeColor, build, birthSeason,
@@ -41,10 +41,16 @@ let attributeCheck = document.getElementsByTagName("label");
 let attributeSwap = document.getElementById('attribute-swap');
 let attributeReplace = document.getElementById('attribute-replace');
 
-let characterHistoryP = document.querySelector('#character-history');
-let trappingsP = document.querySelector('#trappings-p');
+let history0 = document.querySelector('#history0');
+let history1 = document.querySelector('#history1');
+let history2 = document.querySelector('#history2');
+let history3 = document.querySelector('#history3');
+let history4 = document.querySelector('#history4');
+let history5 = document.querySelector('#history5');
+let trappingsP = document.querySelector('#trappings');
 
 let nameValue = document.getElementById("name-input").value;
+let lastNameValue = document.getElementById("last-name-input").value;
 let sexValue = document.getElementById("sex-input").value;
 
 //Rollers
@@ -82,24 +88,38 @@ let randomizeAll = () => {
   setSocialClass();
   setDrawback();
   setAlignment();
-  characterHistoryP.textContent = `${nameValue} is ${age.charAt(0).toLowerCase == 'e' ? 'an' : 'a'} ${age} ${ancestry} ${sexValue} ${profession}. ` +
-    `${sexValue.toLowerCase == 'male' ? 'he is' : 'she is'} of a ${build} build type. ` +
-    `They have ${complexion} skin, with ${hairColor} hair and ${eyeColor} eyes. ` +
-    `Their marks are: ${marks[1]}, ${marks[2]}, and ${marks[3]}. ` +
-    `They were born in ${birthSeason}, are of the ${socialClass} social class and of a(n) ${upbringing} upbringing. ` +
-    `Their dooming is "${dooming}" and their drawback is ${drawback}. ` +
-    `Their order alignment is ${alignment.order} and their chaos alignment is ${alignment.chaos}.`;
+  setHistory();
 };
 
 generateButton.addEventListener('click', e => {
   nameValue = document.getElementById("name-input").value;
-  sexValue = document.getElementById("sex-input").value;
+  sexValue = document.getElementById("sex-input").value.toLowerCase();
+  lastNameValue = document.getElementById("last-name-input").value;
+  if (sexValue == 'male') {
+    pronoun = 'He';
+    pronounPossessive = 'His';
+    verbPossessive = 'has';
+    verbState = 'is';
+    verbPast = 'was';
+  } else if (sexValue == 'female') {
+    pronoun = 'She';
+    pronounPossessive = 'Her';
+    verbPossessive = 'has';
+    verbState = 'is';
+    verbPast = 'was';
+  } else {
+    pronoun = 'They';
+    pronounPossessive = 'Their';
+    verbPossessive = 'have';
+    verbState = 'are';
+    verbPast = 'were';
+  };
   if (nameValue == "" || sexValue == "") {
     window.alert("Please enter a Name and Sex");
   } else {
     randomizeAll();
   };
-  return nameValue, sexValue;
+  return nameValue, lastNameValue, sexValue;
 });
 
 //Set Attributes
@@ -190,7 +210,7 @@ let setAncestry = () => {
       primaryBonuses[0] += 1;
       primaryBonuses[2] -= 2;
       primaryBonuses[3] -= 1;
-      ancestryNum = 6;
+      ancestryNum = 5;
     break;
     default:
       primaryBonuses[0] += 1;
@@ -255,6 +275,84 @@ let setAncestryTrait = () => {
   return ancestralTrait;
 };
 
+//Set Archetype, Profession, Trappings
+let setArchetype = () => {
+  rolld100();
+  switch (true) {
+    case (d100 <= 15):
+      archetype = 0;
+      break;
+    case (d100 <= 32):
+      archetype = 1;
+      break;
+    case (d100 <= 49):
+      archetype = 2;
+      break;
+    case (d100 <= 66):
+      archetype = 3;
+      break;
+    case (d100 <= 83):
+      archetype = 4;
+      break;
+    case (d100 <= 100):
+      archetype = 5;
+      break;
+  };
+  return archetype;
+};
+
+let setProfession = () => {
+  setArchetype();
+  rolld100();
+  switch (true) {
+    case (d100 <= 8):
+      profession = 0;
+      break;
+    case (d100 <= 16):
+      profession = 1;
+      break;
+    case (d100 <= 25):
+      profession = 2;
+      break;
+    case (d100 <= 33):
+      profession = 3;
+      break;
+    case (d100 <= 41):
+      profession = 4;
+      break;
+    case (d100 <= 49):
+      profession = 5;
+      break;
+    case (d100 <= 58):
+      profession = 6;
+      break;
+    case (d100 <= 67):
+      profession = 7;
+      break;
+    case (d100 <= 76):
+      profession = 8;
+      break;
+    case (d100 <= 85):
+      profession = 9;
+      break;
+    case (d100 <= 92):
+      profession = 10;
+      break;
+    case (d100 <= 100):
+      profession = 11;
+      break;
+  };
+  profession = profArr[archetype][profession];
+  console.log(`Profession: ${profession}`);
+  return profession;
+};
+
+let setTrappings = () => {
+  trappingsP.textContent = 'Trappings: ';
+  trappings = trappingsArr[archetype].join(', ');
+  trappingsP.textContent += trappings;
+}
+
 //Set Birth Season & Dooming
 let setSeason = () => {
   birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
@@ -268,11 +366,93 @@ let setDooming = (birthSeason) => {
   return dooming;
 };
 
+//Set Age & Distinguishing Marks
+let setAge = () => {
+  rolld100();
+  switch (true) {
+    case (d100 <= 25):
+      age = 'young';
+      break;
+    case (d100 <= 70):
+      age = 'adult';
+      break;
+    case (d100 <= 90):
+      age = 'middle aged';
+      break;
+    case (d100 <= 100):
+      age = 'elderly';
+      break;
+  };
+  console.log(`Age: ${age}`);
+  return age;
+};
+
+let setMarks = () => {
+  marks[1] = '';
+  marks[2] = '';
+  marks[3] = '';
+  switch (age) {
+    case ('adult'):
+      rolld100();
+      firstMark = d100;
+      marks[1] = markArr[firstMark];
+      break;
+    case ('middle aged'):
+      rolld100();
+      firstMark = d100;
+      marks[1] = markArr[firstMark];
+      rolld100();
+      if (d100 == firstMark) {
+        while (d100 == firstMark) {
+          rolld100();
+        };
+      };
+      secondMark = d100;
+      marks[2] = markArr[secondMark];
+      break;
+    case ('elderly'):
+      rolld100();
+      firstMark = d100;
+      marks[1] = markArr[firstMark];
+      rolld100();
+      if (d100 == firstMark) {
+        while (d100 == firstMark) {
+          rolld100();
+        };
+      };
+      secondMark = d100;
+      marks[2] = markArr[secondMark];
+      rolld100();
+      if ((thirdMark == secondMark) || (thirdMark == firstMark)) {
+        while ((thirdMark == secondMark) || (thirdMark == firstMark)) {
+          rolld100();
+        };
+      };
+      thirdMark = d100;
+      marks[3] = markArr[thirdMark];
+      break;
+    default:
+      console.log(age + ' characters receive no marks');
+  };
+  console.log(marks);
+};
+
 //Set Complexion
 let setComplexion = () => {
   complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
   console.log(`Complexion: ${complexion}`);
   return complexion;
+};
+
+//Set Build, Height & Weight
+let setBuild = () => {
+  build = buildArr[Math.floor(Math.random() * buildArr.length)];
+  console.log(`Build: ${build}`);
+  return build;
+};
+
+let setHeightWeight = () => {
+
 };
 
 //Set hair color
@@ -441,104 +621,7 @@ let setEyesByIndex = (eyeIndex) => {
   };
 };
 
-//Set Age & Distinguishing Marks
-let setAge = () => {
-  rolld100();
-  switch (true) {
-    case (d100 <= 25):
-      age = 'Young';
-      break;
-    case (d100 <= 70):
-      age = 'Adult';
-      break;
-    case (d100 <= 90):
-      age = 'Middle Aged';
-      break;
-    case (d100 <= 100):
-      age = 'Elderly';
-      break;
-  };
-  console.log(`Age: ${age}`);
-  return age;
-};
-
-let setMarks = () => {
-  marks[1] = '';
-  marks[2] = '';
-  marks[3] = '';
-  switch (age) {
-    case ('Adult'):
-      rolld100();
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
-    break;
-    case ('Middle Aged'):
-      rolld100();
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
-      rolld100();
-      if (d100 == firstMark) {
-        while (d100 == firstMark) {
-          rolld100();
-        };
-      };
-      secondMark = d100;
-      marks[2] = markArr[secondMark];
-    break;
-    case ('Elderly'):
-      rolld100();
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
-      rolld100();
-      if (d100 == firstMark) {
-        while (d100 == firstMark) {
-          rolld100();
-        };
-      };
-      secondMark = d100;
-      marks[2] = markArr[secondMark];
-      rolld100();
-      if ((thirdMark == secondMark) || (thirdMark == firstMark)) {
-        while ((thirdMark == secondMark) || (thirdMark == firstMark)) {
-         rolld100();
-        };
-      };
-      thirdMark = d100;
-      marks[3] = markArr[thirdMark];
-    break;
-    default:
-      console.log(age + ' characters receive no marks');
-  };
-  console.table(marks);
-};
-
-let updateMarks = () => {
-  
-};
-
-//Set Social Class
-let setSocialClass = () => {
-  if (profession == 'Peasant') {
-    socialClass = 'Lowborn';
-  } else {
-    rolld100();
-    switch (true) {
-      case (d100 <= 60):
-        socialClass = 'Lowborn';
-      break;
-      case (d100 <= 90):
-        socialClass = 'Burgher';
-        break;
-      case (d100 <= 100):
-        socialClass = 'Aristocrat';
-      break;
-    };
-  };
-  console.log(`Social Class: ${socialClass}`);
-  return socialClass;
-};
-
-//Set Upbringing
+//Set Upbringing and Social Class
 let setUpbringing = () => {
   rolld100();
   switch (true) {
@@ -575,110 +658,25 @@ let setUpbringing = () => {
   return (upbringing, favoredPrimary);
 };
 
-//Set Archetype, Profession, Trappings
-let setArchetype = () => {
-  rolld100();
-  switch (true) {
-    case (d100 <= 15):
-      archetype = 0;
+let setSocialClass = () => {
+  if (profession == 'Peasant') {
+    socialClass = 'Lowborn';
+  } else {
+    rolld100();
+    switch (true) {
+      case (d100 <= 60):
+        socialClass = 'Lowborn';
       break;
-    case (d100 <= 32):
-      archetype = 1;
+      case (d100 <= 90):
+        socialClass = 'Burgher';
+        break;
+      case (d100 <= 100):
+        socialClass = 'Aristocrat';
       break;
-    case (d100 <= 49):
-      archetype = 2;
-      break;
-    case (d100 <= 66):
-      archetype = 3;
-      break;
-    case (d100 <= 83):
-      archetype = 4;
-      break;
-    case (d100 <= 100):
-      archetype = 5;
-      break;
-  };
-  return archetype;
-};
-
-let setProfession = () => {
-  setArchetype();
-  rolld100();
-  switch (true) {
-    case (d100 <= 8):
-      profession = 0;
-      break;
-    case (d100 <= 16):
-      profession = 1;
-      break;
-    case (d100 <= 25):
-      profession = 2;
-      break;
-    case (d100 <= 33):
-      profession = 3;
-      break;
-    case (d100 <= 41):
-      profession = 4;
-      break;
-    case (d100 <= 49):
-      profession = 5;
-      break;
-    case (d100 <= 58):
-      profession = 6;
-      break;
-    case (d100 <= 67):
-      profession = 7;
-      break;
-    case (d100 <= 76):
-      profession = 8;
-      break;
-    case (d100 <= 85):
-      profession = 9;
-      break;
-    case (d100 <= 92):
-      profession = 10;
-      break;
-    case (d100 <= 100):
-      profession = 11;
-      break;
-  };
-  profession = profArr[archetype][profession];
-  console.log(`Profession: ${profession}`);
-  return profession;
-};
-
-let setTrappings = () => {
-  trappingsP.textContent = 'Trappings: ';
-  trappings = trappingsArr[archetype].join(', ');
-  trappingsP.textContent += trappings;
-}
-
-//Set Build, Height & Weight
-let setBuild = () => {
-  build = buildArr[Math.floor(Math.random() * buildArr.length)];
-  console.log(`Build: ${build}`);
-  return build;
-};
-
-let setHeightWeight = () => {
-
-};
-
-//Set Alignment
-let setAlignment = () => {
-  if (separateAlignmentCheck.checked == true) {
-    alignment = { 
-      order: alignments.order[Math.floor(Math.random() * 24)], 
-      chaos: alignments.chaos[Math.floor(Math.random() * 24)],
-    };
-  } else { 
-      let pair = Math.floor(Math.random() * 24);
-      alignment = {
-      order: alignments.order[pair],
-      chaos: alignments.chaos[pair],
     };
   };
-  console.log(`Alignment: ${alignment.order}, ${alignment.chaos}`);
+  console.log(`Social Class: ${socialClass}`);
+  return socialClass;
 };
 
 //Set Drawback
@@ -688,10 +686,10 @@ let setDrawback = () => {
     switch (true) {
       case (d100 <= 4):
         drawback = 'Bad Ticker';
-      break;
+        break;
       case (d100 <= 7):
         drawback = 'Black Cataract';
-      break;
+        break;
       case (d100 <= 11):
         drawback = 'Bleeder';
         break;
@@ -771,6 +769,54 @@ let setDrawback = () => {
   console.log(`Drawback: ${drawback}`);
   return drawback;
 };
+
+//Set Alignment
+let setAlignment = () => {
+  if (separateAlignmentCheck.checked == true) {
+    alignment = { 
+      order: alignments.order[Math.floor(Math.random() * 24)], 
+      chaos: alignments.chaos[Math.floor(Math.random() * 24)],
+    };
+  } else { 
+      let pair = Math.floor(Math.random() * 24);
+      alignment = {
+      order: alignments.order[pair],
+      chaos: alignments.chaos[pair],
+    };
+  };
+  console.log(`Alignment: ${alignment.order}, ${alignment.chaos}`);
+};
+
+let setHistory = () => {
+  history0.textContent = `${nameValue} ${lastNameValue} is ${((age.charAt(0) == 'a') || (age.charAt(0) == 'e')) ? 'an' : 'a'} 
+    ${age} ${ancestry} ${sexValue} ${profession}. ${pronounPossessive} ancestral trait is ${ancestralTrait}.`;
+  history1.textContent = `${pronoun} ${verbState} of a ${build} build type. ${nameValue} ${verbPossessive} 
+    ${complexion.toLowerCase()} skin, with ${hairColor.toLowerCase()} hair and ${eyeColor.toLowerCase()} eyes.`;
+
+  if (age == 'young') {
+    history2.textContent = '';
+  } else if (age == 'adult') {
+    history2.textContent = `${pronounPossessive} mark is "${marks[1]}".`;
+  } else if (age == 'middle aged') {
+    history2.textContent = `${pronounPossessive} marks are "${marks[1]}" and "${marks[2]}".`;
+  } else if (age == 'elderly') {
+    history2.textContent = `${pronounPossessive} marks are: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
+  };
+ 
+  history3.textContent = `${nameValue} ${verbPast} born in ${birthSeason}, ${verbState} of the 
+    ${socialClass} social class and of ${((upbringing.charAt(0) == 'I') || (age.charAt(0) == 'O')) ? 'an' : 'a'} 
+    ${upbringing} upbringing. `;
+
+  if (drawbackCheck.checked == true) {
+    history4.textContent = `${pronounPossessive} dooming is "${dooming}" and 
+      ${pronounPossessive.toLowerCase()} drawback is ${drawback}. `
+  } else {
+    history4.textContent = `${pronounPossessive} dooming is "${dooming}."`
+  };
+
+  history5.textContent = `${pronounPossessive} order alignment is ${alignment.order} and 
+    ${pronounPossessive.toLowerCase()} chaos alignment is ${alignment.chaos}.`;
+}
 
 //Character
 const character = {
