@@ -1,0 +1,22 @@
+{
+  "name": "zweihander-character-builder",
+  "version": "1.0.0",
+  "description": "A simple, customizable character builder for ZWEIHANDER: Grim &amp; Perilous RPG",
+  "main": "lists.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperbHaggis/zweihander-character-builder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SuperbHaggis/zweihander-character-builder/issues"
+  },
+  "homepage": "https://github.com/SuperbHaggis/zweihander-character-builder#readme",
+  "devDependencies": {
+    "webpack": "^4.41.4"
+  }
+}
