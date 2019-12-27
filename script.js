@@ -92,6 +92,7 @@ let randomizeAll = () => {
   setDrawback();
   setAlignment();
   setHistory();
+  console.log(character);
 };
 
 generateButton.addEventListener('click', e => {
@@ -127,11 +128,11 @@ let setAttributes = () => {
     primaryBonuses[j] = primaryAttributes[j].charAt(0);
   };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  console.table(primaryAttributes);
-  console.table(primaryBonuses);
   for (i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += primaryAttributes[i];
   };
+  character.attributes = primaryAttributes;
+  character.bonuses = primaryBonuses;
 };
 
 let swapAttributes = () => {
@@ -164,6 +165,8 @@ attributeSwap.addEventListener('click', e => {
 let setAncestry = () => {
   if (nonhumanCheck.checked == true) {
     ancestry = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
+  } else {
+    ancestry = 'Human';
   };
   switch (ancestry) {
     case ('Dwarf'):
@@ -219,11 +222,12 @@ let setAncestry = () => {
       ancestryNum = 0;
     break;
   };
-  console.log('Ancestry: ' + ancestry);
   for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
   setAncestryTrait();
+  character.ancestry = ancestry;
+  character.bonuses = primaryBonuses;
   return ancestry;
 };
 
@@ -268,7 +272,7 @@ let setAncestryTrait = () => {
     break;
   };
   ancestralTrait = ancestralTraits[ancestryNum][ancestryIndex];
-  console.log('Ancestral Trait: ' + ancestralTrait);
+  character.ancestralTrait = ancestralTrait;
   return ancestralTrait;
 };
 
@@ -340,7 +344,7 @@ let setProfession = () => {
       break;
   };
   profession = profArr[archetype][profession];
-  console.log(`Profession: ${profession}`);
+  character.profession = profession;
   return profession;
 };
 
@@ -353,13 +357,13 @@ let setTrappings = () => {
 //Set Birth Season & Dooming
 let setSeason = () => {
   birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
-  console.log(`Birth Season: ${birthSeason}`);
+  character.birthSeason = birthSeason;
   return birthSeason;
 };
 
 let setDooming = (birthSeason) => {
   dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
-  console.log(`Dooming: "${dooming}"`);
+  character.dooming = dooming;
   return dooming;
 };
 
@@ -380,7 +384,7 @@ let setAge = () => {
       age = 'elderly';
       break;
   };
-  console.log(`Age: ${age}`);
+  character.age = age;
   return age;
 };
 
@@ -391,17 +395,21 @@ let setMarks = () => {
   switch (age) {
     case ('adult'):
       rolld100();
+      d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
       break;
     case ('middle aged'):
       rolld100();
+      d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
       rolld100();
+      d100 -= 1;
       if (d100 == firstMark) {
         while (d100 == firstMark) {
           rolld100();
+          d100 -= 1;
         };
       };
       secondMark = d100;
@@ -409,20 +417,25 @@ let setMarks = () => {
       break;
     case ('elderly'):
       rolld100();
+      d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
       rolld100();
+      d100 -= 1;
       if (d100 == firstMark) {
         while (d100 == firstMark) {
           rolld100();
+          d100 -= 1;
         };
       };
       secondMark = d100;
       marks[2] = markArr[secondMark];
       rolld100();
+      d100 -= 1;
       if ((thirdMark == secondMark) || (thirdMark == firstMark)) {
         while ((thirdMark == secondMark) || (thirdMark == firstMark)) {
           rolld100();
+          d100 -= 1;
         };
       };
       thirdMark = d100;
@@ -431,13 +444,13 @@ let setMarks = () => {
     default:
       console.log(age + ' characters receive no marks');
   };
-  console.log(marks);
+  character.marks = marks;
 };
 
 //Set Complexion
 let setComplexion = () => {
   complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
-  console.log(`Complexion: ${complexion}`);
+  character.complexion = complexion;
   return complexion;
 };
 
@@ -446,8 +459,7 @@ let setBuild = () => {
   buildIndex = Math.floor(Math.random() * buildArr.length);
   build = buildArr[buildIndex][0];
   buildNum = buildArr[buildIndex][1];
-  console.log(`Build: ${build}`);
-  console.log(buildNum);
+  character.build = build;
   return build, buildNum;
 };
 
@@ -467,8 +479,8 @@ let setHeightWeight = () => {
     height = `${baseHeightMale[ancestryNum][0] + feet} ft, ${inches} in`;
     weight = `${weightArrMale[ancestryNum][buildNum][heightWeightNum]} lbs`;
   };
-  console.log(height);
-  console.log(weight);
+  character.height = height;
+  character.weight = weight;
   return height, weight;
 };
 
@@ -541,7 +553,7 @@ let setHairColor = () => {
       setHairByIndex(hairIndex);
       break;
   };
-  console.log(`Hair color: ${hairColor}`);
+  character.hairColor = hairColor;
   return hairColor;
 };
 
@@ -618,7 +630,7 @@ let setEyeColor = () => {
       setEyesByIndex(eyeIndex);
       break;
   };
-  console.log(`Eye Color: ${eyeColor}`);
+  character.eyeColor = eyeColor;
   return eyeColor;
 };
 
@@ -671,7 +683,8 @@ let setUpbringing = () => {
       favoredPrimary = 'Intelligence'
       break;
   };
-  console.log(`Upbringing: ${upbringing}; Favored Primary: ${favoredPrimary}`);
+  character.upbringing = upbringing;
+  character.favoredPrimary = favoredPrimary;
   return (upbringing, favoredPrimary);
 };
 
@@ -692,7 +705,7 @@ let setSocialClass = () => {
       break;
     };
   };
-  console.log(`Social Class: ${socialClass}`);
+  character.socialClass = socialClass;
   return socialClass;
 };
 
@@ -783,7 +796,7 @@ let setDrawback = () => {
   } else {
     drawback = 'None';
   };
-  console.log(`Drawback: ${drawback}`);
+  character.drawback = drawback;
   return drawback;
 };
 
@@ -801,7 +814,7 @@ let setAlignment = () => {
       chaos: alignments.chaos[pair],
     };
   };
-  console.log(`Alignment: ${alignment.order}, ${alignment.chaos}`);
+  character.alignment = alignment;
 };
 
 let setHistory = () => {
@@ -843,24 +856,27 @@ let setHistory = () => {
 
 //Character
 const character = {
-  name: null,
-  sex: null,
+  attributes: primaryAttributes,
+  bonuses: primaryBonuses,
+  name: nameValue,
+  sex: sexValue,
   ancestry: ancestry,
   ancestralTrait: ancestralTrait,
   age: age,
-  alignment: alignment,
-  build: build,
   profession: profession,
+  build: build,
+  height: height,
+  weight: weight,
   complexion: complexion,
   hairColor: hairColor,
   eyeColor: eyeColor,
+  marks: marks,
   birthSeason: birthSeason,
   dooming: dooming,
-  marks: marks,
   upbringing: upbringing,
   profession: profession,
   socialClass: socialClass,
   drawback: drawback,
-  attributes: primaryAttributes,
-  bonuses: primaryBonuses,
+  alignment: alignment,
+  favoredPrimary: favoredPrimary,
 };

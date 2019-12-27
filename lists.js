@@ -226,7 +226,9 @@ export const eyeColors = {
           'Blue', 'Dark green', 'Ice blue', 'Violet'],
 };
 
-export const baseHeightFemale = [5.2, 4.2, 5.5, 4.0, 3.5, 8.2,];
+export const baseHeightFemale = [
+  [5, 2], [4, 2], [5, 5], [4, 0], [3, 5], [8, 2],
+];
 
 export const baseHeightMale = [
   [5, 5], [4, 5], [5, 8], [4, 3], [3, 8], [8, 5]
