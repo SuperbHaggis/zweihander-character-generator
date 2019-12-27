@@ -41,34 +41,46 @@ export const profArr = [
 ];
 
 export const trappingsArr = [
+  //Academic
   ['Black lotus', 'Bottle of leeches', 'Coin purse', 'Dirk',
     'Fine clothing', 'Holy symbol', 'Loose robes', 'Quicksilver',
     'Royal water', 'Shoulder bag', 'Smelling salts (3)',
     'soft shoes or leather sandals', 'Writing kit',
     'Cudgel or staff or Throwing knives (3) with Bandolier',],
+  //Commoner
   ['Bandages (3)', 'Bottle bomb', 'Grave root', 'Holy symbol',
     'Leather sandals or Heavy boots', 'Ruck sack', 'Shiv',
     'Simple attire', 'Warm vest',
     'Shepherd\'s sling with sling stones (9) or Splitting maul or Threshing flail',],
+  //Knave
   ['Antivenom', 'Dark clothes or Tattered rags', 'Folkbane (3)',
     'Gaff bag', 'Garish attire or Secondhand attire', 'Holy symbol',
     'Lock picks', 'Mantle', 'Soft shoes', 'Stiletto',
     'Blackjack or Garrote or Flintlock pistol with gunpowder & shot (6)',],
+  //Ranger
   ['Animalbane (3)', 'Antivenom', 'Backpack', 'Bullwhip',
     'Heavy boots', 'Holy symbol', 'Suit of fur/hide armor', 'Survival kit',
     'Torches (3)', 'Traveling clothes', 'Waterskin', 'Wilderness cloak',
     'Wolfsbane', 'Fire-hardened spear or Hunting bow with arrows (9) & quiver or Woodsman\'s axe',],
+  //Socialite
   ['Coin purse', 'Fancy shoes', 'Fashionable clothing', 'Foppish hat',
     'Holy symbol', 'Knuckleduster', 'Mandrake root (3)', 'Mantle',
     'Neck ruff', 'Shoulder bag', 'Writing kit', 
     'Throwing knives (3) with bandolier or Rapier or Walking cane (improvised hand weapon',],
+  //Warrior
   ['Fire-hardened spear', 'Heavy boots', 'Lantern', 'Laudanum (3)',
     'Military attire', 'Oil pot', 'Red cap mushrooms', 'Rucksack',
     'Suit of leather armor', 'Tincture (3)', 'Wooden shield',
     'Arbalest crossbow with bolts (9) & quiver or Mortuary Sword or Pike',],
 ];
 
-export const buildArr = ['frail', 'slender', 'normal', 'husky', 'corpulent',];
+export const buildArr = [
+  ['frail', 0], 
+  ['slender', 1], 
+  ['normal', 2], 
+  ['husky', 3], 
+  ['corpulent', 4],
+];
 
 export const alignments = {
   order: ['Adaptation', 'Ambition', 'Candor', 'Charity', 'Compassion',
@@ -213,3 +225,111 @@ export const eyeColors = {
           'Pale green', 'Copper', 'Green', 'Black', 'Grey blue',
           'Blue', 'Dark green', 'Ice blue', 'Violet'],
 };
+
+export const baseHeightFemale = [5.2, 4.2, 5.5, 4.0, 3.5, 8.2,];
+
+export const baseHeightMale = [
+  [5, 5], [4, 5], [5, 8], [4, 3], [3, 8], [8, 5]
+];
+
+export const weightArrFemale = [
+  //Human
+  [
+    [92, 97, 102, 106, 111, 116, 121, 126, 130, 135], 
+    [102, 106, 111, 116, 121, 126, 130, 135, 140, 145], 
+    [121, 126, 130, 135, 140, 145, 150, 154, 159, 164], 
+    [159, 164, 169, 174, 178, 183, 188, 193, 198, 202], 
+    [198, 202, 207, 212, 217, 222, 226, 231, 236, 241],
+  ],
+  //Dwarf
+  [
+    [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+    [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+    [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+    [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
+    [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
+  ],
+  //Elf
+  [
+    [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+    [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+    [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+    [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
+    [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
+  ],
+  //Gnome
+  [
+    [52, 57, 62, 66, 71, 76, 81, 86, 90, 95],
+    [62, 66, 71, 76, 81, 86, 90, 95, 100, 105],
+    [81, 86, 90, 95, 100, 105, 110, 114, 119, 124],
+    [119, 124, 129, 134, 138, 143, 148, 153, 158, 162],
+    [158, 162, 167, 172, 177, 182, 186, 191, 196, 201],
+  ],
+  //Halfling
+  [
+    [32, 37, 42, 46, 51, 56, 61, 66, 70, 75],
+    [42, 46, 51, 56, 61, 66, 70, 75, 80, 85],
+    [61, 66, 70, 75, 80, 85, 90, 94, 99, 104],
+    [99, 104, 109, 114, 118, 123, 128, 133, 138, 142],
+    [138, 142, 147, 152, 157, 162, 166, 171, 176, 181],
+  ],
+  //Ogre
+  [
+    [480, 485, 490, 494, 499, 504, 509, 514, 518, 523],
+    [490, 494, 499, 504, 509, 514, 518, 523, 528, 533],
+    [509, 514, 518, 523, 528, 533, 538, 542, 547, 552],
+    [547, 552, 557, 562, 566, 571, 576, 581, 586, 590],
+    [586, 590, 595, 600, 605, 610, 614, 619, 624, 629],
+  ],
+];
+
+export const weightArrMale = [
+  //Human
+  [
+    [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+    [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+    [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+    [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+    [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+  ],
+  //Dwarf
+  [
+    [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+    [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+    [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+    [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+    [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+  ],
+  //Elf
+  [
+    [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+    [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+    [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+    [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+    [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+  ],
+  //Gnome
+  [
+    [65, 71, 77, 83, 89, 95, 101, 107, 113, 119],
+    [77, 83, 89, 95, 101, 107, 113, 119, 125, 131],
+    [101, 107, 113, 119, 125, 131, 137, 143, 149, 155],
+    [149, 155, 161, 167, 173, 179, 185, 191, 197, 203],
+    [197, 203, 209, 215, 221, 227, 233, 239, 245, 251],
+  ],
+  //Halfling
+  [
+    [40, 46, 52, 58, 64, 70, 76, 82, 88, 94],
+    [52, 58, 64, 70, 76, 82, 88, 94, 100, 106],
+    [76, 82, 88, 94, 100, 106, 112, 118, 124, 130],
+    [124, 130, 136, 142, 148, 154, 160, 166, 172, 178],
+    [172, 178, 184, 190, 196, 202, 208, 214, 22, 226],
+  ],
+  //Ogre
+  [
+    [600, 606, 612, 618, 624, 630, 636, 642, 648, 654],
+    [612, 618, 624, 630, 636, 642, 648, 654, 660, 666],
+    [636, 642, 648, 654, 660, 666, 672, 678, 684, 690],
+    [684, 690, 696, 702, 708, 714, 720, 726, 732, 738],
+    [732, 738, 744, 750, 756, 762, 768, 774, 780, 786],
+  ],
+];

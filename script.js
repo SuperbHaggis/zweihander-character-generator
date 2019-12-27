@@ -1,21 +1,24 @@
 import {profArr, trappingsArr, buildArr, alignments, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
-  hairColors, eyeColors, ancestralTraits} from "./lists.js";
+  hairColors, eyeColors, ancestralTraits, baseHeightFemale, 
+  baseHeightMale, weightArrFemale, weightArrMale} from "./lists.js";
 
 //Global Variables
 let d100, d10;
 let i, j;
-let hairIndex, eyeIndex, ancestryNum, ancestryIndex;
+let hairIndex, eyeIndex, ancestryNum, ancestryIndex, heightWeightNum, 
+    buildNum, buildIndex;
 let sum;
 let archetype;
 let firstMark, secondMark, thirdMark;
 let attSwapped = false;
 let attReplaced = false;
-let pronoun, pronounPossessive, verbPossessive, verbState, verbPast;
+let pronoun, pronounPossessive, verbState;
+let inches, feet;
 
 let dooming, age, profession, upbringing, favoredPrimary, socialClass,
     complexion, hairColor, eyeColor, build, birthSeason,
-    trappings, drawback, ancestry, ancestralTrait;
+    trappings, drawback, ancestry, ancestralTrait, height, weight;
 
 let marks = {
   1: '',
@@ -81,7 +84,7 @@ let randomizeAll = () => {
   setMarks();
   setComplexion();
   setBuild();
-//setHeightWeight();
+  setHeightWeight();
   setHairColor();
   setEyeColor();
   setUpbringing();
@@ -98,24 +101,18 @@ generateButton.addEventListener('click', e => {
   if (sexValue == 'male') {
     pronoun = 'He';
     pronounPossessive = 'His';
-    verbPossessive = 'has';
     verbState = 'is';
-    verbPast = 'was';
   } else if (sexValue == 'female') {
     pronoun = 'She';
     pronounPossessive = 'Her';
-    verbPossessive = 'has';
     verbState = 'is';
-    verbPast = 'was';
   } else {
     pronoun = 'They';
     pronounPossessive = 'Their';
-    verbPossessive = 'have';
     verbState = 'are';
-    verbPast = 'were';
   };
-  if (nameValue == "" || sexValue == "") {
-    window.alert("Please enter a Name and Sex");
+  if (nameValue == "") {
+    window.alert("Please enter a First Name");
   } else {
     randomizeAll();
   };
@@ -146,17 +143,17 @@ let replaceAttributes = () => {
 };
 
 attributeReplace.addEventListener('click', e => {
-  if (attReplaced == true) {
-    window.prompt('nope!');
+  if ((attReplaced == true) || (attSwapped == true)) {
+    window.alert('nope!');
   } else {
-    swapAttributes();
+    replaceAttributes();
     console.log('replaced!');
   };
 });  
 
 attributeSwap.addEventListener('click', e => {
-  if (attSwapped == true) {
-    window.prompt('nope!');
+  if ((attReplaced == true) || (attSwapped == true)) {
+    window.alert('nope!');
   } else {
     swapAttributes();
     console.log('swapped!');
@@ -446,13 +443,33 @@ let setComplexion = () => {
 
 //Set Build, Height & Weight
 let setBuild = () => {
-  build = buildArr[Math.floor(Math.random() * buildArr.length)];
+  buildIndex = Math.floor(Math.random() * buildArr.length);
+  build = buildArr[buildIndex][0];
+  buildNum = buildArr[buildIndex][1];
   console.log(`Build: ${build}`);
-  return build;
+  console.log(buildNum);
+  return build, buildNum;
 };
 
 let setHeightWeight = () => {
-
+  heightWeightNum = Math.floor(Math.random() * 9)
+  inches =  heightWeightNum + baseHeightMale[ancestryNum][1];
+  if (inches >= 12) {
+    feet = 1;
+    inches -= 12;
+  } else {
+    feet = 0;
+  };
+  if (sexValue == 'female') {
+    height = `${baseHeightFemale[ancestryNum][0] + feet} ft, ${inches} in`;
+    weight = `${weightArrFemale[ancestryNum][buildNum][heightWeightNum]} lbs`;
+  } else {
+    height = `${baseHeightMale[ancestryNum][0] + feet} ft, ${inches} in`;
+    weight = `${weightArrMale[ancestryNum][buildNum][heightWeightNum]} lbs`;
+  };
+  console.log(height);
+  console.log(weight);
+  return height, weight;
 };
 
 //Set hair color
@@ -788,10 +805,16 @@ let setAlignment = () => {
 };
 
 let setHistory = () => {
-  history0.textContent = `${nameValue} ${lastNameValue} is ${((age.charAt(0) == 'a') || (age.charAt(0) == 'e')) ? 'an' : 'a'} 
-    ${age} ${ancestry} ${sexValue} ${profession}. ${pronounPossessive} ancestral trait is ${ancestralTrait}.`;
-  history1.textContent = `${pronoun} ${verbState} of a ${build} build type. ${nameValue} ${verbPossessive} 
-    ${complexion.toLowerCase()} skin, with ${hairColor.toLowerCase()} hair and ${eyeColor.toLowerCase()} eyes.`;
+  nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
+  lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase()
+  history0.textContent = `${nameValue} ${lastNameValue} is 
+    ${((age.charAt(0) == 'a') || (age.charAt(0) == 'e')) ? 'an' : 'a'} 
+    ${age} ${ancestry} ${sexValue} ${profession}. 
+    ${pronounPossessive} ancestral trait is ${ancestralTrait}.`;
+  history1.textContent = `${pronoun} ${verbState} ${height}, ${weight} and of a 
+    ${build} build type. ${nameValue} has 
+    ${complexion.toLowerCase()} skin, with ${hairColor.toLowerCase()} hair and 
+    ${eyeColor.toLowerCase()} eyes.`;
 
   if (age == 'young') {
     history2.textContent = '';
@@ -803,7 +826,7 @@ let setHistory = () => {
     history2.textContent = `${pronounPossessive} marks are: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
   };
  
-  history3.textContent = `${nameValue} ${verbPast} born in ${birthSeason}, ${verbState} of the 
+  history3.textContent = `${nameValue} was born in ${birthSeason}, is of the 
     ${socialClass} social class and of ${((upbringing.charAt(0) == 'I') || (age.charAt(0) == 'O')) ? 'an' : 'a'} 
     ${upbringing} upbringing. `;
 
