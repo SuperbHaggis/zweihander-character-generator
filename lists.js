@@ -1,88 +1,118 @@
-export const ancestralTraits = [
-  ['Dauntless', 'Manifest Destiny', 'Mixed Heritage', 'Mountain Amongst Men',
+export const ancestralTraitsObj = {
+  'Human': [
+    'Dauntless', 'Manifest Destiny', 'Mixed Heritage', 'Mountain Amongst Men',
     'Natural Selection', 'Blessing in Disguise', 'Danger Sense', 'Esoteric Memory',
-    'Grim Resolve', 'Seventh Sense', 'Fortune\'s wheel', 'Noble Savage',],
-  ['Cavesight', 'Children of the Earth', 'Consume Alcohol', 'Dwarven Warfare',
+    'Grim Resolve', 'Seventh Sense', 'Fortune\'s wheel', 'Noble Savage',
+  ],
+  'Dwarf': [
+    'Cavesight', 'Children of the Earth', 'Consume Alcohol', 'Dwarven Warfare',
     'Grudgebearer', 'Ironclad', 'Oathkeeper', 'Physical Prowess', 'Rune-marked Glory',
-    'Stentorian Voice', 'Stoneheaded', 'Strength of the Mountain',],
-  ['Bewitching', 'Beyond the Veil', 'Deadly Aim', 'Enduring Mortality', 
+    'Stentorian Voice', 'Stoneheaded', 'Strength of the Mountain',
+  ],
+  'Elf': [
+    'Bewitching', 'Beyond the Veil', 'Deadly Aim', 'Enduring Mortality', 
     'Fey Treachery', 'Firstborn', 'Kindred Warband', 'Lament of the Ages',
-    'Meditative Healing', 'Nature\'s own', 'Nighteyes', 'Warrior\'s Tattoo',],
-  ['Clockworks of War', 'Crag Fighting', 'Denizen of Stone', 'Dungeons Deep',
+    'Meditative Healing', 'Nature\'s own', 'Nighteyes', 'Warrior\'s Tattoo',
+  ],
+  'Gnome': [
+    'Clockworks of War', 'Crag Fighting', 'Denizen of Stone', 'Dungeons Deep',
     'Escape Artist', 'Goldbergian', 'Hocus Pocus', 'Metrognome', 'Thieving Stunties',
-    'Tunnel Vision', 'Underfoot', 'Wretched Prankster',],
-  ['Beguiler', 'Cat-like Reflexes', 'Craven', 'Farsight', 'Fettered Chaos',
+    'Tunnel Vision', 'Underfoot', 'Wretched Prankster',
+  ],
+  'Halfling': [
+    'Beguiler', 'Cat-like Reflexes', 'Craven', 'Farsight', 'Fettered Chaos',
     'Fieldwarden', 'Fleet-footed', 'Hijinks', 'Kleptomania', 'Low Blow',
-    'Memento', 'Pintsized'],
-  ['Broad Bellied', 'Cast-Iron Stomach', 'Cruisi\'n for a Bruisin\'', 
+    'Memento', 'Pintsized',
+  ],
+  'Ogre': [
+    'Broad Bellied', 'Cast-Iron Stomach', 'Cruisi\'n for a Bruisin\'', 
     'Frightening Bellow', 'Gut-Plate', 'Hunger Pangs', 'Mighty Thews',
-    'Odd Couple', 'Rotgut Spray', 'Slamdance', 'Thick Lining', 'Wendigo',],
-];
+    'Odd Couple', 'Rotgut Spray', 'Slamdance', 'Thick Lining', 'Wendigo',
+  ],
+};
 
-export const profArr = [
-  ['Adherent', 'Anchorite', 'Antiquarian', 'Apothecary',
+export const professonObj = {
+  'Academic': [
+    'Adherent', 'Anchorite', 'Antiquarian', 'Apothecary',
     'Astrologer', 'Diabolist', 'Engineer', 'Informer',
-    'Investigator', 'Monk', 'Preacher', 'Scribe',],
-  ['Artisan', 'Barber Surgeon', 'Boatman', 'Camp Follower',
+    'Investigator', 'Monk', 'Preacher', 'Scribe',
+  ],
+  'Commoner': [
+    'Artisan', 'Barber Surgeon', 'Boatman', 'Camp Follower',
     'Cheapjack', 'Coachman', 'Doomsayer', 'Jailer',
-    'Laborer', 'Peasant', 'Rat Catcher', 'Servant',],
-  ['Beggar', 'Burglar', 'Charlatan', 'Footpad',
+    'Laborer', 'Peasant', 'Rat Catcher', 'Servant',
+  ],
+  'Knave': [
+    'Beggar', 'Burglar', 'Charlatan', 'Footpad',
     'Gambler', 'Graverobber', 'Guttersnipe', 'Highwayman',
-    'Prostitute', 'Smuggler', 'Vagabond', 'Vigilante',],
-  ['Animal Tamer', 'Bailiff', 'Bonepicker', 'Bounty Hunter',
+    'Prostitute', 'Smuggler', 'Vagabond', 'Vigilante',
+  ],
+  'Ranger': [
+    'Animal Tamer', 'Bailiff', 'Bonepicker', 'Bounty Hunter',
     'Gamekeeper', 'Hedgewise', 'Old Believer', 'Outrider',
-    'Pilgrim', 'Reeve', 'Slayer', 'Trapper',],
-  ['Anarchist', 'Courtier', 'Cultist', 'Entertainer',
+    'Pilgrim', 'Reeve', 'Slayer', 'Trapper',
+  ],
+  'Socialite': [
+    'Anarchist', 'Courtier', 'Cultist', 'Entertainer',
     'Envoy', 'Fop', 'Jester', 'Provocateur',
-    'Racketeer', 'Raconteur', 'Rake', 'Valet',],
-  ['Berserker', 'Bravo', 'Buccaneer', 'Dragoon',
+    'Racketeer', 'Raconteur', 'Rake', 'Valet',
+  ],
+  'Warrior': [
+    'Berserker', 'Bravo', 'Buccaneer', 'Dragoon',
     'Hedge Knight', 'Man-At-Arms', 'Militiaman', 'Pit Fighter',
-    'Pugilist', 'Sellsword', 'Squire', 'Watchman',],
-];
+    'Pugilist', 'Sellsword', 'Squire', 'Watchman',
+  ],
+};
 
-export const trappingsArr = [
-  //Academic
-  ['Black lotus', 'Bottle of leeches', 'Coin purse', 'Dirk',
+export const trappingsObj = {
+  'Academic': [
+    'Black lotus', 'Bottle of leeches', 'Coin purse', 'Dirk',
     'Fine clothing', 'Holy symbol', 'Loose robes', 'Quicksilver',
     'Royal water', 'Shoulder bag', 'Smelling salts (3)',
     'soft shoes or leather sandals', 'Writing kit',
-    'Cudgel or staff or Throwing knives (3) with Bandolier',],
-  //Commoner
-  ['Bandages (3)', 'Bottle bomb', 'Grave root', 'Holy symbol',
+    'Cudgel or staff or Throwing knives (3) with Bandolier',
+  ],
+  'Commoner': [
+    'Bandages (3)', 'Bottle bomb', 'Grave root', 'Holy symbol',
     'Leather sandals or Heavy boots', 'Ruck sack', 'Shiv',
     'Simple attire', 'Warm vest',
-    'Shepherd\'s sling with sling stones (9) or Splitting maul or Threshing flail',],
-  //Knave
-  ['Antivenom', 'Dark clothes or Tattered rags', 'Folkbane (3)',
+    'Shepherd\'s sling with sling stones (9) or Splitting maul or Threshing flail',
+  ],
+  'Knave': [
+    'Antivenom', 'Dark clothes or Tattered rags', 'Folkbane (3)',
     'Gaff bag', 'Garish attire or Secondhand attire', 'Holy symbol',
     'Lock picks', 'Mantle', 'Soft shoes', 'Stiletto',
-    'Blackjack or Garrote or Flintlock pistol with gunpowder & shot (6)',],
-  //Ranger
-  ['Animalbane (3)', 'Antivenom', 'Backpack', 'Bullwhip',
+    'Blackjack or Garrote or Flintlock pistol with gunpowder & shot (6)',
+  ],
+  'Ranger': [
+    'Animalbane (3)', 'Antivenom', 'Backpack', 'Bullwhip',
     'Heavy boots', 'Holy symbol', 'Suit of fur/hide armor', 'Survival kit',
     'Torches (3)', 'Traveling clothes', 'Waterskin', 'Wilderness cloak',
-    'Wolfsbane', 'Fire-hardened spear or Hunting bow with arrows (9) & quiver or Woodsman\'s axe',],
-  //Socialite
-  ['Coin purse', 'Fancy shoes', 'Fashionable clothing', 'Foppish hat',
+    'Wolfsbane', 'Fire-hardened spear or Hunting bow with arrows (9) & quiver or Woodsman\'s axe',
+  ],
+  'Socialite': [
+    'Coin purse', 'Fancy shoes', 'Fashionable clothing', 'Foppish hat',
     'Holy symbol', 'Knuckleduster', 'Mandrake root (3)', 'Mantle',
     'Neck ruff', 'Shoulder bag', 'Writing kit', 
-    'Throwing knives (3) with bandolier or Rapier or Walking cane (improvised hand weapon',],
-  //Warrior
-  ['Fire-hardened spear', 'Heavy boots', 'Lantern', 'Laudanum (3)',
+    'Throwing knives (3) with bandolier or Rapier or Walking cane (improvised hand weapon',
+  ],
+  'Warrior': [
+    'Fire-hardened spear', 'Heavy boots', 'Lantern', 'Laudanum (3)',
     'Military attire', 'Oil pot', 'Red cap mushrooms', 'Rucksack',
     'Suit of leather armor', 'Tincture (3)', 'Wooden shield',
-    'Arbalest crossbow with bolts (9) & quiver or Mortuary Sword or Pike',],
-];
+    'Arbalest crossbow with bolts (9) & quiver or Mortuary Sword or Pike',
+  ],
+};
 
 export const buildArr = [
-  ['frail', 0], 
-  ['slender', 1], 
-  ['normal', 2], 
-  ['husky', 3], 
-  ['corpulent', 4],
+  'frail', 
+  'slender', 
+  'normal', 
+  'husky', 
+  'corpulent',
 ];
 
-export const alignments = {
+export const alignmentsObj = {
   order: ['Adaptation', 'Ambition', 'Candor', 'Charity', 'Compassion',
     'Cunning', 'Dignity', 'Diplomacy', 'Duty', 'Enlightenment',
     'Ferocity', 'Gentility', 'Gravitas', 'Heroism', 'Humility',
@@ -186,152 +216,184 @@ export const doomingArr = [
     'You, too can be touched by the unknown', 'Do not fly too close to the stars',],
 ];
 
-export const hairColors = {
-  dwarfGnomeOgre: ['Medium brown', 'Dark brown', 'Light brown', 'Jet black',
-                    'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
-                    'Ash blonde', 'Salt & pepper', 'Silver', 'White',
-                    'Red', 'Blue-black', 'Black'],
-  elf: ['Honey brown', 'Golden brown', 'Straw yellow', 'golden yellow',
-        'Chestnut', 'Copper', 'Ginger', 'Ash blonde', 'Sienna',
-        'Silver', 'Smokey grey', 'Ivory white', 'Blue-black',
-        'Jet black', 'Fiery red', 'Black'],
-  halfling: ['Dark brown', 'Medium brown', 'Light brown', 'Sienna',
-              'Red', 'Fiery red', 'Black', 'Blue black', 'Ginger',
-              'Corn yellow', 'Chestnut', 'Ash blonde', 'Salt & pepper',
-              'Grey', 'White', 'Silver'],
-  human: ['Medium brown', 'Dark brown', 'Light brown', 'Sienna',
-          'Black', 'Ash blonde', 'Chestnut', 'Ginger', 'Corn yellow',
-          'Red', 'Salt & pepper', 'Blue black', 'Grey', 'Silver',
-          'White', 'Jet black'],
+export const hairColorsObj = {
+  'Dwarf': [
+    'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
+    'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
+    'Ash blonde', 'Salt & pepper', 'Silver', 'White',
+    'Red', 'Blue-black', 'Black',
+    ],
+  'Elf': [
+    'Honey brown', 'Golden brown', 'Straw yellow', 'golden yellow',
+    'Chestnut', 'Copper', 'Ginger', 'Ash blonde', 'Sienna',
+    'Silver', 'Smokey grey', 'Ivory white', 'Blue-black',
+    'Jet black', 'Fiery red', 'Black'
+  ],
+  'Gnome': [
+    'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
+    'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
+    'Ash blonde', 'Salt & pepper', 'Silver', 'White',
+    'Red', 'Blue-black', 'Black',
+  ],
+  'Halfling': [
+    'Dark brown', 'Medium brown', 'Light brown', 'Sienna',
+    'Red', 'Fiery red', 'Black', 'Blue black', 'Ginger',
+    'Corn yellow', 'Chestnut', 'Ash blonde', 'Salt & pepper',
+    'Grey', 'White', 'Silver',
+  ],
+  'Human': [
+    'Medium brown', 'Dark brown', 'Light brown', 'Sienna',
+    'Black', 'Ash blonde', 'Chestnut', 'Ginger', 'Corn yellow',
+    'Red', 'Salt & pepper', 'Blue black', 'Grey', 'Silver',
+    'White', 'Jet black',
+  ],
+  'Ogre': [
+      'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
+      'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
+      'Ash blonde', 'Salt & pepper', 'Silver', 'White',
+      'Red', 'Blue-black', 'Black',
+    ],
 };
 
-export const eyeColors = {
-  dwarf: ['Dark brown', 'Grey', 'Black', 'Medium brown', 'Grey blue',
-          'Light brown', 'Hazel', 'Pale green', 'Blue', 'Copper',
-          'Dark green', 'Green', 'Ice blue', 'Violet'],
-  elf: ['Amber', 'Silver', 'Honey', 'Emerald', 'Molasses',
-        'Crystal blue', 'Hazel', 'Black', 'Sapphire', 'Copper',
-        'Blue purple', 'Gold', 'Silver green', 'Violet'],
-  gnome: ['Dark brown', 'Grey', 'Medium brown', 'Hazel', 'Black',
-          'Light brown', 'Grey blue', 'Pale green', 'Dark green',
-          'Blue', 'Copper', 'Ice blue', 'Green', 'Violet'],
-  halfling: ['Hazel', 'Light brown', 'Medium brown', 'Grey',
-              'Dark brown', 'Pale green', 'Copper', 'Green', 'Black',
-              'Grey blue', 'Blue', 'Dark green', 'Ice blue', 'Violet'],
-  human: ['Dark brown', 'Grey', 'Medium brown', 'Hazel', 'Black',
-          'Light brown', 'Grey blue', 'Pale green', 'Dark green',
-          'Blue', 'Copper', 'Ice blue', 'Green', 'Violet'],
-  ogre: ['Hazel', 'Light brown', 'Medium brown', 'Grey', 'Dark brown',
-          'Pale green', 'Copper', 'Green', 'Black', 'Grey blue',
-          'Blue', 'Dark green', 'Ice blue', 'Violet'],
+export const eyeColorsObj = {
+  'Dwarf': [
+    'Dark brown', 'Grey', 'Black', 'Medium brown', 'Grey blue',
+    'Light brown', 'Hazel', 'Pale green', 'Blue', 'Copper',
+    'Dark green', 'Green', 'Ice blue', 'Violet',
+  ],
+  'Elf': [
+    'Amber', 'Silver', 'Honey', 'Emerald', 'Molasses',
+    'Crystal blue', 'Hazel', 'Black', 'Sapphire', 'Copper',
+    'Blue purple', 'Gold', 'Silver green', 'Violet',
+  ],
+  'Gnome': [
+    'Dark brown', 'Grey', 'Medium brown', 'Hazel', 'Black',
+    'Light brown', 'Grey blue', 'Pale green', 'Dark green',
+    'Blue', 'Copper', 'Ice blue', 'Green', 'Violet',
+  ],
+  'Halfling': [
+    'Hazel', 'Light brown', 'Medium brown', 'Grey',
+    'Dark brown', 'Pale green', 'Copper', 'Green', 'Black',
+    'Grey blue', 'Blue', 'Dark green', 'Ice blue', 'Violet',
+  ],
+  'Human': [
+    'Dark brown', 'Grey', 'Medium brown', 'Hazel', 'Black',
+    'Light brown', 'Grey blue', 'Pale green', 'Dark green',
+    'Blue', 'Copper', 'Ice blue', 'Green', 'Violet',
+  ],
+  'Ogre': [
+    'Hazel', 'Light brown', 'Medium brown', 'Grey', 'Dark brown',
+    'Pale green', 'Copper', 'Green', 'Black', 'Grey blue',
+    'Blue', 'Dark green', 'Ice blue', 'Violet',
+  ],
 };
 
-export const baseHeightFemale = [
-  [5, 2], [4, 2], [5, 5], [4, 0], [3, 5], [8, 2],
-];
+export const baseHeight = {
+  'male': {
+    'Human': [5, 5],
+    'Dwarf': [4, 5],
+    'Elf': [5, 8],
+    'Gnome': [4, 3],
+    'Halfling': [3, 8],
+    'Ogre': [8, 5],
+  },
+  'female': {
+    'Human': [5, 2],
+    'Dwarf': [4, 2],
+    'Elf': [5, 5],
+    'Gnome': [4, 0],
+    'Halfling': [3, 5],
+    'Ogre': [8, 2],
+  },
+};
 
-export const baseHeightMale = [
-  [5, 5], [4, 5], [5, 8], [4, 3], [3, 8], [8, 5]
-];
-
-export const weightArrFemale = [
-  //Human
-  [
-    [92, 97, 102, 106, 111, 116, 121, 126, 130, 135], 
-    [102, 106, 111, 116, 121, 126, 130, 135, 140, 145], 
-    [121, 126, 130, 135, 140, 145, 150, 154, 159, 164], 
-    [159, 164, 169, 174, 178, 183, 188, 193, 198, 202], 
-    [198, 202, 207, 212, 217, 222, 226, 231, 236, 241],
-  ],
-  //Dwarf
-  [
-    [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
-    [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
-    [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
-    [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
-    [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
-  ],
-  //Elf
-  [
-    [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
-    [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
-    [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
-    [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
-    [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
-  ],
-  //Gnome
-  [
-    [52, 57, 62, 66, 71, 76, 81, 86, 90, 95],
-    [62, 66, 71, 76, 81, 86, 90, 95, 100, 105],
-    [81, 86, 90, 95, 100, 105, 110, 114, 119, 124],
-    [119, 124, 129, 134, 138, 143, 148, 153, 158, 162],
-    [158, 162, 167, 172, 177, 182, 186, 191, 196, 201],
-  ],
-  //Halfling
-  [
-    [32, 37, 42, 46, 51, 56, 61, 66, 70, 75],
-    [42, 46, 51, 56, 61, 66, 70, 75, 80, 85],
-    [61, 66, 70, 75, 80, 85, 90, 94, 99, 104],
-    [99, 104, 109, 114, 118, 123, 128, 133, 138, 142],
-    [138, 142, 147, 152, 157, 162, 166, 171, 176, 181],
-  ],
-  //Ogre
-  [
-    [480, 485, 490, 494, 499, 504, 509, 514, 518, 523],
-    [490, 494, 499, 504, 509, 514, 518, 523, 528, 533],
-    [509, 514, 518, 523, 528, 533, 538, 542, 547, 552],
-    [547, 552, 557, 562, 566, 571, 576, 581, 586, 590],
-    [586, 590, 595, 600, 605, 610, 614, 619, 624, 629],
-  ],
-];
-
-export const weightArrMale = [
-  //Human
-  [
-    [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
-    [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
-    [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
-    [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
-    [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
-  ],
-  //Dwarf
-  [
-    [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
-    [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
-    [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
-    [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
-    [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
-  ],
-  //Elf
-  [
-    [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
-    [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
-    [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
-    [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
-    [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
-  ],
-  //Gnome
-  [
-    [65, 71, 77, 83, 89, 95, 101, 107, 113, 119],
-    [77, 83, 89, 95, 101, 107, 113, 119, 125, 131],
-    [101, 107, 113, 119, 125, 131, 137, 143, 149, 155],
-    [149, 155, 161, 167, 173, 179, 185, 191, 197, 203],
-    [197, 203, 209, 215, 221, 227, 233, 239, 245, 251],
-  ],
-  //Halfling
-  [
-    [40, 46, 52, 58, 64, 70, 76, 82, 88, 94],
-    [52, 58, 64, 70, 76, 82, 88, 94, 100, 106],
-    [76, 82, 88, 94, 100, 106, 112, 118, 124, 130],
-    [124, 130, 136, 142, 148, 154, 160, 166, 172, 178],
-    [172, 178, 184, 190, 196, 202, 208, 214, 22, 226],
-  ],
-  //Ogre
-  [
-    [600, 606, 612, 618, 624, 630, 636, 642, 648, 654],
-    [612, 618, 624, 630, 636, 642, 648, 654, 660, 666],
-    [636, 642, 648, 654, 660, 666, 672, 678, 684, 690],
-    [684, 690, 696, 702, 708, 714, 720, 726, 732, 738],
-    [732, 738, 744, 750, 756, 762, 768, 774, 780, 786],
-  ],
-];
+export const weightsObj = {
+  'male': {
+    'Human': {
+      'frail': [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+      'slender': [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+      'normal': [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+      'husky': [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+      'corpulent': [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+    },
+    'Dwarf': {
+      'frail': [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+      'slender': [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+      'normal': [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+      'husky': [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+      'corpulent': [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+    },
+    'Elf': {
+      'frail': [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+      'slender': [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+      'normal': [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+      'husky': [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+      'corpulent': [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+    },
+    'Gnome': {
+      'frail': [65, 71, 77, 83, 89, 95, 101, 107, 113, 119],
+      'slender': [77, 83, 89, 95, 101, 107, 113, 119, 125, 131],
+      'normal': [101, 107, 113, 119, 125, 131, 137, 143, 149, 155],
+      'husky': [149, 155, 161, 167, 173, 179, 185, 191, 197, 203],
+      'corpulent': [197, 203, 209, 215, 221, 227, 233, 239, 245, 251],
+    },
+    'Halfling': {
+      'frail': [40, 46, 52, 58, 64, 70, 76, 82, 88, 94],
+      'slender': [52, 58, 64, 70, 76, 82, 88, 94, 100, 106],
+      'normal': [76, 82, 88, 94, 100, 106, 112, 118, 124, 130],
+      'husky': [124, 130, 136, 142, 148, 154, 160, 166, 172, 178],
+      'corpulent': [172, 178, 184, 190, 196, 202, 208, 214, 22, 226],
+    },
+    'Ogre': {
+      'frail': [600, 606, 612, 618, 624, 630, 636, 642, 648, 654],
+      'slender': [612, 618, 624, 630, 636, 642, 648, 654, 660, 666],
+      'normal': [636, 642, 648, 654, 660, 666, 672, 678, 684, 690],
+      'husky': [684, 690, 696, 702, 708, 714, 720, 726, 732, 738],
+      'corpulent': [732, 738, 744, 750, 756, 762, 768, 774, 780, 786],
+    },
+  },
+  'female': {
+    'Human': {
+      'frail': [92, 97, 102, 106, 111, 116, 121, 126, 130, 135,],
+      'slender': [102, 106, 111, 116, 121, 126, 130, 135, 140, 145,],
+      'normal': [121, 126, 130, 135, 140, 145, 150, 154, 159, 164,],
+      'husky': [159, 164, 169, 174, 178, 183, 188, 193, 198, 202,],
+      'corpulent': [198, 202, 207, 212, 217, 222, 226, 231, 236, 241,],
+    },
+    'Dwarf': {
+      'frail': [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+      'slender': [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+      'normal': [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+      'husky': [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
+      'corpulent': [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
+    },
+    'Elf': {
+      'frail': [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+      'slender': [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+      'normal': [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+      'husky': [139, 144, 149, 154, 158, 163, 168, 173, 178, 182],
+      'corpulent': [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
+    },
+    'Gnome': {
+      'frail': [52, 57, 62, 66, 71, 76, 81, 86, 90, 95],
+      'slender': [62, 66, 71, 76, 81, 86, 90, 95, 100, 105],
+      'normal': [81, 86, 90, 95, 100, 105, 110, 114, 119, 124],
+      'husky': [119, 124, 129, 134, 138, 143, 148, 153, 158, 162],
+      'corpulent': [158, 162, 167, 172, 177, 182, 186, 191, 196, 201],
+    },
+    'Halfling': {
+      'frail': [32, 37, 42, 46, 51, 56, 61, 66, 70, 75],
+      'slender': [42, 46, 51, 56, 61, 66, 70, 75, 80, 85],
+      'normal': [61, 66, 70, 75, 80, 85, 90, 94, 99, 104],
+      'husky': [99, 104, 109, 114, 118, 123, 128, 133, 138, 142],
+      'corpulent': [138, 142, 147, 152, 157, 162, 166, 171, 176, 181],
+    },
+    'Ogre': {
+      'frail': [480, 485, 490, 494, 499, 504, 509, 514, 518, 523],
+      'slender': [490, 494, 499, 504, 509, 514, 518, 523, 528, 533],
+      'normal': [509, 514, 518, 523, 528, 533, 538, 542, 547, 552],
+      'husky': [547, 552, 557, 562, 566, 571, 576, 581, 586, 590],
+      'corpulent': [586, 590, 595, 600, 605, 610, 614, 619, 624, 629],
+    },
+  },
+};
