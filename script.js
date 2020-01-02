@@ -1,46 +1,33 @@
-import {profArr, trappingsArr, buildArr, alignments, markArr, 
+import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
-  hairColors, eyeColors, ancestralTraits, baseHeightFemale, 
-  baseHeightMale, weightArrFemale, weightArrMale} from "./lists.js";
+  hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
+  weightsObj} from "./lists.js";
 
 //Global Variables
-let d100, d10;
-let i, j;
-let hairIndex, eyeIndex, ancestryNum, ancestryIndex, heightWeightNum, 
-    buildNum, buildIndex;
-let sum;
-let archetype;
-let firstMark, secondMark, thirdMark;
 let attSwapped = false;
 let attReplaced = false;
-let pronoun, pronounPossessive, verbState;
-let inches, feet;
-
-let dooming, age, profession, upbringing, favoredPrimary, socialClass,
-    complexion, hairColor, eyeColor, build, birthSeason,
-    trappings, drawback, ancestry, ancestralTrait, height, weight;
 
 let marks = {
   1: '',
   2: '',
   3: '',
 };
+
 let alignment = {
   order: '',
   chaos: '',
 };
 
+let character = {};
 let primaryAttributes = [];
 let primaryBonuses = [];
-
-ancestry = 'Human';
 
 //DOM Elements
 let nonhumanCheck = document.getElementById('nonhuman-check');
 let separateAlignmentCheck = document.getElementById('separate-alignment-check');
 let drawbackCheck = document.getElementById('drawback-check');
 let generateButton = document.getElementById('generate');
-let attributeCheck = document.getElementsByTagName("label");
+let attributeCheck = document.getElementsByTagName('label');
 let attributeSwap = document.getElementById('attribute-swap');
 let attributeReplace = document.getElementById('attribute-replace');
 
@@ -52,21 +39,15 @@ let history4 = document.querySelector('#history4');
 let history5 = document.querySelector('#history5');
 let trappingsP = document.querySelector('#trappings');
 
-let nameValue = document.getElementById("name-input").value;
-let lastNameValue = document.getElementById("last-name-input").value;
-let sexValue = document.getElementById("sex-input").value;
-
 //Rollers
-let rolld100 = () => {
-  d100 =  Math.floor(Math.random() * 100) + 1;
-};
-let rolld10 = () => {
-  d10 = Math.floor(Math.random() * 10) + 1;
-}
+let rolld100 = () => Math.floor(Math.random() * 100) + 1;
+
+let rolld10 = () => Math.floor(Math.random() * 10) + 1;
+
 let roll3d10 = () => {
-  sum = 0;
-  for (i = 0; i < 3; i++) {
-    rolld10();
+  let sum = 0;
+  for (let i = 0; i < 3; i++) {
+    let d10 = rolld10();
     sum += d10;
   }
   return sum;
@@ -74,61 +55,68 @@ let roll3d10 = () => {
 
 //Randomize All
 let randomizeAll = () => {
+  let nameValue = document.getElementById("name-input").value;
+  let lastNameValue = document.getElementById("last-name-input").value;
+  let sexRadio = document.getElementsByName('sex');
+  let sexValue;
+  for (let i = 0; i < sexRadio.length; i++) {
+    if (sexRadio[i].checked) {
+      sexValue = sexRadio[i].value;
+    };
+  };
   setAttributes();
-  setAncestry();
-  setProfession();
-  setTrappings();
-  setSeason();
-  setDooming(birthSeason);
-  setAge();
-  setMarks();
-  setComplexion();
-  setBuild();
-  setHeightWeight();
-  setHairColor();
-  setEyeColor();
-  setUpbringing();
-  setSocialClass();
-  setDrawback();
+  let ancestry = setAncestry()
+  setAncestryBonuses(ancestry);
+  let ancestralTrait = setAncestryTrait(ancestry);
+  let archetype = setArchetype();
+  let profession = setProfession(archetype);
+  let trappings = setTrappings(archetype);
+  let birthSeason = setSeason();
+  let dooming = setDooming(birthSeason);
+  let age = setAge();
+  setMarks(age);
+  let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
+  let build = buildArr[Math.floor(Math.random() * buildArr.length)];
+  let heightWeightNum = Math.floor(Math.random() * 9);
+  let height = setHeight(ancestry, heightWeightNum, sexValue);
+  let weight = setWeight(ancestry, build, heightWeightNum, sexValue);
+  let hairColor = setHairColor(ancestry);
+  let eyeColor = setEyeColor(ancestry);
+  let upbringing = setUpbringing();
+  let socialClass = setSocialClass(profession);
+  let drawback = setDrawback();
   setAlignment();
-  setHistory();
-  console.log(character);
+  
+  console.log(
+    `Name: ${nameValue}, Sex: ${sexValue},
+    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait},
+    Archetype: ${archetype}, Profession: ${profession}, 
+    Birth Season: ${birthSeason}, Dooming: ${dooming}, Age: ${age},
+    Build: ${build}, Height: ${height}, Weight: ${weight}, Complexion: ${complexion},
+    Hair: ${hairColor}, Eyes: ${eyeColor}, Upbringing: ${upbringing}, Social Class: ${socialClass},
+    Drawback: ${drawback}`);
+  console.log(marks);
+  console.log(primaryAttributes, primaryBonuses);
 };
 
 generateButton.addEventListener('click', e => {
-  nameValue = document.getElementById("name-input").value;
-  sexValue = document.getElementById("sex-input").value.toLowerCase();
-  lastNameValue = document.getElementById("last-name-input").value;
-  if (sexValue == 'male') {
-    pronoun = 'He';
-    pronounPossessive = 'His';
-    verbState = 'is';
-  } else if (sexValue == 'female') {
-    pronoun = 'She';
-    pronounPossessive = 'Her';
-    verbState = 'is';
-  } else {
-    pronoun = 'They';
-    pronounPossessive = 'Their';
-    verbState = 'are';
-  };
+  let nameValue = document.getElementById("name-input").value;
   if (nameValue == "") {
     window.alert("Please enter a First Name");
   } else {
     randomizeAll();
   };
-  return nameValue, lastNameValue, sexValue;
 });
 
 //Set Attributes
 let setAttributes = () => {
-  for (j = 0; j < 7; j++) {
+  for (let j = 0; j < 7; j++) {
     attributeCheck[j].innerHTML = attributeCheck[j].innerHTML.slice(0, (attributeCheck[j].innerHTML - 8));
     primaryAttributes[j] = (roll3d10() + 25 + '%');
     primaryBonuses[j] = primaryAttributes[j].charAt(0);
   };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  for (i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += primaryAttributes[i];
   };
   character.attributes = primaryAttributes;
@@ -164,10 +152,13 @@ attributeSwap.addEventListener('click', e => {
 //Set Ancestry
 let setAncestry = () => {
   if (nonhumanCheck.checked == true) {
-    ancestry = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
+    return ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
   } else {
-    ancestry = 'Human';
+    return 'Human';
   };
+};
+
+let setAncestryBonuses = (ancestry) => {
   switch (ancestry) {
     case ('Dwarf'):
       primaryBonuses[0] += 1;
@@ -176,7 +167,6 @@ let setAncestry = () => {
       primaryBonuses[2] -= 1;
       primaryBonuses[3] -= 1;
       primaryBonuses[6] -= 1;
-      ancestryNum = 1;
     break;
     case ('Elf'):
       primaryBonuses[2] += 1;
@@ -185,7 +175,6 @@ let setAncestry = () => {
       primaryBonuses[1] -= 1;
       primaryBonuses[5] -= 1;
       primaryBonuses[6] -= 1;
-      ancestryNum = 2;
     break;
     case ('Gnome'):
       primaryBonuses[2] += 1;
@@ -194,7 +183,6 @@ let setAncestry = () => {
       primaryBonuses[0] -= 1;
       primaryBonuses[1] -= 1;
       primaryBonuses[6] -= 1;
-      ancestryNum = 3;
     break;
     case ('Halfling'):
       primaryBonuses[2] += 1;
@@ -203,14 +191,12 @@ let setAncestry = () => {
       primaryBonuses[0] -= 1;
       primaryBonuses[1] -= 1;
       primaryBonuses[4] -= 1;
-      ancestryNum = 4;
     break;
     case ('Ogre'):
       primaryBonuses[1] += 2;
       primaryBonuses[0] += 1;
       primaryBonuses[2] -= 2;
       primaryBonuses[3] -= 1;
-      ancestryNum = 5;
     break;
     default:
       primaryBonuses[0] += 1;
@@ -219,92 +205,69 @@ let setAncestry = () => {
       primaryBonuses[2] -= 1;
       primaryBonuses[5] -= 1;
       primaryBonuses[6] -= 1;
-      ancestryNum = 0;
     break;
   };
   for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
-  setAncestryTrait();
+  setAncestryTrait(ancestry);
   character.ancestry = ancestry;
   character.bonuses = primaryBonuses;
   return ancestry;
 };
 
-let setAncestryTrait = () => {
-  rolld100();
+let setAncestryTrait = (ancestry) => {
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 8):
-      ancestryIndex = 0;
-    break;
+      return ancestralTraitsObj[ancestry][0];
     case (d100 <= 16):
-      ancestryIndex = 1;
-    break;
+      return ancestralTraitsObj[ancestry][1];
     case (d100 <= 25):
-      ancestryIndex = 2;
-    break;
+      return ancestralTraitsObj[ancestry][2];
     case (d100 <= 33):
-      ancestryIndex = 3;
-    break;
+      return ancestralTraitsObj[ancestry][3];
     case (d100 <= 41):
-      ancestryIndex = 4;
-    break;
+      return ancestralTraitsObj[ancestry][4];
     case (d100 <= 49):
-      ancestryIndex = 5;
-    break;
+      return ancestralTraitsObj[ancestry][5];
     case (d100 <= 58):
-      ancestryIndex = 6;
-    break;
+      return ancestralTraitsObj[ancestry][6];
     case (d100 <= 67):
-      ancestryIndex = 7;
-    break;
+      return ancestralTraitsObj[ancestry][7];
     case (d100 <= 76):
-      ancestryIndex = 8
-    break;
+      return ancestralTraitsObj[ancestry][8];
     case (d100 <= 85):
-      ancestryIndex = 9
-    break;
+      return ancestralTraitsObj[ancestry][9];
     case (d100 <= 92):
-      ancestryIndex = 10
-    break;
+      return ancestralTraitsObj[ancestry][10];
     case (d100 <= 100):
-      ancestryIndex = 11
-    break;
+      return ancestralTraitsObj[ancestry][11];
   };
-  ancestralTrait = ancestralTraits[ancestryNum][ancestryIndex];
-  character.ancestralTrait = ancestralTrait;
-  return ancestralTrait;
 };
 
 //Set Archetype, Profession, Trappings
 let setArchetype = () => {
-  rolld100();
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 15):
-      archetype = 0;
-      break;
+      return 'Academic';
     case (d100 <= 32):
-      archetype = 1;
-      break;
+      return 'Commoner';
     case (d100 <= 49):
-      archetype = 2;
-      break;
+     return 'Knave';
     case (d100 <= 66):
-      archetype = 3;
-      break;
+      return 'Ranger';
     case (d100 <= 83):
-      archetype = 4;
-      break;
+      return 'Socialite';
     case (d100 <= 100):
-      archetype = 5;
-      break;
+      return 'Warrior';
   };
-  return archetype;
 };
 
-let setProfession = () => {
-  setArchetype();
-  rolld100();
+let setProfession = (archetype) => {
+  let profession;
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 8):
       profession = 0;
@@ -343,72 +306,60 @@ let setProfession = () => {
       profession = 11;
       break;
   };
-  profession = profArr[archetype][profession];
+  profession = professonObj[archetype][profession];
   character.profession = profession;
   return profession;
 };
 
-let setTrappings = () => {
+let setTrappings = (archetype) => {
   trappingsP.textContent = 'Trappings: ';
-  trappings = trappingsArr[archetype].join(', ');
+  trappings = trappingsObj[archetype].join(', ');
   trappingsP.textContent += trappings;
 }
 
 //Set Birth Season & Dooming
-let setSeason = () => {
-  birthSeason = seasonArr[Math.floor(Math.random() * seasonArr.length)];
-  character.birthSeason = birthSeason;
-  return birthSeason;
-};
+let setSeason = () => seasonArr[Math.floor(Math.random() * seasonArr.length)];
 
-let setDooming = (birthSeason) => {
-  dooming = doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
-  character.dooming = dooming;
-  return dooming;
-};
+let setDooming = (birthSeason) => doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
 
 //Set Age & Distinguishing Marks
 let setAge = () => {
-  rolld100();
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 25):
-      age = 'young';
-      break;
+      return 'young';
     case (d100 <= 70):
-      age = 'adult';
-      break;
+    return 'adult';
     case (d100 <= 90):
-      age = 'middle aged';
-      break;
+      return 'middle aged';
     case (d100 <= 100):
-      age = 'elderly';
-      break;
+      return 'elderly';
   };
-  character.age = age;
-  return age;
 };
 
-let setMarks = () => {
+let setMarks = (age) => {
   marks[1] = '';
   marks[2] = '';
   marks[3] = '';
+  let firstMark, secondMark, thirdMark;
+  let d100;
   switch (age) {
     case ('adult'):
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
       break;
     case ('middle aged'):
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       if (d100 == firstMark) {
         while (d100 == firstMark) {
-          rolld100();
+          d100 = rolld100();
           d100 -= 1;
         };
       };
@@ -416,25 +367,25 @@ let setMarks = () => {
       marks[2] = markArr[secondMark];
       break;
     case ('elderly'):
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       firstMark = d100;
       marks[1] = markArr[firstMark];
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       if (d100 == firstMark) {
         while (d100 == firstMark) {
-          rolld100();
+          d100 = rolld100();
           d100 -= 1;
         };
       };
       secondMark = d100;
       marks[2] = markArr[secondMark];
-      rolld100();
+      d100 = rolld100();
       d100 -= 1;
       if ((thirdMark == secondMark) || (thirdMark == firstMark)) {
         while ((thirdMark == secondMark) || (thirdMark == firstMark)) {
-          rolld100();
+          d100 = rolld100();
           d100 -= 1;
         };
       };
@@ -447,377 +398,217 @@ let setMarks = () => {
   character.marks = marks;
 };
 
-//Set Complexion
-let setComplexion = () => {
-  complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
-  character.complexion = complexion;
-  return complexion;
-};
-
 //Set Build, Height & Weight
-let setBuild = () => {
-  buildIndex = Math.floor(Math.random() * buildArr.length);
-  build = buildArr[buildIndex][0];
-  buildNum = buildArr[buildIndex][1];
-  character.build = build;
-  return build, buildNum;
-};
-
-let setHeightWeight = () => {
-  heightWeightNum = Math.floor(Math.random() * 9)
-  inches =  heightWeightNum + baseHeightMale[ancestryNum][1];
+let setHeight = (ancestry, heightWeightNum, sexValue) => {
+  let inches = heightWeightNum + baseHeight[sexValue][ancestry][1];;
+  let feet;
   if (inches >= 12) {
     feet = 1;
     inches -= 12;
   } else {
     feet = 0;
   };
-  if (sexValue == 'female') {
-    height = `${baseHeightFemale[ancestryNum][0] + feet} ft, ${inches} in`;
-    weight = `${weightArrFemale[ancestryNum][buildNum][heightWeightNum]} lbs`;
-  } else {
-    height = `${baseHeightMale[ancestryNum][0] + feet} ft, ${inches} in`;
-    weight = `${weightArrMale[ancestryNum][buildNum][heightWeightNum]} lbs`;
-  };
-  character.height = height;
-  character.weight = weight;
-  return height, weight;
+  return `${baseHeight[sexValue][ancestry][0] + feet} ft, ${inches} in`;
 };
+
+
+let setWeight = (ancestry, build, heightWeightNum, sexValue) => 
+  `${weightsObj[sexValue][ancestry][build][heightWeightNum]} lbs`;
 
 //Set hair color
-let setHairColor = () => {
-  rolld100();
+let setHairColor = (ancestry) => {
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 18):
-      hairIndex = 0;
-      setHairByIndex(hairIndex);
-    break;
+      return hairColorsObj[ancestry][0];
     case (d100 <= 32):
-      hairIndex = 1;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][1];
     case (d100 <= 42):
-      hairIndex = 2;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][2];
     case (d100 <= 50):
-      hairIndex = 3;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][3];
     case (d100 <= 58):
-      hairIndex = 4;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][4];
     case (d100 <= 64):
-      hairIndex = 5;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][5];
     case (d100 <= 70):
-      hairIndex = 6;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][6];
     case (d100 <= 76):
-      hairIndex = 7;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][7];
     case (d100 <= 80):
-      hairIndex = 8;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][8];
     case (d100 <= 84):
-      hairIndex = 9;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][9];
     case (d100 <= 88):
-      hairIndex = 10;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][10];
     case (d100 <= 90):
-      hairIndex = 11;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][11];
     case (d100 <= 92):
-      hairIndex = 12;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][12];
     case (d100 <= 94):
-      hairIndex = 13;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][13];
     case (d100 <= 96):
-      hairIndex = 14;
-      setHairByIndex(hairIndex);
-      break;
+      return hairColorsObj[ancestry][14];
     case (d100 <= 100):
-      hairIndex = 15;
-      setHairByIndex(hairIndex);
-      break;
-  };
-  character.hairColor = hairColor;
-  return hairColor;
-};
-
-let setHairByIndex = (hairIndex) => {
-  if (ancestry == 'Elf') {
-    hairColor = hairColors.elf[hairIndex];
-  } else if (ancestry == 'Halfling') {
-    hairColor = hairColors.halfling[hairIndex];
-  } else if (ancestry == 'Human') {
-    hairColor = hairColors.human[hairIndex] 
-  } else {
-    hairColor = hairColors.dwarfGnomeOgre[hairIndex];
+      return hairColorsObj[ancestry][15];
   };
 };
 
 //Set eye color
-let setEyeColor = () => {
-  rolld100();
+let setEyeColor = (ancestry) => {
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 16):
-      eyeIndex = 0;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][0];
     case (d100 <= 32):
-      eyeIndex = 1;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][1];
     case (d100 <= 36):
-      eyeIndex = 2;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][2];
     case (d100 <= 44):
-      eyeIndex = 3;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][3];
     case (d100 <= 50):
-      eyeIndex = 4;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][4];
     case (d100 <= 58):
-      eyeIndex = 5;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][5];
     case (d100 <= 66):
-      eyeIndex = 6;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][6];
     case (d100 <= 74):
-      eyeIndex = 7;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][7];
     case (d100 <= 80):
-      eyeIndex = 8;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][8];
     case (d100 <= 86):
-      eyeIndex = 9;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][9];
     case (d100 <= 90):
-      eyeIndex = 10;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][10];
     case (d100 <= 96):
-      eyeIndex = 11;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][11];
     case (d100 <= 98):
-      eyeIndex = 12;
-      setEyesByIndex(eyeIndex);
-      break;
+      return eyeColorsObj[ancestry][12];
     case (d100 <= 100):
-      eyeIndex = 13;
-      setEyesByIndex(eyeIndex);
-      break;
-  };
-  character.eyeColor = eyeColor;
-  return eyeColor;
-};
-
-let setEyesByIndex = (eyeIndex) => {
-  if (ancestry == 'Dwarf') {
-    eyeColor = eyeColors.dwarf[eyeIndex];
-  } else if (ancestry == 'Elf') {
-    eyeColor = eyeColors.elf[eyeIndex];
-  } else if (ancestry == 'Gnome') {
-    eyeColor = eyeColors.gnome[eyeIndex];
-  } else if (ancestry == 'Halfling') {
-    eyeColor = eyeColors.halfling[eyeIndex];
-  } else if (ancestry == 'Human') {
-    eyeColor = eyeColors.human[eyeIndex];
-  } else {
-    eyeColor = eyeColors.ogre[eyeIndex];
+      return eyeColorsObj[ancestry][13];
   };
 };
 
 //Set Upbringing and Social Class
 let setUpbringing = () => {
-  rolld100();
+  let d100 = rolld100();
   switch (true) {
     case (d100 <= 14):
-      upbringing = 'Cultured';
-      favoredPrimary = 'Fellowship'
-      break;
+      return 'Cultured';
     case (d100 <= 29):
-      upbringing = 'Forgotten';
-      favoredPrimary = 'Agility'
-      break;
+      return 'Forgotten';
     case (d100 <= 44):
-      upbringing = 'Industrious';
-      favoredPrimary = 'Brawn'
-      break;
+      return 'Industrious';
     case (d100 <= 59):
-      upbringing = 'Militant';
-      favoredPrimary = 'Combat'
-      break;
+      return 'Militant';
     case (d100 <= 74):
-      upbringing = 'Opportunistic';
-      favoredPrimary = 'Perception'
-      break;
+      return 'Opportunistic';
     case (d100 <= 89):
-      upbringing = 'Reverent';
-      favoredPrimary = 'Willpower'
-      break;
+      return 'Reverent';
     case (d100 <= 100):
-      upbringing = 'Scholastic';
-      favoredPrimary = 'Intelligence'
-      break;
+      return 'Scholastic';
   };
-  character.upbringing = upbringing;
-  character.favoredPrimary = favoredPrimary;
-  return (upbringing, favoredPrimary);
 };
 
-let setSocialClass = () => {
+let setSocialClass = (profession) => {
   if (profession == 'Peasant') {
-    socialClass = 'Lowborn';
+    return 'Lowborn';
   } else {
-    rolld100();
+    let d100 = rolld100();
     switch (true) {
       case (d100 <= 60):
-        socialClass = 'Lowborn';
-      break;
+        return 'Lowborn';
       case (d100 <= 90):
-        socialClass = 'Burgher';
-        break;
+        return 'Burgher';
       case (d100 <= 100):
-        socialClass = 'Aristocrat';
-      break;
+        return 'Aristocrat';
     };
   };
-  character.socialClass = socialClass;
-  return socialClass;
 };
 
 //Set Drawback
 let setDrawback = () => {
   if (drawbackCheck.checked == true) {
-    rolld100();
+    let d100 = rolld100();
     switch (true) {
       case (d100 <= 4):
-        drawback = 'Bad Ticker';
-        break;
+        return 'Bad Ticker';
       case (d100 <= 7):
-        drawback = 'Black Cataract';
-        break;
+        return 'Black Cataract';
       case (d100 <= 11):
-        drawback = 'Bleeder';
-        break;
+        return 'Bleeder';
       case (d100 <= 15):
-        drawback = 'Branded';
-        break;
+        return'Branded';
       case (d100 <= 19):
-        drawback = 'Choleric Temperament';
-        break;
+        return 'Choleric Temperament';
       case (d100 <= 23):
-        drawback = 'Crop Ear';
-        break;
+        return 'Crop Ear';
       case (d100 <= 27):
-        drawback = 'Cursed';
-        break;
+        return 'Cursed';
       case (d100 <= 31):
-        drawback = 'Deal with the Devil';
-        break;
+        return 'Deal with the Devil';
       case (d100 <= 35):
-        drawback = 'Debt-Ridden';
-        break;
+        return 'Debt-Ridden';
       case (d100 <= 39):
-        drawback = 'Dunderhead';
-        break;
+        return 'Dunderhead';
       case (d100 <= 43):
-        drawback = 'Eunuch';
-        break;
+        return 'Eunuch';
       case (d100 <= 47):
-        drawback = 'Lily-Livered';
-        break;
+        return 'Lily-Livered';
       case (d100 <= 51):
-        drawback = 'Melancholic Temperament';
-        break;
+        return 'Melancholic Temperament';
       case (d100 <= 55):
-        drawback = 'Ne\'er Do Well';
-        break;
+        return 'Ne\'er Do Well';
       case (d100 <= 59):
-        drawback = 'Nemesis';
-        break;
+        return 'Nemesis';
       case (d100 <= 63):
-        drawback = 'Painkiller';
-        break;
+        return 'Painkiller';
       case (d100 <= 67):
-        drawback = 'Persecution Complex';
-        break;
+        return 'Persecution Complex';
       case (d100 <= 71):
-        drawback = 'Phlegmatic Temperament';
-        break;
+        return 'Phlegmatic Temperament';
       case (d100 <= 75):
-        drawback = 'Sanguine Temperament';
-        break;
+        return 'Sanguine Temperament';
       case (d100 <= 79):
-        drawback = 'Sour Stomach';
-        break;
+        return 'Sour Stomach';
       case (d100 <= 83):
-        drawback = 'Split Face';
-        break;
+        return 'Split Face';
       case (d100 <= 87):
-        drawback = 'Veteran\'s Boot';
-        break;
+        return 'Veteran\'s Boot';
       case (d100 <= 91):
-        drawback = 'Veteran\'s Eye';
-        break;
+        return 'Veteran\'s Eye';
       case (d100 <= 94):
-        drawback = 'Veteran\'s Hand';
-        break;
+        return 'Veteran\'s Hand';
       case (d100 <= 97):
-        drawback = 'Veteran\'s Leg';
-        break;
+        return 'Veteran\'s Leg';
       case (d100 <= 100):
-        drawback = 'Weak Lungs';
-        break;
+        return 'Weak Lungs';
     };
   } else {
-    drawback = 'None';
+    return 'None';
   };
-  character.drawback = drawback;
-  return drawback;
 };
 
 //Set Alignment
 let setAlignment = () => {
   if (separateAlignmentCheck.checked == true) {
     alignment = { 
-      order: alignments.order[Math.floor(Math.random() * 24)], 
-      chaos: alignments.chaos[Math.floor(Math.random() * 24)],
+      order: alignmentsObj.order[Math.floor(Math.random() * 24)], 
+      chaos: alignmentsObj.chaos[Math.floor(Math.random() * 24)],
     };
   } else { 
       let pair = Math.floor(Math.random() * 24);
       alignment = {
-      order: alignments.order[pair],
-      chaos: alignments.chaos[pair],
+      order: alignmentsObj.order[pair],
+      chaos: alignmentsObj.chaos[pair],
     };
   };
   character.alignment = alignment;
 };
 
-let setHistory = () => {
+let setHistory = (
+  ancestry, dooming, birthSeason, age, build, profession, height, weight
+  ) => {
   nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
   lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase()
   history0.textContent = `${nameValue} ${lastNameValue} is 
@@ -840,7 +631,7 @@ let setHistory = () => {
   };
  
   history3.textContent = `${nameValue} was born in ${birthSeason}, is of the 
-    ${socialClass} social class and of ${((upbringing.charAt(0) == 'I') || (age.charAt(0) == 'O')) ? 'an' : 'a'} 
+    ${socialClass} social class and of ${((upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O')) ? 'an' : 'a'} 
     ${upbringing} upbringing. `;
 
   if (drawbackCheck.checked == true) {
@@ -853,30 +644,3 @@ let setHistory = () => {
   history5.textContent = `${pronounPossessive} order alignment is ${alignment.order} and 
     ${pronounPossessive.toLowerCase()} chaos alignment is ${alignment.chaos}.`;
 }
-
-//Character
-const character = {
-  attributes: primaryAttributes,
-  bonuses: primaryBonuses,
-  name: nameValue,
-  sex: sexValue,
-  ancestry: ancestry,
-  ancestralTrait: ancestralTrait,
-  age: age,
-  profession: profession,
-  build: build,
-  height: height,
-  weight: weight,
-  complexion: complexion,
-  hairColor: hairColor,
-  eyeColor: eyeColor,
-  marks: marks,
-  birthSeason: birthSeason,
-  dooming: dooming,
-  upbringing: upbringing,
-  profession: profession,
-  socialClass: socialClass,
-  drawback: drawback,
-  alignment: alignment,
-  favoredPrimary: favoredPrimary,
-};
