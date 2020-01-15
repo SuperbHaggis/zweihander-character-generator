@@ -37,6 +37,7 @@ let history2 = document.querySelector('#history2');
 let history3 = document.querySelector('#history3');
 let history4 = document.querySelector('#history4');
 let history5 = document.querySelector('#history5');
+let cashP = document.querySelector('#cash-p');
 let trappingsP = document.querySelector('#trappings');
 
 //Rollers
@@ -44,9 +45,9 @@ let rolld100 = () => Math.floor(Math.random() * 100) + 1;
 
 let rolld10 = () => Math.floor(Math.random() * 10) + 1;
 
-let roll3d10 = () => {
+let rollxd10 = (x) => {
   let sum = 0;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < x; i++) {
     let d10 = rolld10();
     sum += d10;
   }
@@ -68,6 +69,14 @@ let randomizeAll = () => {
   let ancestry = setAncestry()
   setAncestryBonuses(ancestry);
   let ancestralTrait = setAncestryTrait(ancestry);
+  if (ancestralTrait == 'Mixed Heritage') {
+    var ancestry2 = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
+    var mixedHeritageTrait = setAncestryTrait(ancestry2);
+    ancestry = 'Human';
+  } else {
+    var ancestry2 = 'none';
+    var mixedHeritageTrait = 'none';
+  };
   let archetype = setArchetype();
   let profession = setProfession(archetype);
   let trappings = setTrappings(archetype);
@@ -76,27 +85,39 @@ let randomizeAll = () => {
   let age = setAge();
   setMarks(age);
   let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
-  let build = buildArr[Math.floor(Math.random() * buildArr.length)];
+  let build = setBuild(ancestralTrait);
   let heightWeightNum = Math.floor(Math.random() * 9);
-  let height = setHeight(ancestry, heightWeightNum, sexValue);
-  let weight = setWeight(ancestry, build, heightWeightNum, sexValue);
+  let height = setHeight(ancestry, ancestralTrait, heightWeightNum, sexValue);
+  let weight = setWeight(ancestry, ancestralTrait, build, heightWeightNum, sexValue);
   let hairColor = setHairColor(ancestry);
   let eyeColor = setEyeColor(ancestry);
   let upbringing = setUpbringing();
   let socialClass = setSocialClass(profession);
   let drawback = setDrawback();
   setAlignment();
+  let cash = setCash(socialClass);
   
   console.log(
-    `Name: ${nameValue}, Sex: ${sexValue},
-    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait},
+    `Name: ${nameValue} ${lastNameValue}, Sex: ${sexValue},
+    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait}, 
+    Mixed Heritage: ${mixedHeritageTrait} (${ancestry2}),
     Archetype: ${archetype}, Profession: ${profession}, 
     Birth Season: ${birthSeason}, Dooming: ${dooming}, Age: ${age},
     Build: ${build}, Height: ${height}, Weight: ${weight}, Complexion: ${complexion},
     Hair: ${hairColor}, Eyes: ${eyeColor}, Upbringing: ${upbringing}, Social Class: ${socialClass},
-    Drawback: ${drawback}`);
+    Drawback: ${drawback},
+    Starting Cash: ${cash}`);
   console.log(marks);
   console.log(primaryAttributes, primaryBonuses);
+
+  setHistory(
+    nameValue, sexValue, ancestry, ancestralTrait,
+    profession, birthSeason, dooming, age,
+    build, height, weight, complexion,
+    hairColor, eyeColor, upbringing, socialClass,
+    drawback, marks, lastNameValue, mixedHeritageTrait,
+    ancestry2, cash,
+    );
 };
 
 generateButton.addEventListener('click', e => {
@@ -112,7 +133,7 @@ generateButton.addEventListener('click', e => {
 let setAttributes = () => {
   for (let j = 0; j < 7; j++) {
     attributeCheck[j].innerHTML = attributeCheck[j].innerHTML.slice(0, (attributeCheck[j].innerHTML - 8));
-    primaryAttributes[j] = (roll3d10() + 25 + '%');
+    primaryAttributes[j] = (rollxd10(3) + 25 + '%');
     primaryBonuses[j] = primaryAttributes[j].charAt(0);
   };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
@@ -399,8 +420,37 @@ let setMarks = (age) => {
 };
 
 //Set Build, Height & Weight
-let setHeight = (ancestry, heightWeightNum, sexValue) => {
-  let inches = heightWeightNum + baseHeight[sexValue][ancestry][1];;
+let setBuild = (ancestralTrait) => {
+  switch (ancestralTrait) {
+    case 'Mountain Amongst Men':
+      return 'husky';
+    case 'Children of the Earth':
+      return 'corpulent';
+    case 'Physical Prowess':
+      return 'husky';
+    case 'Thieving Stunties':
+      return 'frail';
+    case 'Pintsized':
+      return 'frail'; 
+    default: 
+      return buildArr[Math.floor(Math.random() * buildArr.length)]
+  };
+};
+
+let setHeight = (ancestry, ancestralTrait, heightWeightNum, sexValue) => {
+  switch (ancestralTrait) {
+    case 'Mountain Amongst Men':
+      heightWeightNum = 9;
+    break;
+    case 'Thieving Stunties':
+    case 'Pintsized':
+      heightWeightNum = 0;
+    break;
+    default:
+      heightWeightNum = heightWeightNum;
+    break;
+  };
+  let inches = heightWeightNum + baseHeight[sexValue][ancestry][1];
   let feet;
   if (inches >= 12) {
     feet = 1;
@@ -411,9 +461,20 @@ let setHeight = (ancestry, heightWeightNum, sexValue) => {
   return `${baseHeight[sexValue][ancestry][0] + feet} ft, ${inches} in`;
 };
 
-
-let setWeight = (ancestry, build, heightWeightNum, sexValue) => 
-  `${weightsObj[sexValue][ancestry][build][heightWeightNum]} lbs`;
+let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexValue) => {
+  switch (ancestralTrait) {
+    case 'Mountain Amongst Men': 
+      heightWeightNum = 9;
+    break;
+    case 'Thieving Stunties':
+    case 'Pintsized':
+      heightWeightNum = 0;
+    default:
+      heightWeightNum = heightWeightNum;
+    break;
+  };
+  return `${weightsObj[sexValue][ancestry][build][heightWeightNum]} lbs`;
+};
 
 //Set hair color
 let setHairColor = (ancestry) => {
@@ -489,7 +550,7 @@ let setEyeColor = (ancestry) => {
   };
 };
 
-//Set Upbringing and Social Class
+//Set Upbringing, Social Class & Cash
 let setUpbringing = () => {
   let d100 = rolld100();
   switch (true) {
@@ -525,6 +586,17 @@ let setSocialClass = (profession) => {
     };
   };
 };
+
+let setCash = (socialClass) => {
+  switch (socialClass) {
+    case 'Aristocrat':
+      return `${rolld10() + 1} gold crowns`;
+    case 'Burgher':
+      return `${rollxd10(2) + 2} silver shillings`;
+    case 'Lowborn':
+      return `${rollxd10(3) + 3} brass pennies`;
+  }
+}
 
 //Set Drawback
 let setDrawback = () => {
@@ -607,40 +679,54 @@ let setAlignment = () => {
 };
 
 let setHistory = (
-  ancestry, dooming, birthSeason, age, build, profession, height, weight
+  nameValue, sexValue, ancestry, ancestralTrait,
+  profession, birthSeason, dooming, age,
+  build, height, weight, complexion,
+  hairColor, eyeColor, upbringing, socialClass,
+  drawback, marks, lastNameValue, mixedHeritageTrait,
+  ancestry2, cash,
   ) => {
   nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
-  lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase()
-  history0.textContent = `${nameValue} ${lastNameValue} is 
-    ${((age.charAt(0) == 'a') || (age.charAt(0) == 'e')) ? 'an' : 'a'} 
-    ${age} ${ancestry} ${sexValue} ${profession}. 
-    ${pronounPossessive} ancestral trait is ${ancestralTrait}.`;
-  history1.textContent = `${pronoun} ${verbState} ${height}, ${weight} and of a 
-    ${build} build type. ${nameValue} has 
-    ${complexion.toLowerCase()} skin, with ${hairColor.toLowerCase()} hair and 
-    ${eyeColor.toLowerCase()} eyes.`;
+  lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase();
+
+  history0.textContent = `${nameValue} is 
+  ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
+  ${age} ${ancestry} ${sexValue} ${profession}.`;
+
+  history1.textContent = `${nameValue} is ${height}, ${weight}
+  & of a ${build} build type. ${nameValue} has
+  ${complexion} skin, with ${hairColor} hair and ${eyeColor} eyes.`;
 
   if (age == 'young') {
     history2.textContent = '';
   } else if (age == 'adult') {
-    history2.textContent = `${pronounPossessive} mark is "${marks[1]}".`;
+    history2.textContent = `Distinguishing Mark: "${marks[1]}".`;
   } else if (age == 'middle aged') {
-    history2.textContent = `${pronounPossessive} marks are "${marks[1]}" and "${marks[2]}".`;
+    history2.textContent = `Distinguishing Marks: "${marks[1]}" and "${marks[2]}".`;
   } else if (age == 'elderly') {
-    history2.textContent = `${pronounPossessive} marks are: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
+    history2.textContent = `Distinguishing Marks: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
   };
  
-  history3.textContent = `${nameValue} was born in ${birthSeason}, is of the 
-    ${socialClass} social class and of ${((upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O')) ? 'an' : 'a'} 
-    ${upbringing} upbringing. `;
+  history3.textContent = `Haggis was born in ${birthSeason}, 
+    is of the ${socialClass} social class & of
+    ${(upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O') ? 'an' : 'a'} 
+    ${upbringing} upbringing`;
 
   if (drawbackCheck.checked == true) {
-    history4.textContent = `${pronounPossessive} dooming is "${dooming}" and 
-      ${pronounPossessive.toLowerCase()} drawback is ${drawback}. `
+    history4.textContent = `Dooming: "${dooming}" 
+      Drawback: ${drawback}.`;
   } else {
-    history4.textContent = `${pronounPossessive} dooming is "${dooming}."`
+    history4.textContent = `Dooming: "${dooming}."`
   };
 
-  history5.textContent = `${pronounPossessive} order alignment is ${alignment.order} and 
-    ${pronounPossessive.toLowerCase()} chaos alignment is ${alignment.chaos}.`;
+  if (ancestralTrait == 'Mixed Heritage') {
+    history5.textContent = `Ancestral Trait: Mixed Heritage
+    (${mixedHeritageTrait}, ${ancestry2})`
+  } else {
+    history5.textContent = `Ancestral Trait: ${ancestralTrait}`
+  };
+
+  history6.textContent = `Alignment: ${alignment.order} & ${alignment.chaos}.`;
+
+  cashP.textContent = `Starting Cash: ${cash}`;
 }
