@@ -1,7 +1,7 @@
 import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
   hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
-  weightsObj} from "./lists.js";
+  weightsObj, sexArr} from "./lists.js";
 
 //Global Variables
 let attSwapped = false;
@@ -58,13 +58,21 @@ let rollxd10 = (x) => {
 let randomizeAll = () => {
   let nameValue = document.getElementById("name-input").value;
   let lastNameValue = document.getElementById("last-name-input").value;
+  
   let sexRadio = document.getElementsByName('sex');
   let sexValue;
+  let sexTable;
   for (let i = 0; i < sexRadio.length; i++) {
     if (sexRadio[i].checked) {
       sexValue = sexRadio[i].value;
     };
   };
+  if (sexValue == 'either') {
+    sexTable = sexArr[Math.floor(Math.random() * sexArr.length)];
+  } else {
+    sexTable = sexValue;
+  };
+
   setAttributes();
   let ancestry = setAncestry()
   setAncestryBonuses(ancestry);
@@ -87,8 +95,8 @@ let randomizeAll = () => {
   let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
   let build = setBuild(ancestralTrait);
   let heightWeightNum = Math.floor(Math.random() * 9);
-  let height = setHeight(ancestry, ancestralTrait, heightWeightNum, sexValue);
-  let weight = setWeight(ancestry, ancestralTrait, build, heightWeightNum, sexValue);
+  let height = setHeight(ancestry, ancestralTrait, heightWeightNum, sexTable);
+  let weight = setWeight(ancestry, ancestralTrait, build, heightWeightNum, sexTable);
   let hairColor = setHairColor(ancestry);
   let eyeColor = setEyeColor(ancestry);
   let upbringing = setUpbringing();
@@ -122,8 +130,9 @@ let randomizeAll = () => {
 
 generateButton.addEventListener('click', e => {
   let nameValue = document.getElementById("name-input").value;
-  if (nameValue == "") {
-    window.alert("Please enter a First Name");
+  let sexValue = document.getElementsByName('sex').value;
+  if ((sexValue == "") || (nameValue == "")) {
+    window.alert("Please Enter a First Name and select your preferred Sex Table");
   } else {
     randomizeAll();
   };
@@ -437,7 +446,7 @@ let setBuild = (ancestralTrait) => {
   };
 };
 
-let setHeight = (ancestry, ancestralTrait, heightWeightNum, sexValue) => {
+let setHeight = (ancestry, ancestralTrait, heightWeightNum, sexTable) => {
   switch (ancestralTrait) {
     case 'Mountain Amongst Men':
       heightWeightNum = 9;
@@ -450,7 +459,7 @@ let setHeight = (ancestry, ancestralTrait, heightWeightNum, sexValue) => {
       heightWeightNum = heightWeightNum;
     break;
   };
-  let inches = heightWeightNum + baseHeight[sexValue][ancestry][1];
+  let inches = heightWeightNum + baseHeight[sexTable][ancestry][1];
   let feet;
   if (inches >= 12) {
     feet = 1;
@@ -458,10 +467,10 @@ let setHeight = (ancestry, ancestralTrait, heightWeightNum, sexValue) => {
   } else {
     feet = 0;
   };
-  return `${baseHeight[sexValue][ancestry][0] + feet} ft, ${inches} in`;
+  return `${baseHeight[sexTable][ancestry][0] + feet} ft, ${inches} in`;
 };
 
-let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexValue) => {
+let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexTable) => {
   switch (ancestralTrait) {
     case 'Mountain Amongst Men': 
       heightWeightNum = 9;
@@ -473,7 +482,7 @@ let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexValue) => 
       heightWeightNum = heightWeightNum;
     break;
   };
-  return `${weightsObj[sexValue][ancestry][build][heightWeightNum]} lbs`;
+  return `${weightsObj[sexTable][ancestry][build][heightWeightNum]} lbs`;
 };
 
 //Set hair color
@@ -691,7 +700,9 @@ let setHistory = (
 
   history0.textContent = `${nameValue} is 
   ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
-  ${age} ${ancestry} ${sexValue} ${profession}.`;
+  ${age} ${ancestry} 
+  ${(sexValue == 'either') ? '' : sexValue} 
+  ${profession}.`;
 
   history1.textContent = `${nameValue} is ${height}, ${weight}
   & of a ${build} build type. ${nameValue} has
@@ -707,7 +718,7 @@ let setHistory = (
     history2.textContent = `Distinguishing Marks: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
   };
  
-  history3.textContent = `Haggis was born in ${birthSeason}, 
+  history3.textContent = `${nameValue} was born in ${birthSeason}, 
     is of the ${socialClass} social class & of
     ${(upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O') ? 'an' : 'a'} 
     ${upbringing} upbringing`;
