@@ -397,3 +397,5 @@ export const weightsObj = {
     },
   },
 };
+
+export const sexArr = ['male', 'female'];
