@@ -3,42 +3,28 @@ import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr,
   hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
   weightsObj, sexArr} from "./lists.js";
 
-//Global Variables
-let attSwapped = false;
-let attReplaced = false;
+import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
+  generateButton, attributeCheck, attributeSwap, attributeReplace,
+  history0, history1, history2, history3, history4, history5, cashP,
+  trappingsP, attributesDiv, natSelect, natSelectText, chks,} from "./dom.js";
 
-let marks = {
+//Global Variables
+var attSwapped = false;
+var attReplaced = false;
+var natSelectReplaced = false;
+
+var marks = {
   1: '',
   2: '',
   3: '',
 };
-
-let alignment = {
+var alignment = {
   order: '',
   chaos: '',
 };
-
-let character = {};
-let primaryAttributes = [];
-let primaryBonuses = [];
-
-//DOM Elements
-let nonhumanCheck = document.getElementById('nonhuman-check');
-let separateAlignmentCheck = document.getElementById('separate-alignment-check');
-let drawbackCheck = document.getElementById('drawback-check');
-let generateButton = document.getElementById('generate');
-let attributeCheck = document.getElementsByTagName('label');
-let attributeSwap = document.getElementById('attribute-swap');
-let attributeReplace = document.getElementById('attribute-replace');
-
-let history0 = document.querySelector('#history0');
-let history1 = document.querySelector('#history1');
-let history2 = document.querySelector('#history2');
-let history3 = document.querySelector('#history3');
-let history4 = document.querySelector('#history4');
-let history5 = document.querySelector('#history5');
-let cashP = document.querySelector('#cash-p');
-let trappingsP = document.querySelector('#trappings');
+var character = {};
+var primaryAttributes = [];
+var primaryBonuses = [];
 
 //Rollers
 let rolld100 = () => Math.floor(Math.random() * 100) + 1;
@@ -77,14 +63,22 @@ let randomizeAll = () => {
   let ancestry = setAncestry()
   setAncestryBonuses(ancestry);
   let ancestralTrait = setAncestryTrait(ancestry);
+
   if (ancestralTrait == 'Mixed Heritage') {
     var ancestry2 = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
     var mixedHeritageTrait = setAncestryTrait(ancestry2);
-    ancestry = 'Human';
   } else {
     var ancestry2 = 'none';
     var mixedHeritageTrait = 'none';
   };
+
+  if (ancestralTrait == 'Natural Selection') {
+    //let natSelect = document.createElement("BUTTON");
+    //let natSelectText = document.createTextNode("Swap with 55%");
+    natSelect.appendChild(natSelectText);
+    attributesDiv.appendChild(natSelect);
+  };
+
   let archetype = setArchetype();
   let profession = setProfession(archetype);
   let trappings = setTrappings(archetype);
@@ -125,7 +119,7 @@ let randomizeAll = () => {
     hairColor, eyeColor, upbringing, socialClass,
     drawback, marks, lastNameValue, mixedHeritageTrait,
     ancestry2, cash,
-    );
+  );
 };
 
 generateButton.addEventListener('click', e => {
@@ -134,6 +128,9 @@ generateButton.addEventListener('click', e => {
   if ((sexValue == "") || (nameValue == "")) {
     window.alert("Please Enter a First Name and select your preferred Sex Table");
   } else {
+    if (document.contains(natSelect)) {
+      attributesDiv.removeChild(natSelect);
+    };
     randomizeAll();
   };
 });
@@ -161,23 +158,61 @@ let replaceAttributes = () => {
   attReplaced = true;
 };
 
+let replaceNatSelect = () => {
+  natSelectReplaced = true;
+}
+
+let checkIfChecked = () => {
+  let sum = 0;
+  for (let i = 0; i < chks.length; i++) {
+    if (chks[i].checked == true) {
+      sum += 1;
+    };
+  };
+  return sum;
+};
+
 attributeReplace.addEventListener('click', e => {
+  let checked = checkIfChecked();
   if ((attReplaced == true) || (attSwapped == true)) {
     window.alert('nope!');
   } else {
-    replaceAttributes();
+    if (checked != 1) {
+      window.alert('Please select one Attribute to replace');
+    } else {
+      replaceAttributes();
     console.log('replaced!');
+    };
   };
 });  
 
 attributeSwap.addEventListener('click', e => {
+  let checked = checkIfChecked();
   if ((attReplaced == true) || (attSwapped == true)) {
     window.alert('nope!');
   } else {
-    swapAttributes();
-    console.log('swapped!');
-  };
+    if (checked !== 2) {
+      window.alert('Please select two Attributes to swap')
+    } else {
+      swapAttributes();
+      console.log('swapped!');
+    }; 
+  };   
 });
+
+natSelect.addEventListener('click', e => {
+  let checked = checkIfChecked();
+  if (natSelectReplaced == true) {
+    window.alert('nope!');
+  } else {
+    if (checked != 1) {
+      window.alert('Please select one Attribute to replace');
+    } else {
+      replaceNatSelect();
+      console.log('replaced!');
+    };
+  };
+});  
 
 //Set Ancestry
 let setAncestry = () => {
