@@ -22,7 +22,6 @@ var alignment = {
   order: '',
   chaos: '',
 };
-var character = {};
 var primaryAttributes = [];
 var primaryBonuses = [];
 
@@ -44,7 +43,6 @@ let rollxd10 = (x) => {
 let randomizeAll = () => {
   let nameValue = document.getElementById("name-input").value;
   let lastNameValue = document.getElementById("last-name-input").value;
-  
   let sexRadio = document.getElementsByName('sex');
   let sexValue;
   let sexTable;
@@ -73,8 +71,6 @@ let randomizeAll = () => {
   };
 
   if (ancestralTrait == 'Natural Selection') {
-    //let natSelect = document.createElement("BUTTON");
-    //let natSelectText = document.createTextNode("Swap with 55%");
     natSelect.appendChild(natSelectText);
     attributesDiv.appendChild(natSelect);
   };
@@ -131,35 +127,81 @@ generateButton.addEventListener('click', e => {
     if (document.contains(natSelect)) {
       attributesDiv.removeChild(natSelect);
     };
+    attSwapped = false;
+    attReplaced = false;
+    natSelectReplaced = false;
     randomizeAll();
   };
 });
 
 //Set Attributes
 let setAttributes = () => {
-  for (let j = 0; j < 7; j++) {
-    attributeCheck[j].innerHTML = attributeCheck[j].innerHTML.slice(0, (attributeCheck[j].innerHTML - 8));
-    primaryAttributes[j] = (rollxd10(3) + 25 + '%');
-    primaryBonuses[j] = primaryAttributes[j].charAt(0);
+  for (let i = 0; i < 7; i++) {
+    primaryAttributes[i] = (rollxd10(3) + 25 + '%');
+    primaryBonuses[i] = primaryAttributes[i].charAt(0);
   };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
   for (let i = 0; i < 7; i++) {
-    attributeCheck[i].innerHTML += primaryAttributes[i];
+    attributeCheck[i].innerHTML = chks[i].value.toUpperCase() + ': ' + primaryAttributes[i];
   };
-  character.attributes = primaryAttributes;
-  character.bonuses = primaryBonuses;
+};
+
+let attributeDom = () => {
+  for (let i = 0; i < 7; i++) {
+    attributeCheck[i].innerHTML = chks[i].value.toUpperCase() + ': ' + primaryAttributes[i];
+  };
 };
 
 let swapAttributes = () => {
   attSwapped = true;
+  let attributeChange = [];
+  for (let i = 0; i < chks.length; i++) {
+    if (chks[i].checked == true) {
+      attributeChange.push(i);
+    };
+  };
+  [primaryAttributes[attributeChange[0]], primaryAttributes[attributeChange[1]]] = 
+    [primaryAttributes[attributeChange[1]], primaryAttributes[attributeChange[0]]];
+  for (let i = 0; i < primaryBonuses.length; i++) {
+    primaryBonuses[i] = primaryAttributes[i].charAt(0);
+  };
+  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
+  attributeDom();
+  setAncestryBonuses();
 };
 
 let replaceAttributes = () => {
   attReplaced = true;
+  let attributeChange = [];
+  for (let i = 0; i < chks.length; i++) {
+    if (chks[i].checked == true) {
+      attributeChange.push(i);
+    };
+  };
+  primaryAttributes[attributeChange[0]] = '42%';
+  for (let i = 0; i < primaryBonuses.length; i++) {
+    primaryBonuses[i] = primaryAttributes[i].charAt(0);
+  };
+  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
+  attributeDom();
+  setAncestryBonuses();
 };
 
 let replaceNatSelect = () => {
   natSelectReplaced = true;
+  let attributeChange = [];
+  for (let i = 0; i < chks.length; i++) {
+    if (chks[i].checked == true) {
+      attributeChange.push(i);
+    };
+  };
+  primaryAttributes[attributeChange[0]] = '55%';
+  for (let i = 0; i < primaryBonuses.length; i++) {
+    primaryBonuses[i] = primaryAttributes[i].charAt(0);
+  };
+  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
+  attributeDom();
+  setAncestryBonuses();
 }
 
 let checkIfChecked = () => {
@@ -275,9 +317,6 @@ let setAncestryBonuses = (ancestry) => {
   for (let i = 0; i < 7; i++) {
     attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
-  setAncestryTrait(ancestry);
-  character.ancestry = ancestry;
-  character.bonuses = primaryBonuses;
   return ancestry;
 };
 
@@ -372,7 +411,6 @@ let setProfession = (archetype) => {
       break;
   };
   profession = professonObj[archetype][profession];
-  character.profession = profession;
   return profession;
 };
 
@@ -460,7 +498,6 @@ let setMarks = (age) => {
     default:
       console.log(age + ' characters receive no marks');
   };
-  character.marks = marks;
 };
 
 //Set Build, Height & Weight
@@ -616,7 +653,7 @@ let setUpbringing = () => {
 };
 
 let setSocialClass = (profession) => {
-  if (profession == 'Peasant') {
+  if ((profession == 'Peasant') || (profession == 'Rake')) {
     return 'Lowborn';
   } else {
     let d100 = rolld100();
@@ -719,7 +756,6 @@ let setAlignment = () => {
       chaos: alignmentsObj.chaos[pair],
     };
   };
-  character.alignment = alignment;
 };
 
 let setHistory = (
