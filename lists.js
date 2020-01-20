@@ -94,7 +94,7 @@ export const trappingsObj = {
     'Coin purse', 'Fancy shoes', 'Fashionable clothing', 'Foppish hat',
     'Holy symbol', 'Knuckleduster', 'Mandrake root (3)', 'Mantle',
     'Neck ruff', 'Shoulder bag', 'Writing kit', 
-    'Throwing knives (3) with bandolier or Rapier or Walking cane (improvised hand weapon',
+    'Throwing knives (3) with bandolier or Rapier or Walking cane (improvised hand weapon)',
   ],
   'Warrior': [
     'Fire-hardened spear', 'Heavy boots', 'Lantern', 'Laudanum (3)',
