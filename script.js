@@ -6,13 +6,17 @@ import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr,
 import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
   generateButton, attCheckLabel, attributeSwap, attributeReplace,
   history0, history1, history2, history3, history4, history5, cashP,
-  trappingsP, attributesDiv, natSelect, natSelectText, attributeCheck, attSwapText,
-  attReplaceText,} from "./dom.js";
+  trappingsP, attButtonsDiv, natSelect, natSelectText, 
+  attributeCheck,
+  } from "./dom.js";
+
+import { setCharSheetDom } from "./dom.js";
 
 //Global Variables
 var attSwapped = false;
 var attReplaced = false;
 var natSelectReplaced = false;
+var characterGenerated = false;
 
 var marks = {
   1: '',
@@ -73,7 +77,7 @@ let randomizeAll = () => {
   
   if (ancestralTrait == 'Natural Selection') {
     natSelect.appendChild(natSelectText);
-    attributesDiv.appendChild(natSelect);
+    attButtonsDiv.insertBefore(natSelect, attButtonsDiv.firstChild);
   };
 
   let archetype = setArchetype();
@@ -95,19 +99,6 @@ let randomizeAll = () => {
   let drawback = setDrawback();
   setAlignment();
   let cash = setCash(socialClass);
-  
-  //console.log(
-//    Name: ${nameValue} ${lastNameValue}, Sex: ${sexValue},
-//    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait}, 
-//    Mixed Heritage: ${mixedHeritageTrait} (${ancestry2}),
-//    Archetype: ${archetype}, Profession: ${profession}, 
-//    Birth Season: ${birthSeason}, Dooming: ${dooming}, Age: ${age},
-//    Build: ${build}, Height: ${height}, Weight: ${weight}, Complexion: ${complexion},
-//    Hair: ${hairColor}, Eyes: ${eyeColor}, Upbringing: ${upbringing}, Social Class: ${socialClass},
-//    Drawback: ${drawback},
-//    Starting Cash: ${cash}`);
-//console.log(marks);
-//console.log(primaryAttributes, primaryBonuses);
 
   setHistory(
     nameValue, sexValue, ancestry, ancestralTrait,
@@ -125,18 +116,15 @@ generateButton.addEventListener('click', e => {
   if ((sexValue == "") || (nameValue == "")) {
     window.alert("Please Enter a First Name and select your preferred Sex Table");
   } else {
-    if (document.contains(natSelect)) {
-      attributesDiv.removeChild(natSelect);
+    if (characterGenerated == false) {
+      setCharSheetDom();
     };
     attSwapped = false;
     attReplaced = false;
     natSelectReplaced = false;
+    characterGenerated = true;
     randomizeAll();
   };
-  attributeSwap.appendChild(attSwapText);
-  attributesDiv.appendChild(attributeSwap);
-  attributeReplace.appendChild(attReplaceText);
-  attributesDiv.appendChild(attributeReplace);
 });
 
 //Set Attributes
@@ -202,47 +190,37 @@ let checkIfChecked = () => {
 
 attributeReplace.addEventListener('click', e => {
   let checked = checkIfChecked();
-  if ((attSwapped == true) || (attReplaced == true)) {
-    window.alert('You may only swap or replace attributes once!');
+  if (checked != 1) {
+    window.alert('Please select one Attribute to replace');
   } else {
-    if (checked != 1) {
-      window.alert('Please select one Attribute to replace');
-    } else {
-      attReplaced = true;
-      swapReplaceAtt();
-    console.log('replaced!');
-    };
+    attReplaced = true;
+    swapReplaceAtt();
   };
+  attButtonsDiv.removeChild(attributeReplace);
+  attButtonsDiv.removeChild(attributeSwap);
 });  
 
 attributeSwap.addEventListener('click', e => {
   let checked = checkIfChecked();
-  if ((attSwapped == true) || (attReplaced == true)) {
-    window.alert('You may only swap or replace attributes once!');
+  if (checked !== 2) {
+    window.alert('Please select two Attributes to swap')
   } else {
-    if (checked !== 2) {
-      window.alert('Please select two Attributes to swap')
-    } else {
-      attSwapped = true;
-      swapReplaceAtt();
-      console.log('swapped!');
-    }; 
-  };   
+    attSwapped = true;
+    swapReplaceAtt();
+  }; 
+  attButtonsDiv.removeChild(attributeReplace);
+  attButtonsDiv.removeChild(attributeSwap);  
 });
 
 natSelect.addEventListener('click', e => {
   let checked = checkIfChecked();
-  if (natSelectReplaced == true) {
-    window.alert('You may only swap or replace attributes once!');
+  if (checked != 1) {
+    window.alert('Please select one Attribute to replace');
   } else {
-    if (checked != 1) {
-      window.alert('Please select one Attribute to replace');
-    } else {
-      natSelectReplaced = true;
-      swapReplaceAtt();
-      console.log('replaced!');
-    };
+    natSelectReplaced = true;
+    swapReplaceAtt();
   };
+  attButtonsDiv.removeChild(natSelect)
 });  
 
 //Set Ancestry
@@ -758,7 +736,7 @@ let setHistory = (
   nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
   lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase();
 
-  history0.textContent = `${nameValue} is 
+  history0.textContent = `${nameValue} ${(lastNameValue != '') ? lastNameValue : ''} is 
   ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
   ${age} ${ancestry} 
   ${(sexValue == 'either') ? '' : sexValue} 
@@ -781,7 +759,7 @@ let setHistory = (
   history3.textContent = `${nameValue} was born in ${birthSeason}, 
     is of the ${socialClass} social class & of
     ${(upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O') ? 'an' : 'a'} 
-    ${upbringing} upbringing`;
+    ${upbringing} upbringing.`;
 
   if (drawbackCheck.checked == true) {
     history4.textContent = `Dooming: "${dooming}" 
