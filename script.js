@@ -4,9 +4,10 @@ import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr,
   weightsObj, sexArr} from "./lists.js";
 
 import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
-  generateButton, attributeCheck, attributeSwap, attributeReplace,
+  generateButton, attCheckLabel, attributeSwap, attributeReplace,
   history0, history1, history2, history3, history4, history5, cashP,
-  trappingsP, attributesDiv, natSelect, natSelectText, chks,} from "./dom.js";
+  trappingsP, attributesDiv, natSelect, natSelectText, attributeCheck, attSwapText,
+  attReplaceText,} from "./dom.js";
 
 //Global Variables
 var attSwapped = false;
@@ -69,7 +70,7 @@ let randomizeAll = () => {
     var ancestry2 = 'none';
     var mixedHeritageTrait = 'none';
   };
-
+  
   if (ancestralTrait == 'Natural Selection') {
     natSelect.appendChild(natSelectText);
     attributesDiv.appendChild(natSelect);
@@ -77,7 +78,7 @@ let randomizeAll = () => {
 
   let archetype = setArchetype();
   let profession = setProfession(archetype);
-  let trappings = setTrappings(archetype);
+  setTrappings(archetype);
   let birthSeason = setSeason();
   let dooming = setDooming(birthSeason);
   let age = setAge();
@@ -95,18 +96,18 @@ let randomizeAll = () => {
   setAlignment();
   let cash = setCash(socialClass);
   
-  console.log(
-    `Name: ${nameValue} ${lastNameValue}, Sex: ${sexValue},
-    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait}, 
-    Mixed Heritage: ${mixedHeritageTrait} (${ancestry2}),
-    Archetype: ${archetype}, Profession: ${profession}, 
-    Birth Season: ${birthSeason}, Dooming: ${dooming}, Age: ${age},
-    Build: ${build}, Height: ${height}, Weight: ${weight}, Complexion: ${complexion},
-    Hair: ${hairColor}, Eyes: ${eyeColor}, Upbringing: ${upbringing}, Social Class: ${socialClass},
-    Drawback: ${drawback},
-    Starting Cash: ${cash}`);
-  console.log(marks);
-  console.log(primaryAttributes, primaryBonuses);
+  //console.log(
+//    Name: ${nameValue} ${lastNameValue}, Sex: ${sexValue},
+//    Ancestry: ${ancestry}, Ancestral Trait: ${ancestralTrait}, 
+//    Mixed Heritage: ${mixedHeritageTrait} (${ancestry2}),
+//    Archetype: ${archetype}, Profession: ${profession}, 
+//    Birth Season: ${birthSeason}, Dooming: ${dooming}, Age: ${age},
+//    Build: ${build}, Height: ${height}, Weight: ${weight}, Complexion: ${complexion},
+//    Hair: ${hairColor}, Eyes: ${eyeColor}, Upbringing: ${upbringing}, Social Class: ${socialClass},
+//    Drawback: ${drawback},
+//    Starting Cash: ${cash}`);
+//console.log(marks);
+//console.log(primaryAttributes, primaryBonuses);
 
   setHistory(
     nameValue, sexValue, ancestry, ancestralTrait,
@@ -132,82 +133,67 @@ generateButton.addEventListener('click', e => {
     natSelectReplaced = false;
     randomizeAll();
   };
+  attributeSwap.appendChild(attSwapText);
+  attributesDiv.appendChild(attributeSwap);
+  attributeReplace.appendChild(attReplaceText);
+  attributesDiv.appendChild(attributeReplace);
 });
 
 //Set Attributes
 let setAttributes = () => {
   for (let i = 0; i < 7; i++) {
     primaryAttributes[i] = (rollxd10(3) + 25 + '%');
+  };
+  setAttributeDom();
+  setPrimaryBonuses();
+};
+
+let setPrimaryBonuses = () => {
+  for (let i = 0; i < primaryAttributes.length; i++) {
     primaryBonuses[i] = primaryAttributes[i].charAt(0);
   };
   primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
+};
+
+let setAttributeDom = () => {
   for (let i = 0; i < 7; i++) {
-    attributeCheck[i].innerHTML = chks[i].value.toUpperCase() + ': ' + primaryAttributes[i];
+    attCheckLabel[i].innerHTML = attributeCheck[i].value.toUpperCase() + ': ' + primaryAttributes[i];
   };
 };
 
-let attributeDom = () => {
-  for (let i = 0; i < 7; i++) {
-    attributeCheck[i].innerHTML = chks[i].value.toUpperCase() + ': ' + primaryAttributes[i];
+let swapReplaceAtt = () => {
+  let attributeChange = changeAttributes();
+  switch (true) {
+    case (attSwapped):
+      [primaryAttributes[attributeChange[0]], primaryAttributes[attributeChange[1]]] =
+        [primaryAttributes[attributeChange[1]], primaryAttributes[attributeChange[0]]];
+    break;
+    case (attReplaced):
+      primaryAttributes[attributeChange[0]] = '42%';
+    break;
+    case (natSelectReplaced):
+      primaryAttributes[attributeChange[0]] = '55%';
+    break;
   };
-};
-
-let swapAttributes = () => {
-  attSwapped = true;
-  let attributeChange = [];
-  for (let i = 0; i < chks.length; i++) {
-    if (chks[i].checked == true) {
-      attributeChange.push(i);
-    };
-  };
-  [primaryAttributes[attributeChange[0]], primaryAttributes[attributeChange[1]]] = 
-    [primaryAttributes[attributeChange[1]], primaryAttributes[attributeChange[0]]];
-  for (let i = 0; i < primaryBonuses.length; i++) {
-    primaryBonuses[i] = primaryAttributes[i].charAt(0);
-  };
-  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  attributeDom();
+  setPrimaryBonuses();
+  setAttributeDom();
   setAncestryBonuses();
 };
 
-let replaceAttributes = () => {
-  attReplaced = true;
+let changeAttributes = () => {
   let attributeChange = [];
-  for (let i = 0; i < chks.length; i++) {
-    if (chks[i].checked == true) {
+  for (let i = 0; i < attributeCheck.length; i++) {
+    if (attributeCheck[i].checked == true) {
       attributeChange.push(i);
     };
   };
-  primaryAttributes[attributeChange[0]] = '42%';
-  for (let i = 0; i < primaryBonuses.length; i++) {
-    primaryBonuses[i] = primaryAttributes[i].charAt(0);
-  };
-  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  attributeDom();
-  setAncestryBonuses();
+  return attributeChange;
 };
-
-let replaceNatSelect = () => {
-  natSelectReplaced = true;
-  let attributeChange = [];
-  for (let i = 0; i < chks.length; i++) {
-    if (chks[i].checked == true) {
-      attributeChange.push(i);
-    };
-  };
-  primaryAttributes[attributeChange[0]] = '55%';
-  for (let i = 0; i < primaryBonuses.length; i++) {
-    primaryBonuses[i] = primaryAttributes[i].charAt(0);
-  };
-  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-  attributeDom();
-  setAncestryBonuses();
-}
 
 let checkIfChecked = () => {
   let sum = 0;
-  for (let i = 0; i < chks.length; i++) {
-    if (chks[i].checked == true) {
+  for (let i = 0; i < attributeCheck.length; i++) {
+    if (attributeCheck[i].checked == true) {
       sum += 1;
     };
   };
@@ -216,13 +202,14 @@ let checkIfChecked = () => {
 
 attributeReplace.addEventListener('click', e => {
   let checked = checkIfChecked();
-  if ((attReplaced == true) || (attSwapped == true)) {
-    window.alert('nope!');
+  if ((attSwapped == true) || (attReplaced == true)) {
+    window.alert('You may only swap or replace attributes once!');
   } else {
     if (checked != 1) {
       window.alert('Please select one Attribute to replace');
     } else {
-      replaceAttributes();
+      attReplaced = true;
+      swapReplaceAtt();
     console.log('replaced!');
     };
   };
@@ -230,13 +217,14 @@ attributeReplace.addEventListener('click', e => {
 
 attributeSwap.addEventListener('click', e => {
   let checked = checkIfChecked();
-  if ((attReplaced == true) || (attSwapped == true)) {
-    window.alert('nope!');
+  if ((attSwapped == true) || (attReplaced == true)) {
+    window.alert('You may only swap or replace attributes once!');
   } else {
     if (checked !== 2) {
       window.alert('Please select two Attributes to swap')
     } else {
-      swapAttributes();
+      attSwapped = true;
+      swapReplaceAtt();
       console.log('swapped!');
     }; 
   };   
@@ -245,12 +233,13 @@ attributeSwap.addEventListener('click', e => {
 natSelect.addEventListener('click', e => {
   let checked = checkIfChecked();
   if (natSelectReplaced == true) {
-    window.alert('nope!');
+    window.alert('You may only swap or replace attributes once!');
   } else {
     if (checked != 1) {
       window.alert('Please select one Attribute to replace');
     } else {
-      replaceNatSelect();
+      natSelectReplaced = true;
+      swapReplaceAtt();
       console.log('replaced!');
     };
   };
@@ -315,7 +304,7 @@ let setAncestryBonuses = (ancestry) => {
     break;
   };
   for (let i = 0; i < 7; i++) {
-    attributeCheck[i].innerHTML += ' (' + primaryBonuses[i] + ')'
+    attCheckLabel[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
   return ancestry;
 };
