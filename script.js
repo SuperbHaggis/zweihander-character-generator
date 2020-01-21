@@ -7,10 +7,9 @@ import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
   generateButton, attCheckLabel, attributeSwap, attributeReplace,
   history0, history1, history2, history3, history4, history5, cashP,
   trappingsP, attButtonsDiv, natSelect, natSelectText, 
-  attributeCheck,
-  } from "./dom.js";
+  attributeCheck,} from "./dom.js";
 
-import { setCharSheetDom } from "./dom.js";
+import { setCharSheetDom, createAttButtons } from "./dom.js";
 
 //Global Variables
 var attSwapped = false;
@@ -119,6 +118,7 @@ generateButton.addEventListener('click', e => {
     if (characterGenerated == false) {
       setCharSheetDom();
     };
+    createAttButtons();
     attSwapped = false;
     attReplaced = false;
     natSelectReplaced = false;

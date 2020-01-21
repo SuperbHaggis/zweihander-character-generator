@@ -9,11 +9,6 @@ export function setCharSheetDom() {
   
   createAttributeChecks();
 
-  attributeReplace.appendChild(attReplaceText);
-  attButtonsDiv.appendChild(attributeReplace);
-  attributeSwap.appendChild(attSwapText);
-  attButtonsDiv.appendChild(attributeSwap);
-
   trappingsTitle.appendChild(trappingsTitleText);
   gearDiv.insertBefore(trappingsTitle, gearDiv.firstChild);
 
@@ -23,6 +18,13 @@ export function setCharSheetDom() {
   historyTitle.appendChild(histTitleText);
   historyDiv.insertBefore(historyTitle, historyDiv.firstChild);
 
+};
+
+export function createAttButtons() {
+  attributeReplace.appendChild(attReplaceText);
+  attButtonsDiv.appendChild(attributeReplace);
+  attributeSwap.appendChild(attSwapText);
+  attButtonsDiv.appendChild(attributeSwap);
 };
 
 export function createAttributeChecks() {
