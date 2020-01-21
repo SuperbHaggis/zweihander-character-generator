@@ -5,13 +5,15 @@ export const drawbackCheck = document.getElementById('drawback-check');
 export const generateButton = document.getElementById('generate');
 
 
-export const attributeCheck = document.getElementsByTagName('label');
-export const attributeSwap = document.getElementById('attribute-swap');
-export const attributeReplace = document.getElementById('attribute-replace');
+export const attCheckLabel = document.getElementsByTagName('label');
+export const attributeSwap = document.createElement("BUTTON");
+export const attributeReplace = document.createElement("BUTTON");
 export const attributesDiv = document.getElementById('attributes');
+export const attSwapText = document.createTextNode('Swap Values');
+export const attReplaceText = document.createTextNode('Replace with 42%');
 export const natSelect = document.createElement("BUTTON");
 export const natSelectText = document.createTextNode("Replace with 55%");
-export const chks = attributesDiv.getElementsByTagName('INPUT');
+export const attributeCheck = attributesDiv.getElementsByTagName('INPUT');
 
 export const history0 = document.querySelector('#history0');
 export const history1 = document.querySelector('#history1');
