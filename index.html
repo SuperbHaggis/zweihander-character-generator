@@ -2,69 +2,66 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Zweihander Character Builder</title>
     <script src="script.js" type="module"></script>
   </head>
 
   <body>
-    <div id="preferences">
-      <input type="checkbox" id="nonhuman-check">Nonhuman<br>
-      <input type="checkbox" id="separate-alignment-check">Separate Alignment<br>
-      <input type="checkbox" id="drawback-check" checked>Drawback<br>
-    </div>
-    
-    <br>
+    <div id="container">
 
-    First Name: <input type="text" name="name" id="name-input" value="">
-    <br>
-    Last Name: <input type="text" name="last-name" id="last-name-input" value="">
-    <br>
-    <p>Sex (for Height & Weight):</p>
-    <input type="radio" name="sex" value="male">Male
-    <input type="radio" name="sex" value="female">Female
-    <input type="radio" name="sex" value="either">No Preference
-    <br>
-    <br>
-    <button id="generate">Generate Random Character</button>
-    
+      <div id="character-sheet">
+        <div id="controls">
+          <div id="preferences">
+            <input type="checkbox" id="nonhuman-check">Nonhuman<br>
+            <input type="checkbox" id="separate-alignment-check">Separate Alignment<br>
+            <input type="checkbox" id="drawback-check" checked>Drawback<br>
+          </div>
+          <br>
+          <div id="name-boxes">
+            First Name: <input type="text" name="name" id="name-input" value="">
+            <br>
+            Last Name: <input type="text" name="last-name" id="last-name-input" value="">
+            <br>
+          </div>
+          <div id="sex-radios">
+            <p>Sex (for Height & Weight):</p>
+            <input type="radio" name="sex" value="male">Male
+            <input type="radio" name="sex" value="female">Female
+            <input type="radio" name="sex" value="either">No Preference
+            <br>
+          </div>
+          <br>
+          <button id="generate">Generate Random Character</button>
+        </div>
 
-    <div id="history-trappings">
-      <p id="character-history"></p>
-      <p id="history0"></p>
-      <p id="history1"></p>
-      <p id="history2"></p>
-      <p id="history3"></p>
-      <p id="history4"></p>
-      <p id="history5"></p>
-      <p id="history6"></p>
-      <p id="cash-p"></p>
-      <p id="trappings"></p>
-    </div>
+        <div id="attributes">
+          <div id="attribute-checkboxes">
+          </div>
+          <div id="attribute-buttons">
+          </div>
+        </div>
 
-    <div id="attributes">
-      <p>Attributes: </p>
-      <input type="checkbox" name="attribute" value="combat" id="combat"> 
-        <label for="combat"> COMBAT: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="brawn" id="brawn">
-        <label for="brawn"> BRAWN: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="agility" id="agility">
-        <label for="agility"> AGILITY: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="perception" id="perception">
-        <label for="perception"> PERCEPTION: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="intelligence" id="intelligence">
-        <label for="intelligence"> INTELLIGENCE: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="willpower" id="willpower">
-        <label for="willpower"> WILLPOWER: </label>
-      </input> <br>
-      <input type="checkbox" name="attribute" value="fellowship" id="fellowship">
-        <label for="fellowship"> FELLOWSHIP: </label>
-      </input> <br>
-      
+        <div id="gear-trait-alignment">
+          <div id="gear">
+            <p id="cash-p"></p>
+            <p id="trappings"></p>
+          </div>
+          <div id="trait-alignment">
+            <p id="history5"></p>
+            <p id="history6"></p>
+          </div>
+        </div>
+
+        <div id="history">
+          <p id="history0"></p>
+          <p id="history1"></p>
+          <p id="history2"></p>
+          <p id="history3"></p>
+          <p id="history4"></p>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>
