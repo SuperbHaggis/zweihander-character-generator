@@ -3,9 +3,8 @@ A simple, customizable character builder for ZWEIHANDER: Grim &amp; Perilous RPG
 
 TO DO:
 - Add "Main Gauche" content
-- Ancestral trait modifiers
-- Fix history DOM
 - CSS styling
+- Add Favored Primary Attribute indicator
 
 Dream features:
 - Allow for step-by-step generation of all character properties
