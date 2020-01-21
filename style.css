@@ -1,0 +1,36 @@
+#container {
+  display: flex;
+}
+
+#character-sheet {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#controls {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+#attributes {
+  padding-left: 20px;
+  width: 324px;
+}
+
+#attribute-values {
+  margin: auto;
+}
+
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#history {
+  padding-left: 20px;
+}
+
+#gear-trait-alignment {
+  padding-left: 20px;
+  width: 350px;
+}
