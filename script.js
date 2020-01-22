@@ -109,7 +109,7 @@ let randomizeAll = () => {
 
 generateButton.addEventListener('click', e => {
   let sexValue = document.getElementsByName('sex').value;
-  if (sexValue === "") {
+  if (sexValue == undefined) {
     window.alert("Please select your preferred Sex Table");
   } else {
     if (characterGenerated == false) {
