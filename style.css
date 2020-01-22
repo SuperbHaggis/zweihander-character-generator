@@ -1,15 +1,40 @@
+body {
+  background-color: dimgray;
+}
+
+h1 {
+  color: goldenrod;
+  text-shadow: 2px 2px darkred;
+}
+
+h3 {
+  margin-bottom: 5px;
+  color: maroon;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
 #container {
   display: flex;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 #character-sheet {
   display: flex;
   flex-wrap: wrap;
+  color: khaki;
+  max-width: 1200px;
+  max-height: 369px;
 }
 
-#controls {
-  padding-left: 10px;
-  padding-top: 10px;
+#controls, #attributes, #gear-trait-alignment, #history {
+  margin-left: 35px;
 }
 
 #attributes {
@@ -24,13 +49,39 @@
 #attribute-buttons {
   display: flex;
   flex-wrap: wrap;
-}
-
-#history {
-  padding-left: 20px;
+  padding-top: 15px;
 }
 
 #gear-trait-alignment {
   padding-left: 20px;
   width: 350px;
+}
+
+#gear {
+  min-height: 210px;
+}
+
+#trait-alignment {
+  min-height: 120px;
+}
+
+#history {
+  transform: translateY(-140px);
+  width: 682px;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  border-color: chocolate;
+  background-color: goldenrod;
+  color: saddlebrown;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
 }
