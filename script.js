@@ -45,8 +45,6 @@ let rollxd10 = (x) => {
 
 //Randomize All
 let randomizeAll = () => {
-  let nameValue = document.getElementById("name-input").value;
-  let lastNameValue = document.getElementById("last-name-input").value;
   let sexRadio = document.getElementsByName('sex');
   let sexValue;
   let sexTable;
@@ -100,23 +98,25 @@ let randomizeAll = () => {
   let cash = setCash(socialClass);
 
   setHistory(
-    nameValue, sexValue, ancestry, ancestralTrait,
+    sexValue, ancestry, ancestralTrait,
     profession, birthSeason, dooming, age,
     build, height, weight, complexion,
     hairColor, eyeColor, upbringing, socialClass,
-    drawback, marks, lastNameValue, mixedHeritageTrait,
+    drawback, marks, mixedHeritageTrait,
     ancestry2, cash,
   );
 };
 
 generateButton.addEventListener('click', e => {
-  let nameValue = document.getElementById("name-input").value;
   let sexValue = document.getElementsByName('sex').value;
-  if ((sexValue == "") || (nameValue == "")) {
-    window.alert("Please Enter a First Name and select your preferred Sex Table");
+  if (sexValue === "") {
+    window.alert("Please select your preferred Sex Table");
   } else {
     if (characterGenerated == false) {
       setCharSheetDom();
+    };
+    if (document.body.contains(natSelect)) {
+      attButtonsDiv.removeChild(natSelect);
     };
     createAttButtons();
     attSwapped = false;
@@ -726,24 +726,22 @@ let setAlignment = () => {
 };
 
 let setHistory = (
-  nameValue, sexValue, ancestry, ancestralTrait,
+  sexValue, ancestry, ancestralTrait,
   profession, birthSeason, dooming, age,
   build, height, weight, complexion,
   hairColor, eyeColor, upbringing, socialClass,
-  drawback, marks, lastNameValue, mixedHeritageTrait,
+  drawback, marks, mixedHeritageTrait,
   ancestry2, cash,
   ) => {
-  nameValue = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
-  lastNameValue = lastNameValue.charAt(0).toUpperCase() + lastNameValue.slice(1).toLowerCase();
 
-  history0.textContent = `${nameValue} ${(lastNameValue != '') ? lastNameValue : ''} is 
+  history0.textContent = `This character is 
   ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
   ${age} ${ancestry} 
   ${(sexValue == 'either') ? '' : sexValue} 
   ${profession}.`;
 
-  history1.textContent = `${nameValue} is ${height}, ${weight}
-  & of a ${build} build type. ${nameValue} has
+  history1.textContent = `They are ${height}, ${weight}
+  & of a ${build} build type. They have
   ${complexion} skin, with ${hairColor} hair and ${eyeColor} eyes.`;
 
   if (age == 'young') {
@@ -756,7 +754,7 @@ let setHistory = (
     history2.textContent = `Distinguishing Marks: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
   };
  
-  history3.textContent = `${nameValue} was born in ${birthSeason}, 
+  history3.textContent = `This character was born in ${birthSeason}, 
     is of the ${socialClass} social class & of
     ${(upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O') ? 'an' : 'a'} 
     ${upbringing} upbringing.`;
