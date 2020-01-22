@@ -68,6 +68,7 @@ p {
 #history {
   transform: translateY(-140px);
   width: 682px;
+  z-index: -1;
 }
 
 h1 {
