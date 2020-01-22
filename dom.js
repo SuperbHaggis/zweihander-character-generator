@@ -17,7 +17,6 @@ export function setCharSheetDom() {
 
   historyTitle.appendChild(histTitleText);
   historyDiv.insertBefore(historyTitle, historyDiv.firstChild);
-
 };
 
 export function createAttButtons() {
