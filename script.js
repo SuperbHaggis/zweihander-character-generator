@@ -108,7 +108,13 @@ let randomizeAll = () => {
 };
 
 generateButton.addEventListener('click', e => {
-  let sexValue = document.getElementsByName('sex').value;
+  let sexRadio = document.getElementsByName('sex');
+  let sexValue;
+  for (let i = 0; i < sexRadio.length; i++) {
+    if (sexRadio[i].checked) {
+      sexValue = sexRadio[i].value;
+    };
+  };
   if (sexValue == undefined) {
     window.alert("Please select your preferred Sex Table");
   } else {
