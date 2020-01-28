@@ -201,9 +201,9 @@ attributeReplace.addEventListener('click', e => {
   } else {
     attReplaced = true;
     swapReplaceAtt();
+    attButtonsDiv.removeChild(attributeReplace);
+    attButtonsDiv.removeChild(attributeSwap);
   };
-  attButtonsDiv.removeChild(attributeReplace);
-  attButtonsDiv.removeChild(attributeSwap);
 });  
 
 attributeSwap.addEventListener('click', e => {
@@ -213,9 +213,9 @@ attributeSwap.addEventListener('click', e => {
   } else {
     attSwapped = true;
     swapReplaceAtt();
-  }; 
-  attButtonsDiv.removeChild(attributeReplace);
-  attButtonsDiv.removeChild(attributeSwap);  
+    attButtonsDiv.removeChild(attributeReplace);
+    attButtonsDiv.removeChild(attributeSwap); 
+  };  
 });
 
 natSelect.addEventListener('click', e => {
