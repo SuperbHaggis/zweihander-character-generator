@@ -18,8 +18,10 @@ TO DO:
 - Add Favored Primary Attribute indicator
 
 Dream features:
-- Allow for step-by-step generation of all character properties
-- Allow selection of Iconic Trapping
-- Allow export to PDF, XML
+- Step-by-step generation of all character properties
+- Purchasing of Character Advances
+- Creation of higher-tier characters
+- Selection of Iconic Trapping
+- Export to PDF, XML
 - Allow user to save characters
 - Allow user to upload custom portraits
