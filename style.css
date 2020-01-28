@@ -16,65 +16,6 @@ p {
   margin-bottom: 5px;
 }
 
-#container {
-  display: flex;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  align-items: center;
-  justify-content: center;
-}
-
-#character-sheet {
-  display: flex;
-  flex-wrap: wrap;
-  color: khaki;
-  max-width: 1200px;
-  max-height: 369px;
-}
-
-#controls, #attributes, #gear-trait-alignment, #history {
-  margin-left: 35px;
-}
-
-#attributes {
-  padding-left: 20px;
-  width: 324px;
-}
-
-#attribute-values {
-  margin: auto;
-}
-
-#attribute-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 15px;
-}
-
-#gear-trait-alignment {
-  padding-left: 20px;
-  width: 350px;
-}
-
-#gear {
-  min-height: 210px;
-}
-
-#trait-alignment {
-  min-height: 120px;
-}
-
-#history {
-  transform: translateY(-125px);
-  width: 682px;
-  z-index: -1;
-}
-
-h1 {
-  margin-bottom: 0px;
-}
-
 button {
   margin-right: 5px;
   margin-bottom: 5px;
@@ -85,4 +26,56 @@ button {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
+}
+
+#character-sheet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#attributes {
+  width: 265px;
+}
+
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 15px;
+}
+
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 15px;
+}
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 15px;
+}
+
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 15px;
+}
+
+#gear {
+  height: 250px;
+  width: 320px;
+}
+
+#attribute-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 15px;
+}
+
+#trait-alignment {
+  width: 350px;
+}
+
+#history {
+  max-width: 750px;
 }
