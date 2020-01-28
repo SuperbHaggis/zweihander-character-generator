@@ -389,7 +389,7 @@ let setProfession = (archetype) => {
 
 let setTrappings = (archetype) => {
   trappingsP.textContent = 'Trappings: ';
-  trappings = trappingsObj[archetype].join(', ');
+  let trappings = trappingsObj[archetype].join(', ');
   trappingsP.textContent += trappings;
 }
 
