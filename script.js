@@ -1,13 +1,13 @@
 import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
   hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
-  weightsObj, sexArr} from "./lists.js";
+  weightsObj, sexArr, mgProfessonObj} from "./lists.js";
 
 import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
   generateButton, attCheckLabel, attributeSwap, attributeReplace,
   history0, history1, history2, history3, history4, history5, cashP,
   trappingsP, attButtonsDiv, natSelect, natSelectText, 
-  attributeCheck,} from "./dom.js";
+  attributeCheck, mgCheck} from "./dom.js";
 
 import { setCharSheetDom, createAttButtons } from "./dom.js";
 
@@ -78,7 +78,12 @@ let randomizeAll = () => {
   };
 
   let archetype = setArchetype();
-  let profession = setProfession(archetype);
+  let profession;
+  if (mgCheck.checked == true) {
+    profession = setProfessionMG(archetype);
+  } else {
+    profession = setProfession(archetype);
+  };
   setTrappings(archetype);
   let birthSeason = setSeason();
   let dooming = setDooming(birthSeason);
@@ -384,6 +389,60 @@ let setProfession = (archetype) => {
       break;
   };
   profession = professonObj[archetype][profession];
+  return profession;
+};
+
+let setProfessionMG = (archetype) => {
+  let profession;
+  let d100 = rolld100();
+  switch (true) {
+    case (d100 <= 6):
+      profession = 0;
+      break;
+    case (d100 <= 13):
+      profession = 1;
+      break;
+    case (d100 <= 20):
+      profession = 2;
+      break;
+    case (d100 <= 27):
+      profession = 3;
+      break;
+    case (d100 <= 34):
+      profession = 4;
+      break;
+    case (d100 <= 41):
+      profession = 5;
+      break;
+    case (d100 <= 47):
+      profession = 6;
+      break;
+    case (d100 <= 54):
+      profession = 7;
+      break;
+    case (d100 <= 61):
+      profession = 8;
+      break;
+    case (d100 <= 68):
+      profession = 9;
+      break;
+    case (d100 <= 75):
+      profession = 10;
+      break;
+    case (d100 <= 82):
+      profession = 11;
+      break;
+    case (d100 <= 89):
+      profession = 11;
+      break;
+    case (d100 <= 95):
+      profession = 11;
+      break;
+    case (d100 <= 100):
+      profession = 11;
+      break;
+  };
+  profession = mgProfessonObj[archetype][profession];
   return profession;
 };
 

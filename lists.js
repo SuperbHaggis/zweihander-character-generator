@@ -64,6 +64,45 @@ export const professonObj = {
   ],
 };
 
+export const mgProfessonObj = {
+  'Academic': [
+    'Adherent', 'Anchorite', 'Antiquarian', 'Apothecary',
+    'Astrologer', 'Diabolist', 'Engineer', 'Forger', 
+    'Informer', 'Investigator', 'Monk', 'Pamphleteer',
+    'Preacher', 'Quartermaster', 'Scribe',
+  ],
+  'Commoner': [
+    'Artisan', 'Barber Surgeon', 'Blitzballer', 'Boatman', 
+    'Camp Follower', 'Cheapjack', 'Coachman', 'Doomsayer', 
+    'Jailer', 'Laborer', 'Peasant', 'Rat Catcher', 'Servant',
+    'Stevedore', 'Undertaker',
+  ],
+  'Knave': [
+    'Beggar', 'Burglar', 'Charlatan', 'Convict', 'Fence',
+    'Footpad', 'Gambler', 'Graverobber', 'Guttersnipe', 
+    'Highwayman', 'Prostitute', 'Reaver', 'Smuggler', 
+    'Vagabond', 'Vigilante',
+  ],
+  'Ranger': [
+    'Animal Tamer', 'Bailiff', 'Bonepicker', 'Bounty Hunter',
+    'Gamekeeper', 'Hedgewise', , 'Nomad', 'Old Believer', 
+    'Outrider', 'Pilgrim', 'Pioneer', 'Reeve', 'Rustler',
+    'Slayer', 'Trapper',
+  ],
+  'Socialite': [
+    'Anarchist', 'Apostle', 'Courtier', 'Cultist', 
+    'Entertainer', 'Envoy', 'Fop', 'Jester', 'Messenger',
+    'Provocateur', 'Quacksalver', 'Racketeer', 'Raconteur', 
+    'Rake', 'Valet',
+  ],
+  'Warrior': [
+    'Berserker', 'Bravo', 'Buccaneer', 'Cadet', 'Dragoon',
+    'Hedge Knight', 'Henchman', 'Man-At-Arms', 'Militiaman', 
+    'Pit Fighter', 'Pugilist', 'Sellsword', 'Skald',
+    'Squire', 'Watchman',
+  ],
+}
+
 export const trappingsObj = {
   'Academic': [
     'Black lotus', 'Bottle of leeches', 'Coin purse', 'Dirk',

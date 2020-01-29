@@ -56,6 +56,7 @@ export const nonhumanCheck = document.getElementById('nonhuman-check');
 export const separateAlignmentCheck = document.getElementById('separate-alignment-check');
 export const drawbackCheck = document.getElementById('drawback-check');
 export const generateButton = document.getElementById('generate');
+export const mgCheck = document.getElementById('main-gauche-check');
 
 //Attributes
 export const attributesDiv = document.getElementById('attributes');
