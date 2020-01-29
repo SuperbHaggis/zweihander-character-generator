@@ -3,7 +3,7 @@ let attributeCheckNew;
 let attCheckLabelNew;
 
 //Functions
-export function setCharSheetDom() {
+export function setCharacterDom() {
   attributeTitle.appendChild(attTitleText);
   attributesDiv.insertBefore(attributeTitle, attributesDiv.firstChild);
   
@@ -17,6 +17,10 @@ export function setCharSheetDom() {
 
   historyTitle.appendChild(histTitleText);
   historyDiv.insertBefore(historyTitle, historyDiv.firstChild);
+};
+
+export function setNPCDom() {
+
 };
 
 export function createAttButtons() {
@@ -56,6 +60,7 @@ export const nonhumanCheck = document.getElementById('nonhuman-check');
 export const separateAlignmentCheck = document.getElementById('separate-alignment-check');
 export const drawbackCheck = document.getElementById('drawback-check');
 export const generateButton = document.getElementById('generate');
+export const generateNPCButton = document.getElementById('generate-npc');
 export const mgCheck = document.getElementById('main-gauche-check');
 
 //Attributes

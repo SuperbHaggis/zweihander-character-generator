@@ -1,21 +1,23 @@
 import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr, 
   complexionArr, seasonArr, ancestryArr, doomingArr,
   hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
-  weightsObj, sexArr, mgProfessonObj} from "./lists.js";
+  weightsObj, sexArr, mgProfessonObj, motivationArr, 
+  npcAlignmentsArr, namesObj} from "./lists.js";
 
 import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
   generateButton, attCheckLabel, attributeSwap, attributeReplace,
   history0, history1, history2, history3, history4, history5, cashP,
   trappingsP, attButtonsDiv, natSelect, natSelectText, 
-  attributeCheck, mgCheck} from "./dom.js";
+  attributeCheck, mgCheck, generateNPCButton} from "./dom.js";
 
-import { setCharSheetDom, createAttButtons } from "./dom.js";
+import { setCharacterDom, setNPCDom, createAttButtons } from "./dom.js";
 
 //Global Variables
 var attSwapped = false;
 var attReplaced = false;
 var natSelectReplaced = false;
 var characterGenerated = false;
+var npcGenerated = false;
 
 var marks = {
   1: '',
@@ -84,6 +86,7 @@ let randomizeAll = () => {
   } else {
     profession = setProfession(archetype);
   };
+
   setTrappings(archetype);
   let birthSeason = setSeason();
   let dooming = setDooming(birthSeason);
@@ -112,6 +115,31 @@ let randomizeAll = () => {
   );
 };
 
+let randomizeAllNPC = () => {
+  let sexRadio = document.getElementsByName('sex');
+  let sexValue;
+  for (let i = 0; i < sexRadio.length; i++) {
+    if (sexRadio[i].checked) {
+      sexValue = sexRadio[i].value;
+    };
+  };
+  let nameNPC = setNameNPC(sexValue);
+  let age = setAge();
+  let ancestry = setAncestry();
+  let height = setNPCHeight();
+  let build = setBuild(ancestralTrait);
+  let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
+  let dress = setDress();
+  setAncestryBonuses(ancestry);
+  setMarks(age);
+  let socialClass = setSocialClass(profession);
+  let motivation = motivationArr[Math.floor(Math.random() * motivationArr.length)];
+  let archetype = setArchetype();
+  let alignment = npcAlignmentsArr[Math.floor(Math.random() * npcAlignmentsArr.length)];
+
+  setTrappings(archetype);
+};
+
 generateButton.addEventListener('click', e => {
   let sexRadio = document.getElementsByName('sex');
   let sexValue;
@@ -124,7 +152,7 @@ generateButton.addEventListener('click', e => {
     window.alert("Please select your preferred Sex Table");
   } else {
     if (characterGenerated == false) {
-      setCharSheetDom();
+      setCharacterDom();
     };
     if (document.body.contains(natSelect)) {
       attButtonsDiv.removeChild(natSelect);
@@ -137,6 +165,30 @@ generateButton.addEventListener('click', e => {
     randomizeAll();
   };
 });
+
+generateNPCButton.addEventListener('click', e => {
+  let sexRadio = document.getElementsByName('sex');
+  let sexValue;
+  for (let i = 0; i < sexRadio.length; i++) {
+    if (sexRadio[i].checked) {
+      sexValue = sexRadio[i].value;
+    };
+  };
+  if (sexValue == undefined) {
+    window.alert("Please select your preferred Sex Table");
+  } else {
+    if (npcGenerated == false) {
+      setNPCDom();
+    };
+    npcGenerated = true;
+    randomizeAllNPC();
+  };
+});
+
+//Set NPC Name
+let setNameNPC = (sexValue) => {
+  return namesObj[sexValue][Math.floor(Math.random() * 100)];
+};
 
 //Set Attributes
 let setAttributes = () => {
@@ -532,7 +584,7 @@ let setMarks = (age) => {
   };
 };
 
-//Set Build, Height & Weight
+//Set Build, Height & Weight, Dress
 let setBuild = (ancestralTrait) => {
   switch (ancestralTrait) {
     case 'Mountain Amongst Men':
@@ -587,6 +639,32 @@ let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexTable) => 
     break;
   };
   return `${weightsObj[sexTable][ancestry][build][heightWeightNum]} lbs`;
+};
+
+let setNPCHeight = () => {
+  let d100 = rolld100();
+  switch(true) {
+    case (d100 <= 20):
+      return 'Short';
+    case (d100 <= 79):
+      return 'Normal';
+    case (d100 <= 100):
+      return 'Tall';
+  };
+};
+
+let setDress = () => {
+  let d100 = rolld100();
+  switch (true) {
+    case (d100 <= 20):
+      return 'Shabbily';
+    case (d100 <= 70):
+      return 'Modestly';
+    case (d100 <= 90):
+      return 'Fashionably';
+    case (d100 <= 100):
+      return 'Extravagantly';
+  };
 };
 
 //Set hair color

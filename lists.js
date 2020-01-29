@@ -438,3 +438,55 @@ export const weightsObj = {
 };
 
 export const sexArr = ['male', 'female'];
+
+export const motivationArr = [
+  'Absolution', 'Ascendancy', 'Decorum', 'Defiance', 'Destruction',
+  'Dominion', 'Emancipation', 'Homage', 'Innovation', 'Judgement',
+  'Largesse', 'Legacy', 'Metamorphosis', 'Nihilism', 'Peace',
+  'Perfection', 'Revelation', 'Secrecy', 'Veneration', 'Vengeance',
+];
+
+export const npcAlignmentsArr = ['Order', 'Chaos'];
+
+export const namesObj = {
+  'Male': [
+    'Adelard', 'Agnore', 'Alanin', 'Alcanix', 'Alexi', 'Artur',
+    'Asan', 'Asvald', 'Balboa', 'Baltar', 'Bogdahn', 'Bram',
+    'Camring', 'Dankmar', 'Dima', 'Dmitri', 'Dolwen', 'Dunfjall',
+    'Edmund', 'Edwin', 'Edgor', 'Egor', 'Einheit', 'Elror', 
+    'Erasmus', 'Eredor', 'Erling', 'Farnoth', 'Fillip', 'Foros',
+    'Frey', 'Fyodor', 'Garald', 'Gaul', 'Georgii', 'Gilgarion',
+    'Giselbert', 'Gloringwa', 'Grani', 'Grinwold', 'Gunnulf',
+    'Hardt', 'Harrond', 'Hedeon', 'Heinrich', 'Hensil', 'Hobi',
+    'Hrosskell', 'Ichabod', 'Imhol', 'Iorveth', 'Ivan', 'Jorgle',
+    'Karl', 'Kaspar', 'Kelta', 'Ketilbiorn', 'Killian', 'Kolbein',
+    'Kollskegg', 'Konstantin', 'Kristof', 'Laurenor', 'Levin',
+    'Link', 'Luppolt', 'Markcha', 'Matheus', 'Mikail', 'Moldof',
+    'Mormecar', 'Narien', 'Nitzer', 'Olanis', 'Orri', 'Pavel',
+    'Rana', 'Ravandril', 'Reinholdt', 'Richart', 'Rudger',
+    'Rulde', 'Salvik', 'Selkollr', 'Sergei', 'Sigmir', 'Sigurt',
+    'Skeggi', 'Skialg', 'Stein', 'Svartgeirr', 'Thalos', 'Tolman',
+    'Torberg', 'Urdithane', 'Viktor', 'Voltz', 'Vyach', 'Ziedle',
+    'Zoltan',
+  ],
+  'Female': [
+    'Aggora', 'Alane', 'Aldis', 'Altronia', 'Anikka', 'Anya',
+    'Arwin', 'Aslaug', 'Baeju', 'Beatrix', 'Belle', 'Bera',
+    'Berchte', 'Beryll', 'Bingjaz', 'Brigirt', 'Brunhilda',
+    'Carla', 'Cordelia', 'Cutka', 'Elandor', 'Elenwe', 'Engela',
+    'Eponia', 'Ergha', 'Finduelis', 'Fluli', 'Gabby', 'Galadwen',
+    'Gayle', 'Gertrude', 'Giselbert', 'Gretla', 'Grima', 'Gudfrid',
+    'Hilda', 'Hilde', 'Hildegard', 'Hlif', 'Hrafnhild', 'Ildrin',
+    'Iludir', 'Ingunn', 'Irrgha', 'Janna', 'Jarjeen', 'Jilly',
+    'Jimja', 'Klare', 'Lena', 'Liessa', 'Lindo', 'Lucia', 
+    'Lucinda', 'Lucretia', 'Magi', 'Marta', 'Mina', 'Muriel',
+    'Nianna', 'Ogrila', 'Orrgha', 'Pansy', 'Pelegrane', 'Perplopa',
+    'Phee', 'Poppy', 'Prisco', 'Ragna', 'Rilia', 'Rosabella',
+    'Rowena', 'Ruela', 'Sadrilil', 'Salina', 'Sibbe', 'Sigrid',
+    'Steinunn', 'Styrlaug', 'Tallana', 'Tallana', 'Tarkha',
+    'Thordi', 'Thorfrithr', 'Thraslaug', 'Tilda', 'Torporza',
+    'Unn', 'Vadandre', 'Vaklana', 'Verina', 'Vivandrel', 
+    'Wulfhilde', 'Xena', 'Ylarfa', 'Yrrgha', 'Yuviel', 'Zagba',
+    'Zelda',
+  ],
+};
