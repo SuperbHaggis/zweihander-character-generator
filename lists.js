@@ -85,7 +85,7 @@ export const mgProfessonObj = {
   ],
   'Ranger': [
     'Animal Tamer', 'Bailiff', 'Bonepicker', 'Bounty Hunter',
-    'Gamekeeper', 'Hedgewise', , 'Nomad', 'Old Believer', 
+    'Gamekeeper', 'Hedgewise', 'Nomad', 'Old Believer', 
     'Outrider', 'Pilgrim', 'Pioneer', 'Reeve', 'Rustler',
     'Slayer', 'Trapper',
   ],

@@ -2,17 +2,19 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
     <title>ZWEIHÄNDER Character Generator</title>
     <script src="script.js" type="module"></script>
   </head>
 
   <body>
     <h1>SuperbHaggis' ZWEIHÄNDER Character Generator</h1>
-    
-    <div id="container">
-      <div id="character-sheet">
-        <div id="controls">
+    <div class="sheet-container">
+      <div class="charsheet">
+        <div class="container" id="prefs">
           <h3>Preferences</h3>
           <div id="preferences">
             <input type="checkbox" id="nonhuman-check">Nonhuman<br>
@@ -28,35 +30,37 @@
             <br>
           </div>
           <br>
-          <button id="generate">Generate Random Character</button>
+          <div id="gen-container">
+            <button id="generate">Generate Random Character</button>
+          </div>
         </div>
-
-        <div id="attributes">
+      
+        <div class="container" id="attributes">
           <div id="attribute-checkboxes">
           </div>
           <div id="attribute-buttons">
           </div>
         </div>
-
-        <div id="gear">
-          <p id="cash-p"></p>
-          <p id="trappings"></p>
-        </div>
-  
-        <div id="history">
+      
+        <div class="container" id="history">
           <p id="history0"></p>
           <p id="history1"></p>
           <p id="history2"></p>
           <p id="history3"></p>
           <p id="history4"></p>
         </div>
-
-        <div id="trait-alignment">
+      
+        <div class="container" id="gear">
+          <p id="cash-p"></p>
+          <p id="trappings"></p>
+        </div>
+      
+        <div class="container" id="trait-alignment">
           <p id="history5"></p>
           <p id="history6"></p>
         </div>
+      
       </div>
-
     </div>
   </body>
 </html>

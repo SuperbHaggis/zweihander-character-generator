@@ -433,13 +433,13 @@ let setProfessionMG = (archetype) => {
       profession = 11;
       break;
     case (d100 <= 89):
-      profession = 11;
+      profession = 12;
       break;
     case (d100 <= 95):
-      profession = 11;
+      profession = 13;
       break;
     case (d100 <= 100):
-      profession = 11;
+      profession = 14;
       break;
   };
   profession = mgProfessonObj[archetype][profession];
