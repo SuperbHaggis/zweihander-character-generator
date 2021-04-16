@@ -63,7 +63,6 @@ button {
   position: absolute;
   font-size: small;
   z-index: 1;
-  top: -5px;
 }
 
 .tooltip:hover .tooltiptext {
@@ -132,5 +131,10 @@ button {
 
   .container {
     margin-right: 25px;
+  }
+
+  .tooltiptext {
+    top: 25px;
+    left: -150px;
   }
 }
