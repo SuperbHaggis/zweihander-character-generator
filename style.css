@@ -134,7 +134,9 @@ button {
   }
 
   .tooltiptext {
-    top: 5px;
-    left: -50px;
+    position: fixed;
+    bottom: auto;
+    top: 25%;
+    left: 50%;
   }
 }
