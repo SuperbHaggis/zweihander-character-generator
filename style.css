@@ -44,19 +44,19 @@ button {
 }
 
 .tooltip {
-  position: relative;
   margin-left: 5px;
-  max-height: 20px;
-  font-size: small;
+  text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 .tooltiptext {
   font-size: small;
   visibility: hidden;
-  min-width: 300px;
+  max-width: 300px;
   background-color: white;
   color:rgb(0, 0, 0);
   border-radius: 6px;
+  border: black 2px solid;
   text-justify: inter-word;
   margin-left: 10px;
   padding: 5px;
@@ -94,7 +94,7 @@ button {
 }
 
 .sexradio-prompt {
-  margin: 0;
+  margin-top: 5px;
 }
 
 #prefs {
