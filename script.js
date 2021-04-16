@@ -802,7 +802,6 @@ let setHistory = (
   history0.textContent = `This character is 
   ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
   ${age} ${ancestry} 
-  ${(sexValue == 'either') ? '' : sexValue} 
   ${profession}.`;
 
   history1.textContent = `They are ${height}, ${weight}
@@ -811,6 +810,7 @@ let setHistory = (
 
   if (age == 'young') {
     history2.textContent = '';
+    history2.style.margin= '0';
   } else if (age == 'adult') {
     history2.textContent = `Distinguishing Mark: "${marks[1]}".`;
   } else if (age == 'middle aged') {

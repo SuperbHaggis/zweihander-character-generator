@@ -28,7 +28,7 @@ p {
 }
 
 button {
-  margin: 5px;
+  margin: 10px;
   border-radius: 20px;
   border-color: chocolate;
   background-color: goldenrod;
@@ -36,6 +36,38 @@ button {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
+}
+
+.tooltip-container {
+  display: flex;
+  align-items: baseline;
+}
+
+.tooltip {
+  position: relative;
+  margin-left: 5px;
+  max-height: 20px;
+  font-size: small;
+}
+
+.tooltiptext {
+  font-size: small;
+  visibility: hidden;
+  min-width: 300px;
+  background-color: white;
+  color:rgb(0, 0, 0);
+  border-radius: 6px;
+  text-justify: inter-word;
+  margin-left: 10px;
+  padding: 5px;
+  position: absolute;
+  font-size: small;
+  z-index: 1;
+  top: -5px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 .charsheet {
@@ -60,6 +92,10 @@ button {
   margin: 25px 0 0 25px;
   flex-direction: column;
 
+}
+
+.sexradio-prompt {
+  margin: 0;
 }
 
 #prefs {
@@ -88,7 +124,7 @@ button {
   flex-direction: column;
 }
 
-@media (max-width: 1279px) {
+@media (max-width: 700px) {
   .charsheet {
     margin: 0;
     display: inline;
