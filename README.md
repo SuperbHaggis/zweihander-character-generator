@@ -13,15 +13,10 @@ INSTRUCTIONS:
 4. Swap and/or Replace Attributes. Choose wisely: you only get to do it once!
 
 TO DO:
-- Add "Main Gauche" content
-- Improve CSS Styling
 - Add Favored Primary Attribute indicator
+- Create Character object for export & DOM control
+- Fix incorrect Non-Human Attribute Bonus allocation
+- Add .json and .txt export features
 
 Dream features:
-- Step-by-step generation of all character properties
-- Purchasing of Character Advances
 - Creation of higher-tier characters
-- Selection of Iconic Trapping
-- Export to PDF, XML
-- Allow user to save characters
-- Allow user to upload custom portraits
