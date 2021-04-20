@@ -38,6 +38,10 @@ button {
   font-weight: bold;
 }
 
+input[type="checkbox"] {
+  margin-bottom: 5px;
+}
+
 .tooltip-container {
   display: flex;
   align-items: baseline;
@@ -93,7 +97,7 @@ button {
 
 }
 
-.sexradio-prompt {
+.radio-prompt {
   margin-top: 5px;
 }
 
@@ -116,6 +120,10 @@ button {
 #trait-alignment {
   grid-area: trait;
   margin-bottom: 25px;
+}
+
+#history2:empty {
+  display: none;
 }
 
 #history {

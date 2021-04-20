@@ -1,15 +1,12 @@
 import {professonObj, trappingsObj, buildArr, alignmentsObj, markArr, 
-  complexionArr, seasonArr, ancestryArr, doomingArr,
+  complexionArr, seasonArr, ancestryArr, phbAncestryArr, doomingArr,
   hairColorsObj, eyeColorsObj, ancestralTraitsObj, baseHeight, 
   weightsObj, sexArr, mgProfessonObj} from "./lists.js";
 
-import {nonhumanCheck, separateAlignmentCheck, drawbackCheck,
+import {ancestryRadios, sexRadios, separateAlignmentCheck, drawbackCheck,
   generateButton, attCheckLabel, attributeSwap, attributeReplace,
-  history0, history1, history2, history3, history4, history5, cashP,
-  trappingsP, attButtonsDiv, natSelect, natSelectText, 
-  attributeCheck, mgCheck} from "./dom.js";
-
-import { setCharSheetDom, createAttButtons } from "./dom.js";
+  attButtonsDiv, natSelect, natSelectText, setHistory, attributeCheck, 
+  mgCheck, setAttributeDom, setCharSheetDom, createAttButtons} from "./dom.js";
 
 //Global Variables
 var attSwapped = false;
@@ -17,19 +14,7 @@ var attReplaced = false;
 var natSelectReplaced = false;
 var characterGenerated = false;
 
-var marks = {
-  1: '',
-  2: '',
-  3: '',
-};
-var alignment = {
-  order: '',
-  chaos: '',
-};
-var primaryAttributes = [];
-var primaryBonuses = [];
-
-//Rollers
+//Rollers - Add to random.js
 let rolld100 = () => Math.floor(Math.random() * 100) + 1;
 
 let rolld10 = () => Math.floor(Math.random() * 10) + 1;
@@ -45,145 +30,149 @@ let rollxd10 = (x) => {
 
 //Randomize All
 let randomizeAll = () => {
-  let sexRadio = document.getElementsByName('sex');
-  let sexValue;
-  let sexTable;
-  for (let i = 0; i < sexRadio.length; i++) {
-    if (sexRadio[i].checked) {
-      sexValue = sexRadio[i].value;
-    };
-  };
-  if (sexValue == 'either') {
-    sexTable = sexArr[Math.floor(Math.random() * sexArr.length)];
-  } else {
-    sexTable = sexValue;
-  };
-
-  setAttributes();
-  let ancestry = setAncestry()
-  setAncestryBonuses(ancestry);
-  let ancestralTrait = setAncestryTrait(ancestry);
-
-  if (ancestralTrait == 'Mixed Heritage') {
-    var ancestry2 = ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
-    var mixedHeritageTrait = setAncestryTrait(ancestry2);
-  } else {
-    var ancestry2 = 'none';
-    var mixedHeritageTrait = 'none';
-  };
+  let sexValue = getSexValue();
+  let ancestryValue = getAncestryValue();
   
-  if (ancestralTrait == 'Natural Selection') {
-    natSelect.appendChild(natSelectText);
-    attButtonsDiv.insertBefore(natSelect, attButtonsDiv.firstChild);
-  };
+  // Attributes and Ancestry
+  let attributes = setAttributes();
+  let ancestry = setAncestry(ancestryValue)
+  setAncestryBonuses(ancestry, attributes);
+  let ancestralTrait = setAncestralTrait(ancestry);
 
+  // Archetype & Profession
   let archetype = setArchetype();
-  let profession;
-  if (mgCheck.checked == true) {
-    profession = setProfessionMG(archetype);
-  } else {
-    profession = setProfession(archetype);
-  };
-  setTrappings(archetype);
+  let profession = (mgCheck.checked) ? setProfessionMG(archetype) : setProfession(archetype)
+
+  // History, Trappings, Alignment
+  let sexTable = (sexValue == 'either') ? sexArr[Math.floor(Math.random() * sexArr.length)] : sexValue;
   let birthSeason = setSeason();
-  let dooming = setDooming(birthSeason);
   let age = setAge();
-  setMarks(age);
-  let complexion = complexionArr[Math.floor(Math.random() * complexionArr.length)];
   let build = setBuild(ancestralTrait);
   let heightWeightNum = Math.floor(Math.random() * 9);
-  let height = setHeight(ancestry, ancestralTrait, heightWeightNum, sexTable);
-  let weight = setWeight(ancestry, ancestralTrait, build, heightWeightNum, sexTable);
   let hairColor = setHairColor(ancestry);
   let eyeColor = setEyeColor(ancestry);
-  let upbringing = setUpbringing();
   let socialClass = setSocialClass(profession);
-  let drawback = setDrawback();
-  setAlignment();
   let cash = setCash(socialClass);
 
-  setHistory(
-    sexValue, ancestry, ancestralTrait,
-    profession, birthSeason, dooming, age,
-    build, height, weight, complexion,
-    hairColor, eyeColor, upbringing, socialClass,
-    drawback, marks, mixedHeritageTrait,
-    ancestry2, cash,
-  );
+  // Character Object
+  let character = {
+    "attributes": attributes,
+    "ancestry": ancestry,
+    "ancestral-trait": ancestralTrait,
+    "age": age,
+    "build": build,
+    "profession": profession,
+    "height": setHeight(ancestry, ancestralTrait, heightWeightNum, sexTable),
+    "weight": setWeight(ancestry, ancestralTrait, build, heightWeightNum, sexTable),
+    "complexion": complexionArr[Math.floor(Math.random() * complexionArr.length)],
+    "hair": hairColor,
+    "eyes": eyeColor,
+    "marks": setMarks(age),
+    "season": birthSeason,
+    "class": socialClass,
+    "upbringing": setUpbringing(),
+    "dooming": setDooming(birthSeason),
+    "drawback": setDrawback(),
+    "alignment": setAlignment(),
+    "cash": cash,
+    "trappings": trappingsObj[archetype]
+  };
+
+  console.log(character);
+  storeCharacter(character);
+  return character;
+};
+
+let storeCharacter = (character) => {
+  localStorage.setItem("character", JSON.stringify(character));
+};
+
+let retreiveCharacter = () => {
+  return JSON.parse(localStorage.getItem("character"));
 };
 
 generateButton.addEventListener('click', e => {
-  let sexRadio = document.getElementsByName('sex');
-  let sexValue;
-  for (let i = 0; i < sexRadio.length; i++) {
-    if (sexRadio[i].checked) {
-      sexValue = sexRadio[i].value;
-    };
+  if (characterGenerated == false) {
+    setCharSheetDom();
   };
-  if (sexValue == undefined) {
-    window.alert("Please select your preferred Sex Table");
-  } else {
-    if (characterGenerated == false) {
-      setCharSheetDom();
-    };
-    if (document.body.contains(natSelect)) {
-      attButtonsDiv.removeChild(natSelect);
-    };
-    createAttButtons();
-    attSwapped = false;
-    attReplaced = false;
-    natSelectReplaced = false;
-    characterGenerated = true;
-    randomizeAll();
+  if (document.body.contains(natSelect)) {
+    attButtonsDiv.removeChild(natSelect);
   };
+  createAttButtons();
+  attSwapped = false;
+  attReplaced = false;
+  natSelectReplaced = false;
+  characterGenerated = true;
+  let character = randomizeAll();
+  setHistory(character);
 });
 
-//Set Attributes
+///Get Sex & Ancestry Values
+let getSexValue = () => {
+  for (let i = 0; i < sexRadios.length; i++) {
+    if (sexRadios[i].checked) {
+      let sexValue = sexRadios[i].value;
+      return sexValue;
+    };
+  };
+};
+
+let getAncestryValue = () => {
+  for (let i = 0; i < ancestryRadios.length; i++) {
+    if (ancestryRadios[i].checked) {
+      let ancestryValue = ancestryRadios[i].value;
+      return ancestryValue;
+    };
+  };
+};
+
+//Set Attributes - Add to random.js
 let setAttributes = () => {
-  for (let i = 0; i < 7; i++) {
-    primaryAttributes[i] = (rollxd10(3) + 25 + '%');
+  let attributes = {
+    "combat": [rollxd10(3) + 25, ],
+    "brawn": [rollxd10(3) + 25, ],
+    "agility": [rollxd10(3) + 25,],
+    "perception": [rollxd10(3) + 25,],
+    "intelligence": [rollxd10(3) + 25,],
+    "willpower": [rollxd10(3) + 25,],
+    "fellowship": [rollxd10(3) + 25,],
   };
-  setAttributeDom();
-  setPrimaryBonuses();
+  setBaseBonuses(attributes);
+  return attributes;
 };
 
-let setPrimaryBonuses = () => {
-  for (let i = 0; i < primaryAttributes.length; i++) {
-    primaryBonuses[i] = primaryAttributes[i].charAt(0);
-  };
-  primaryBonuses = primaryBonuses.map(v => parseInt(v, 10));
-};
-
-let setAttributeDom = () => {
-  for (let i = 0; i < 7; i++) {
-    attCheckLabel[i].innerHTML = attributeCheck[i].value.toUpperCase() + ': ' + primaryAttributes[i];
+let setBaseBonuses = (attributes) => {
+  for (const [_key, value] of Object.entries(attributes)) {
+    value[1] = Number(String(value[0]).charAt(0));
   };
 };
 
 let swapReplaceAtt = () => {
   let attributeChange = changeAttributes();
+  let character = retreiveCharacter();
   switch (true) {
     case (attSwapped):
-      [primaryAttributes[attributeChange[0]], primaryAttributes[attributeChange[1]]] =
-        [primaryAttributes[attributeChange[1]], primaryAttributes[attributeChange[0]]];
+      [character.attributes[attributeChange[0]], character.attributes[attributeChange[1]]] =
+        [character.attributes[attributeChange[1]], character.attributes[attributeChange[0]]];
     break;
     case (attReplaced):
-      primaryAttributes[attributeChange[0]] = '42%';
+      character.attributes[attributeChange[0]][0] = 42;
     break;
     case (natSelectReplaced):
-      primaryAttributes[attributeChange[0]] = '55%';
+      character.attributes[attributeChange[0]][0] = 55;
     break;
   };
-  setPrimaryBonuses();
-  setAttributeDom();
-  setAncestryBonuses();
+  setBaseBonuses(character.attributes);
+  setAncestryBonuses(character.ancestry, character.attributes);
+  setAttributeDom(character);
+  storeCharacter(character);
 };
 
 let changeAttributes = () => {
   let attributeChange = [];
   for (let i = 0; i < attributeCheck.length; i++) {
     if (attributeCheck[i].checked == true) {
-      attributeChange.push(i);
+      attributeChange.push(attributeCheck[i].id);
     };
   };
   return attributeChange;
@@ -234,71 +223,102 @@ natSelect.addEventListener('click', e => {
   attButtonsDiv.removeChild(natSelect)
 });  
 
-//Set Ancestry
-let setAncestry = () => {
-  if (nonhumanCheck.checked == true) {
+//Set Ancestry - Add to random.js
+let setAncestry = (ancestryValue) => {
+  if (ancestryValue == 'nonhuman') {
     return ancestryArr[Math.floor(Math.random() * ancestryArr.length)];
+  } else if (ancestryValue == 'any') {
+    return phbAncestryArr[Math.floor(Math.random() * phbAncestryArr.length)];
   } else {
     return 'Human';
   };
 };
 
-let setAncestryBonuses = (ancestry) => {
+let setAncestryBonuses = (ancestry, attributes) => {
   switch (ancestry) {
     case ('Dwarf'):
-      primaryBonuses[0] += 1;
-      primaryBonuses[1] += 1;
-      primaryBonuses[5] += 1;
-      primaryBonuses[2] -= 1;
-      primaryBonuses[3] -= 1;
-      primaryBonuses[6] -= 1;
+      attributes["brawn"][1] += 1;
+      attributes["combat"][1] += 1;
+      attributes["willpower"][1] += 1;
+      attributes["agility"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
+      attributes["perception"][1] -= 1;
     break;
     case ('Elf'):
-      primaryBonuses[2] += 1;
-      primaryBonuses[3] += 1;
-      primaryBonuses[4] += 1;
-      primaryBonuses[1] -= 1;
-      primaryBonuses[5] -= 1;
-      primaryBonuses[6] -= 1;
+      attributes["agility"][1] += 1;
+      attributes["perception"][1] += 1;
+      attributes["intelligence"][1] += 1;
+      attributes["brawn"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
+      attributes["willpower"][1] -= 1;
     break;
     case ('Gnome'):
-      primaryBonuses[2] += 1;
-      primaryBonuses[4] += 1;
-      primaryBonuses[5] += 1;
-      primaryBonuses[0] -= 1;
-      primaryBonuses[1] -= 1;
-      primaryBonuses[6] -= 1;
+      attributes["agility"][1] += 1;
+      attributes["intelligence"][1] += 1;
+      attributes["willpower"][1] += 1;
+      attributes["brawn"][1] -= 1;
+      attributes["combat"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
     break;
     case ('Halfling'):
-      primaryBonuses[2] += 1;
-      primaryBonuses[3] += 1;
-      primaryBonuses[6] += 1;
-      primaryBonuses[0] -= 1;
-      primaryBonuses[1] -= 1;
-      primaryBonuses[4] -= 1;
+      attributes["agility"][1] += 1;
+      attributes["fellowship"][1] += 1;
+      attributes["perception"][1] += 1;
+      attributes["brawn"][1] -= 1;
+      attributes["combat"][1] -= 1;
+      attributes["intelligence"][1] -= 1;
     break;
     case ('Ogre'):
-      primaryBonuses[1] += 2;
-      primaryBonuses[0] += 1;
-      primaryBonuses[2] -= 2;
-      primaryBonuses[3] -= 1;
+      attributes["brawn"][1] += 2;
+      attributes["combat"][1] += 1;
+      attributes["agility"][1] -= 2;
+      attributes["perception"][1] -= 1;
+    break;
+    case ('Aztlan'): 
+      attributes["agility"][1] += 1;
+      attributes["brawn"][1] += 1;
+      attributes["willpower"][1] += 1;
+      attributes["combat"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
+      attributes["perception"][1] -= 1;
+    break;
+    case ('Grendel'):
+      attributes["brawn"][1] += 1;
+      attributes["fellowship"][1] += 1;
+      attributes["perception"][1] += 1;
+      attributes["agility"][1] -= 1;
+      attributes["intelligence"][1] -= 1;
+      attributes["willpower"][1] -= 1;
+    break;
+    case ('Orx'):
+      attributes["combat"][1] += 1;
+      attributes["fellowship"][1] += 1;
+      attributes["willpower"][1] += 1;
+      attributes["agility"][1] -= 1;
+      attributes["intelligence"][1] -= 1;
+      attributes["perception"][1] -= 1;
+    break;
+    case ('Skrzzak'):
+      attributes["agility"][1] += 1;
+      attributes["intelligence"][1] += 1;
+      attributes["perception"][1] += 1;
+      attributes["brawn"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
+      attributes["willpower"][1] -= 1;
     break;
     default:
-      primaryBonuses[0] += 1;
-      primaryBonuses[3] += 1;
-      primaryBonuses[4] += 1;
-      primaryBonuses[2] -= 1;
-      primaryBonuses[5] -= 1;
-      primaryBonuses[6] -= 1;
+      attributes["combat"][1] += 1;
+      attributes["intelligence"][1] += 1;
+      attributes["perception"][1] += 1;
+      attributes["agility"][1] -= 1;
+      attributes["fellowship"][1] -= 1;
+      attributes["willpower"][1] -= 1;
     break;
-  };
-  for (let i = 0; i < 7; i++) {
-    attCheckLabel[i].innerHTML += ' (' + primaryBonuses[i] + ')'
   };
   return ancestry;
 };
 
-let setAncestryTrait = (ancestry) => {
+let setRandomAncestryTrait = (ancestry) => {
   let d100 = rolld100();
   switch (true) {
     case (d100 <= 8):
@@ -328,7 +348,20 @@ let setAncestryTrait = (ancestry) => {
   };
 };
 
-//Set Archetype, Profession, Trappings
+let setAncestralTrait = (ancestry) => {
+  let ancestralTrait = setRandomAncestryTrait(ancestry);
+  if (ancestralTrait == 'Mixed Heritage') {
+    ancestralTrait += ', ' + setRandomAncestryTrait(ancestryArr[Math.floor(Math.random() * ancestryArr.length)]);
+  } else if (ancestralTrait == 'Natural Selection') {
+    natSelect.appendChild(natSelectText);
+    attButtonsDiv.insertBefore(natSelect, attButtonsDiv.firstChild);
+  } else {
+    null
+  };
+  return ancestralTrait;
+};
+
+//Set Archetype, Profession, Trappings - Add to random.js
 let setArchetype = () => {
   let d100 = rolld100();
   switch (true) {
@@ -446,18 +479,12 @@ let setProfessionMG = (archetype) => {
   return profession;
 };
 
-let setTrappings = (archetype) => {
-  trappingsP.textContent = 'Trappings: ';
-  let trappings = trappingsObj[archetype].join(', ');
-  trappingsP.textContent += trappings;
-}
-
-//Set Birth Season & Dooming
+//Set Birth Season & Dooming - Add to random.js
 let setSeason = () => seasonArr[Math.floor(Math.random() * seasonArr.length)];
 
 let setDooming = (birthSeason) => doomingArr[seasonArr.indexOf(birthSeason)][Math.floor(Math.random() * 24)];
 
-//Set Age & Distinguishing Marks
+//Set Age & Distinguishing Marks - Add to random.js
 let setAge = () => {
   let d100 = rolld100();
   switch (true) {
@@ -473,66 +500,40 @@ let setAge = () => {
 };
 
 let setMarks = (age) => {
-  marks[1] = '';
-  marks[2] = '';
-  marks[3] = '';
-  let firstMark, secondMark, thirdMark;
-  let d100;
+  let marks = [];
   switch (age) {
     case ('adult'):
-      d100 = rolld100();
-      d100 -= 1;
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
+      marks[0] = markArr[rolld100()];
       break;
     case ('middle aged'):
-      d100 = rolld100();
-      d100 -= 1;
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
-      d100 = rolld100();
-      d100 -= 1;
-      if (d100 == firstMark) {
-        while (d100 == firstMark) {
-          d100 = rolld100();
-          d100 -= 1;
-        };
-      };
-      secondMark = d100;
-      marks[2] = markArr[secondMark];
+      setTwoMarks(marks);
       break;
     case ('elderly'):
-      d100 = rolld100();
-      d100 -= 1;
-      firstMark = d100;
-      marks[1] = markArr[firstMark];
-      d100 = rolld100();
-      d100 -= 1;
-      if (d100 == firstMark) {
-        while (d100 == firstMark) {
-          d100 = rolld100();
-          d100 -= 1;
+      setTwoMarks(marks)
+      marks[2] = markArr[rolld100()];
+      if ((marks[0] == marks[2]) || (marks[1] == marks[2])) {
+        while ((marks[0] == marks[2]) || (marks[1] == marks[2])) {
+          marks[2] = markArr[rolld100()];
         };
       };
-      secondMark = d100;
-      marks[2] = markArr[secondMark];
-      d100 = rolld100();
-      d100 -= 1;
-      if ((thirdMark == secondMark) || (thirdMark == firstMark)) {
-        while ((thirdMark == secondMark) || (thirdMark == firstMark)) {
-          d100 = rolld100();
-          d100 -= 1;
-        };
-      };
-      thirdMark = d100;
-      marks[3] = markArr[thirdMark];
       break;
     default:
-      console.log(age + ' characters receive no marks');
+      null;
   };
+  return marks;
 };
 
-//Set Build, Height & Weight
+let setTwoMarks = (marks) => {
+  marks[0] = markArr[rolld100()];
+  marks[1] = markArr[rolld100()];
+  if (marks[0] == marks[1]) {
+    while (marks[0] == marks[1]) {
+      marks[1] = markArr[rolld100()];
+    };
+  };
+}
+
+//Set Build, Height & Weight - Add to random.js
 let setBuild = (ancestralTrait) => {
   switch (ancestralTrait) {
     case 'Mountain Amongst Men':
@@ -589,7 +590,7 @@ let setWeight = (ancestry, ancestralTrait, build, heightWeightNum, sexTable) => 
   return `${weightsObj[sexTable][ancestry][build][heightWeightNum]} lbs`;
 };
 
-//Set hair color
+//Set hair color - Add to random.js
 let setHairColor = (ancestry) => {
   let d100 = rolld100();
   switch (true) {
@@ -628,7 +629,7 @@ let setHairColor = (ancestry) => {
   };
 };
 
-//Set eye color
+//Set eye color - Add to random.js
 let setEyeColor = (ancestry) => {
   let d100 = rolld100();
   switch (true) {
@@ -663,7 +664,7 @@ let setEyeColor = (ancestry) => {
   };
 };
 
-//Set Upbringing, Social Class & Cash
+//Set Upbringing, Social Class & Cash - Add to random.js
 let setUpbringing = () => {
   let d100 = rolld100();
   switch (true) {
@@ -711,7 +712,7 @@ let setCash = (socialClass) => {
   }
 }
 
-//Set Drawback
+//Set Drawback - Add to random.js
 let setDrawback = () => {
   if (drawbackCheck.checked == true) {
     let d100 = rolld100();
@@ -770,75 +771,20 @@ let setDrawback = () => {
         return 'Weak Lungs';
     };
   } else {
-    return 'None';
+    null;
   };
 };
 
-//Set Alignment
+//Set Alignment - Add to random.js
 let setAlignment = () => {
+  let alignment = { "order": "", "chaos": ''}
   if (separateAlignmentCheck.checked == true) {
-    alignment = { 
-      order: alignmentsObj.order[Math.floor(Math.random() * 24)], 
-      chaos: alignmentsObj.chaos[Math.floor(Math.random() * 24)],
-    };
+    alignment["order"] = alignmentsObj.order[Math.floor(Math.random() * 24)];
+    alignment["chaos"] = alignmentsObj.chaos[Math.floor(Math.random() * 24)];
   } else { 
-      let pair = Math.floor(Math.random() * 24);
-      alignment = {
-      order: alignmentsObj.order[pair],
-      chaos: alignmentsObj.chaos[pair],
-    };
+    let pair = Math.floor(Math.random() * 24);
+    alignment["order"] = alignmentsObj.order[pair];
+    alignment["chaos"] = alignmentsObj.chaos[pair];
   };
+  return alignment;
 };
-
-let setHistory = (
-  sexValue, ancestry, ancestralTrait,
-  profession, birthSeason, dooming, age,
-  build, height, weight, complexion,
-  hairColor, eyeColor, upbringing, socialClass,
-  drawback, marks, mixedHeritageTrait,
-  ancestry2, cash,
-  ) => {
-
-  history0.textContent = `This character is 
-  ${(age.charAt(0) == 'm') || (age.charAt(0) == 'y') ? 'a' : 'an'} 
-  ${age} ${ancestry} 
-  ${profession}.`;
-
-  history1.textContent = `They are ${height}, ${weight}
-  & of a ${build} build type. They have
-  ${complexion} skin, with ${hairColor} hair and ${eyeColor} eyes.`;
-
-  if (age == 'young') {
-    history2.textContent = '';
-    history2.style.margin= '0';
-  } else if (age == 'adult') {
-    history2.textContent = `Distinguishing Mark: "${marks[1]}".`;
-  } else if (age == 'middle aged') {
-    history2.textContent = `Distinguishing Marks: "${marks[1]}" and "${marks[2]}".`;
-  } else if (age == 'elderly') {
-    history2.textContent = `Distinguishing Marks: "${marks[1]}", "${marks[2]}", and "${marks[3]}".`;
-  };
- 
-  history3.textContent = `This character was born in ${birthSeason}, 
-    is of the ${socialClass} social class & of
-    ${(upbringing.charAt(0) == 'I') || (upbringing.charAt(0) == 'O') ? 'an' : 'a'} 
-    ${upbringing} upbringing.`;
-
-  if (drawbackCheck.checked == true) {
-    history4.textContent = `Dooming: "${dooming}" 
-      Drawback: ${drawback}.`;
-  } else {
-    history4.textContent = `Dooming: "${dooming}."`
-  };
-
-  if (ancestralTrait == 'Mixed Heritage') {
-    history5.textContent = `Ancestral Trait: Mixed Heritage
-    (${mixedHeritageTrait}, ${ancestry2})`
-  } else {
-    history5.textContent = `Ancestral Trait: ${ancestralTrait}`
-  };
-
-  history6.textContent = `Alignment: ${alignment.order} & ${alignment.chaos}.`;
-
-  cashP.textContent = `Starting Cash: ${cash}`;
-}

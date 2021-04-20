@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
     <title>ZWEIHÄNDER Character Generator</title>
-    <script src="script.js" type="module"></script>
   </head>
 
   <body>
@@ -17,12 +16,39 @@
         <div class="container" id="prefs">
           <h3>Preferences</h3>
           <div id="preferences">
-            <div class="tooltip-container">
-              <input type="checkbox" id="nonhuman-check">
-              <div class="tooltip">Nonhuman
-                <span class="tooltiptext">If checked, the generated character will be a randomly-selected non-human
-                ancestry. If unchecked, the character will be Human. (Unchecked by default)</span>
+            
+            <div id="ancestry-radios" class="radio-container">
+              <div class="tooltip-container">
+                <div class="tooltip radio-prompt">Ancestry
+                  <span class="tooltiptext">Choose the character's Ancestry. Select <strong>Human</strong> 
+                    for a Human character. Select <strong>Nonhuman</strong> to generate a nonhuman, non-mutant
+                    character as per Revised Core Rulebook pg. 31. Select <strong>Any</strong> to choose from all 
+                    possible Ancestries, including mutant Ancestries, as per PHB pg. 31. (Human checked by default)
+                  </span>
+                </div>
               </div>
+              <input type="radio" name="ancestry" value="human" checked="checked">Human
+              <input type="radio" name="ancestry" value="nonhuman">Nonhuman
+              <input type="radio" name="ancestry" value="any">Any
+              <br>
+            </div>
+
+            <div id="sex-radios" class="radio-container">
+              <div class="tooltip-container">
+                <div class="tooltip radio-prompt">Sex (for Height & Weight)
+                  <span class="tooltiptext">Selection of the character's sex determines the Table
+                    from which their Height and Weight will be determined. This option has no bearing on the
+                    character's gender or any other character properties such as Distinguishing Marks.
+                    For a taller and heavier character, select <strong>Male</strong>. For a shorter and
+                    lighter character, choose <strong>Female</strong>. Choose <strong>No Preference</strong>
+                    to draw from all possible Heights and Weights. (No Preference checked by default)
+                  </span>
+                </div>
+              </div>
+              <input type="radio" name="sex" value="male">Male
+              <input type="radio" name="sex" value="female">Female
+              <input type="radio" name="sex" value="either" checked="checked">No Preference
+              <br>
             </div>
 
             <div class="tooltip-container">
@@ -53,24 +79,6 @@
             </div>
           </div>
 
-          <div id="sex-radios">
-            <div class="tooltip-container">
-              <div class="tooltip sexradio-prompt">Sex (for Height & Weight)
-                <span class="tooltiptext">Selection of the character's sex determines the Table
-                  from which their Height and Weight will be determined. This option has no bearing on the 
-                  character's gender or any other character properties such as Distinguishing Marks. 
-                  For a taller and heavier character, select <strong>Male</strong>. For a shorter and 
-                  lighter character, choose <strong>Female</strong>. Choose <strong>No Preference</strong> 
-                  to draw from all possible Heights and Weights. (No Preference checked by default) 
-                </span>
-              </div>
-            </div>
-            <input type="radio" name="sex" value="male">Male
-            <input type="radio" name="sex" value="female">Female
-            <input type="radio" name="sex" value="either" checked="checked">No Preference
-            <br>
-          </div>
-          <br>
           <div id="gen-container">
             <button id="generate">Generate Random Character</button>
           </div>
@@ -103,5 +111,6 @@
       
       </div>
     </div>
+    <script src="script.js" type="module"></script>
   </body>
 </html>

@@ -29,6 +29,26 @@ export const ancestralTraitsObj = {
     'Frightening Bellow', 'Gut-Plate', 'Hunger Pangs', 'Mighty Thews',
     'Odd Couple', 'Rotgut Spray', 'Slamdance', 'Thick Lining', 'Wendigo',
   ],
+  'Aztlan': [
+    'Amphibious Ancestry', 'Calculating', 'Chameleon Skin', 'Cut & Run',
+    'Hide of the Ancients', 'Kuuk Yak', 'Liquid Poise', 'Monstrous Leap',
+    'Razor Claws', 'Serpentine Fangs', 'Thick Blood', 'Third Eye',
+  ],
+  'Grendel': [
+    'Alpha', 'Animal Magnetism', 'Dionysian Delights', 'Keen Senses',
+    'Goring Charge', 'Half-Beast', 'Hard-Headed', 'Lamb to the Slaughter',
+    'Musky Odor', 'Nature\'s Wisdom', 'Silent Stalker', 'War Bray',
+  ],
+  'Orx': [
+    'Backstabber', 'Bigboss\'s Law', 'Brute Force', 'Da\' Bigboss',
+    'Dumb as a Rock', 'For the Horde', 'Fungus Among Us', 'Lucky Git',
+    'Luk Wut I Can Du', 'Orxish Snout', 'Unflinching', 'Waaar! Horde United',
+  ],
+  'Skrzzak': [
+    'Blighted Invocation', 'Bred to Kill', 'Darksight', 'Dou\'Urden Syndrome',
+    'Enter the Skrzzak', 'Nose for Danger', 'Ogre-Borne', 'Plague Bearer',
+    'Skittish', 'Skrzzak don\'t Exist', 'Slave\'s Desperation', 'Warren Runner',
+  ],
 };
 
 export const professonObj = {
@@ -200,6 +220,8 @@ export const seasonArr = ['Spring', 'Summer', 'Autumn', 'Winter',];
 
 export const ancestryArr = ['Dwarf', 'Elf', 'Gnome', 'Halfling', 'Ogre',];
 
+export const phbAncestryArr = ['Human', 'Aztlan', 'Dwarf', 'Elf', 'Gnome', 'Grendel', 'Halfling', 'Ogre', 'Orx', 'Skrzzak']
+
 export const doomingArr = [
   ['Pride comes before a fall', 'Ivy will claw at your skin and prick like a rose',
     'Health is not always healthy', 'Still waters run deep',
@@ -287,11 +309,35 @@ export const hairColorsObj = {
     'White', 'Jet black',
   ],
   'Ogre': [
-      'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
-      'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
-      'Ash blonde', 'Salt & pepper', 'Silver', 'White',
-      'Red', 'Blue-black', 'Black',
-    ],
+    'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
+    'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
+    'Ash blonde', 'Salt & pepper', 'Silver', 'White',
+    'Red', 'Blue-black', 'Black',
+  ],
+  'Aztlan': [
+    'Honey brown', 'Golden brown', 'Straw yellow', 'golden yellow',
+    'Chestnut', 'Copper', 'Ginger', 'Ash blonde', 'Sienna',
+    'Silver', 'Smokey grey', 'Ivory white', 'Blue-black',
+    'Jet black', 'Fiery red', 'Black'
+  ],
+  'Grendel': [
+    'Medium brown', 'Dark brown', 'Light brown', 'Jet black',
+    'Grey', 'Chestnut', 'Ginger', 'Sienna', 'Corn yellow',
+    'Ash blonde', 'Salt & pepper', 'Silver', 'White',
+    'Red', 'Blue-black', 'Black',
+  ],
+  'Orx': [
+    'Honey brown', 'Golden brown', 'Straw yellow', 'golden yellow',
+    'Chestnut', 'Copper', 'Ginger', 'Ash blonde', 'Sienna',
+    'Silver', 'Smokey grey', 'Ivory white', 'Blue-black',
+    'Jet black', 'Fiery red', 'Black'
+  ],
+  'Skrzzak': [
+    'Dark brown', 'Medium brown', 'Light brown', 'Sienna',
+    'Red', 'Fiery red', 'Black', 'Blue black', 'Ginger',
+    'Corn yellow', 'Chestnut', 'Ash blonde', 'Salt & pepper',
+    'Grey', 'White', 'Silver',
+  ],
 };
 
 export const eyeColorsObj = {
@@ -325,6 +371,25 @@ export const eyeColorsObj = {
     'Pale green', 'Copper', 'Green', 'Black', 'Grey blue',
     'Blue', 'Dark green', 'Ice blue', 'Violet',
   ],
+  'Aztlan': [
+    'Hazel', 'Light brown', 'Medium brown', 'Grey',
+    'Dark brown', 'Pale green', 'Copper', 'Green', 'Black',
+    'Grey blue', 'Blue', 'Dark green', 'Ice blue', 'Violet',
+  ],
+  'Grendel': [
+    'Dark brown', 'Grey', 'Medium brown', 'Hazel', 'Black',
+    'Light brown', 'Grey blue', 'Pale green', 'Dark green',
+    'Blue', 'Copper', 'Ice blue', 'Green', 'Violet',
+  ],
+  'Orx': [
+    'Amber', 'Silver', 'Honey', 'Emerald', 'Molasses',
+    'Crystal blue', 'Hazel', 'Black', 'Sapphire', 'Copper',
+    'Blue purple', 'Gold', 'Silver green', 'Violet',
+  ],
+  'Skrzzak': [
+    'Pink', 'Pink', 'Pink', 'Pink', 'Black', 'Black', 'Black',
+    'Black', 'Ruby', 'Ruby', 'Ruby', 'Ruby', 'Blue', 'Green within Green'
+  ],
 };
 
 export const baseHeight = {
@@ -335,6 +400,10 @@ export const baseHeight = {
     'Gnome': [4, 3],
     'Halfling': [3, 8],
     'Ogre': [8, 5],
+    'Aztlan': [5, 8],
+    'Grendel': [5, 5],
+    'Orx': [5, 8],
+    'Skrzzak': [4, 5],
   },
   'female': {
     'Human': [5, 2],
@@ -343,6 +412,10 @@ export const baseHeight = {
     'Gnome': [4, 0],
     'Halfling': [3, 5],
     'Ogre': [8, 2],
+    'Aztlan': [5, 8],
+    'Grendel': [5, 5],
+    'Orx': [5, 8],
+    'Skrzzak': [4, 5],
   },
 };
 
@@ -390,6 +463,34 @@ export const weightsObj = {
       'husky': [684, 690, 696, 702, 708, 714, 720, 726, 732, 738],
       'corpulent': [732, 738, 744, 750, 756, 762, 768, 774, 780, 786],
     },
+    'Aztlan': {
+      'frail': [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+      'slender': [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+      'normal': [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+      'husky': [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+      'corpulent': [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+    },
+    'Grendel': {
+      'frail': [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+      'slender': [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+      'normal': [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+      'husky': [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+      'corpulent': [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+    },
+    'Orx': {
+      'frail': [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+      'slender': [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+      'normal': [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+      'husky': [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+      'corpulent': [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+    },
+    'Skrzzak': {
+      'frail': [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+      'slender': [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+      'normal': [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+      'husky': [134, 144, 149, 154, 158, 163, 173, 178, 182],
+      'corpulent': [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
+    },
   },
   'female': {
     'Human': {
@@ -433,6 +534,34 @@ export const weightsObj = {
       'normal': [509, 514, 518, 523, 528, 533, 538, 542, 547, 552],
       'husky': [547, 552, 557, 562, 566, 571, 576, 581, 586, 590],
       'corpulent': [586, 590, 595, 600, 605, 610, 614, 619, 624, 629],
+    },
+    'Aztlan': {
+      'frail': [90, 96, 102, 108, 114, 120, 126, 132, 138, 144],
+      'slender': [102, 108, 114, 120, 126, 132, 138, 144, 150, 156],
+      'normal': [126, 132, 138, 144, 150, 156, 162, 168, 174, 180],
+      'husky': [174, 180, 186, 192, 198, 204, 210, 216, 222, 228],
+      'corpulent': [222, 228, 234, 240, 246, 252, 258, 264, 270, 276],
+    },
+    'Grendel': {
+      'frail': [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+      'slender': [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+      'normal': [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+      'husky': [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+      'corpulent': [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+    },
+    'Orx': {
+      'frail': [115, 121, 127, 133, 139, 145, 151, 157, 163, 169],
+      'slender': [127, 133, 139, 145, 151, 157, 163, 169, 175, 181],
+      'normal': [151, 157, 163, 169, 175, 181, 187, 193, 199, 205],
+      'husky': [199, 205, 211, 217, 223, 229, 235, 241, 247, 253],
+      'corpulent': [247, 253, 259, 265, 271, 277, 283, 289, 295, 301],
+    },
+    'Skrzzak': {
+      'frail': [72, 77, 82, 86, 91, 96, 101, 106, 110, 115],
+      'slender': [82, 86, 91, 96, 101, 106, 110, 115, 120, 125],
+      'normal': [101, 106, 110, 115, 120, 125, 130, 134, 139, 144],
+      'husky': [134, 144, 149, 154, 158, 163, 173, 178, 182],
+      'corpulent': [178, 182, 187, 192, 197, 202, 206, 211, 216, 221],
     },
   },
 };
